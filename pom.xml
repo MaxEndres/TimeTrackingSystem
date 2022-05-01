@@ -12,5 +12,11 @@
         <maven.compiler.source>18</maven.compiler.source>
         <maven.compiler.target>18</maven.compiler.target>
     </properties>
+         
+    <dependency>
+       <groupId>com.oracle.database.jdbc</groupId>
+       <artifactId>ojdbc10</artifactId>
+       <version>${oracle.version}</version>
+    </dependency>
 
 </project>
