@@ -4,8 +4,10 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import utility.DatabaseService;
 
 import java.io.IOException;
+import java.sql.*;
 
 public class Main extends Application {
     @Override
@@ -17,7 +19,8 @@ public class Main extends Application {
         stage.show();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
+        DatabaseService db = new DatabaseService();
         launch();
     }
 }
@@ -26,22 +29,16 @@ public class Main extends Application {
 
 
 /*
- String dbName = "OnPointDatabase";
-        String userName = "indawewdh";
-        String password = "kidCm30B";
-        String hostname = "jdbc:mysql://ec2-3-68-76-92.eu-central-1.compute.amazonaws.com:3306/test_table";
-        String port = "3306";
+        String dbUserName = "indawewdh";
+        String dbPassword = "kidCm30B";
+        String dbHostname = "jdbc:mysql://ec2-3-68-76-92.eu-central-1.compute.amazonaws.com:3306/onpoint";
 
-        //String jdbcUrl = "jdbc:mysql://" + hostname + ":" + port + "/" + dbName + "?user=" + userName + "&password=" + password;
+        Connection conn = DriverManager.getConnection(dbHostname,dbUserName,dbPassword);
 
-        //Class.forName("com.mysql.jdbc.driver");
-        Connection conn = DriverManager.getConnection(hostname,userName,password);
-
-
-        PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO test_table.new_table (firstName, lastName) VALUES (?,?)");
-        String firstName = "Harris ";
-        String lastName = "Nuhanovic";
-        preparedStatement.setString(1, firstName);
-        preparedStatement.setString(2, lastName);
+        PreparedStatement preparedStatement = conn.prepareStatement("INSERT INTO onpoint.users (username, password) VALUES (?,?)");
+        String username = "mockusername";
+        String password = "mockpassword";
+        preparedStatement.setString(1, username);
+        preparedStatement.setString(2, password);
         preparedStatement.executeUpdate();
  */
