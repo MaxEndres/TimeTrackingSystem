@@ -1,4 +1,4 @@
-package helpFunctions;
+package utility;
 
 import com.example.javafx.Main;
 import javafx.fxml.FXML;
@@ -11,7 +11,7 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
-public class windows {
+public class Windows {
     @FXML
     public static void changeWindow(Button button, String fxml) throws IOException {
         //CLOSE WINDOW

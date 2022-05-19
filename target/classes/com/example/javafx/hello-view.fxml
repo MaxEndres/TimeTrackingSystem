@@ -18,7 +18,7 @@
       <PasswordField layoutX="289.0" layoutY="202.0" prefHeight="25.0" prefWidth="216.0" promptText="Enter your password" />
       <ImageView fitHeight="132.0" fitWidth="175.0" layoutX="76.0" layoutY="116.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../java/Pictures/img.png" />
+            <Image url="@../../../../java/assets/img.png" />
          </image>
       </ImageView>
    </children>

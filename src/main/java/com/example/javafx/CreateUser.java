@@ -1,6 +1,6 @@
 package com.example.javafx;
 
-import Classes.User;
+import entities.User;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

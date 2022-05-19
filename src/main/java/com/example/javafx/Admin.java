@@ -1,6 +1,6 @@
 package com.example.javafx;
 
-import helpFunctions.windows;
+import utility.Windows;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,12 +19,12 @@ public class Admin extends Application {
     @FXML
     protected void createButtonOnAction(ActionEvent event) throws IOException {
        // windows.loadWindow("CreateUser.fxml", pane);
-        windows.loadWindow("CreateUser.fxml", pane);
+        Windows.loadWindow("CreateUser.fxml", pane);
     }
     @FXML
     protected void searchUserButtonOnAction(ActionEvent event) throws IOException {
         // windows.loadWindow("CreateUser.fxml", pane);
-        windows.openWindow("User.fxml");
+        Windows.openWindow("User.fxml");
     }
 
 

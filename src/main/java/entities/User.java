@@ -1,8 +1,4 @@
-package Classes;
-
-import javafx.collections.ObservableList;
-
-import java.util.ArrayList;
+package entities;
 
 public class User {
     private String firstName;
