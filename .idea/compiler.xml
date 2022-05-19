@@ -7,13 +7,10 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="JavaFX" />
-        <module name="TimeTrackingSystem" />
       </profile>
     </annotationProcessing>
-  </component>
-  <component name="JavacSettings">
-    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="JavaFX" options="--add-exports java.datatransfer/java.awt=com.example.javafx" />
-    </option>
+    <bytecodeTargetLevel>
+      <module name="JavaFX" target="17" />
+    </bytecodeTargetLevel>
   </component>
 </project>
