@@ -40,12 +40,9 @@ public class CreateUser extends Application {
     protected void confirmButtonOnAction(ActionEvent event)
     {
         User user = new User();
-        user.setFirstName(firstName.getText());
-        user.setLastName(lastName.getText());
+        user.setForename(firstName.getText());
+        user.setSurname(lastName.getText());
         user.setEmail(email.getText());
-        user.setDepartment("");
-        //user.setUserId("");
-        //user.setPassword("");
     }
 
     public static ObservableList<String> getDepartments()
