@@ -8,17 +8,16 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.javafx.MainController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.javafx.MainController">
    <children>
-      <Button fx:id="loginButton" layoutX="339.0" layoutY="266.0" mnemonicParsing="false" onAction="#loginButtonOnAction" prefHeight="25.0" prefWidth="86.0" text="Login" />
+      <Button fx:id="loginButton" layoutX="354.0" layoutY="265.0" mnemonicParsing="false" onAction="#loginButtonOnAction" prefHeight="25.0" prefWidth="86.0" text="Login" />
       <Label layoutX="355.0" layoutY="78.0" text="Username" />
       <Label layoutX="357.0" layoutY="173.0" text="Password" />
       <TextField layoutX="284.0" layoutY="116.0" prefHeight="25.0" prefWidth="216.0" promptText="Enter your username" />
       <PasswordField layoutX="289.0" layoutY="202.0" prefHeight="25.0" prefWidth="216.0" promptText="Enter your password" />
-      <ImageView fitHeight="132.0" fitWidth="175.0" layoutX="76.0" layoutY="116.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="logo" fitHeight="132.0" fitWidth="175.0" layoutX="76.0" layoutY="116.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../java/assets/img.png" />
+            <Image url="@../../../../../../img.png" />
          </image>
       </ImageView>
    </children>

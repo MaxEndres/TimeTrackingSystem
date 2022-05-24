@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.javafx.EditRequest">
+   <children>
+      <Label layoutX="226.0" layoutY="38.0" text="What do you want to do?" />
+      <CheckBox layoutX="80.0" layoutY="91.0" mnemonicParsing="false" text="Change Worked Time" />
+      <CheckBox layoutX="236.0" layoutY="91.0" mnemonicParsing="false" text="Delete Worked Time" />
+      <CheckBox layoutX="382.0" layoutY="91.0" mnemonicParsing="false" text="Add Working time" />
+      <Label layoutX="123.0" layoutY="169.0" text="Day:" />
+      <Label layoutX="124.0" layoutY="236.0" text="New Start time:" />
+      <Label layoutX="123.0" layoutY="276.0" text="New End Time:" />
+      <DatePicker layoutX="256.0" layoutY="165.0" />
+      <TextField layoutX="258.0" layoutY="232.0" prefHeight="25.0" prefWidth="64.0" />
+      <TextField layoutX="344.0" layoutY="231.0" prefHeight="25.0" prefWidth="64.0" />
+      <TextField layoutX="258.0" layoutY="272.0" prefHeight="25.0" prefWidth="64.0" />
+      <TextField layoutX="344.0" layoutY="272.0" prefHeight="25.0" prefWidth="64.0" />
+      <Label layoutX="331.0" layoutY="236.0" text=":" />
+      <Label layoutX="332.0" layoutY="276.0" text=":" />
+   </children>
+</AnchorPane>

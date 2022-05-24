@@ -8,9 +8,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import utility.Windows;
 
+import java.io.IOException;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Timer;
@@ -21,6 +24,8 @@ public class UserProfile extends Application  {
     Label timeLabel;
     @FXML
     Button startButton, pauseButton, stopButton;
+    @FXML
+    AnchorPane pane;
     Timeline timeline;
     LocalTime time= LocalTime.parse("00:00:00");
     DateTimeFormatter dtf= DateTimeFormatter.ofPattern("HH:mm:ss");
@@ -94,6 +99,14 @@ public class UserProfile extends Application  {
     {
 
         //save entry in the database
+    }
+    @FXML
+    protected void logOutOnAction(ActionEvent event) throws IOException {
+        Windows.changeWindow(stopButton, "hello-view.fxml");
+    }
+    @FXML
+    protected void changePasswordOnAction(ActionEvent event) throws IOException {
+        Windows.loadWindow("ChangePassword.fxml", pane);
     }
     public static void main(String[] args) {
         launch(args);

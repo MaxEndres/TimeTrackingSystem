@@ -6,46 +6,58 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
+import utility.DatabaseService;
+import utility.Windows;
+
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class CreateUser extends Application {
     @FXML
-    TextField firstName, lastName, email, id;
+    TextField forename, surname, email, id;
     @FXML
-    ComboBox department;
+    ComboBox department, targetHours;
     @FXML
     DatePicker startDay;
     @FXML
-    Button confirmButton, cancelButton;
+    Button addUserButton, cancelButton;
     @FXML
-    ComboBox<String> departmentComboBox;
+    Label errorLabel;
+    LocalDate todaysDate = LocalDate.now();
 
     @FXML
     public void initialize()
     {
 
-        departmentComboBox.setItems(getDepartments());
-        departmentComboBox.getSelectionModel().select(0);
-        //startDay.setValue(dat);
+        department.setItems(getDepartments());
+        department.getSelectionModel().select(0);
+        startDay.setValue(todaysDate);
+        targetHours.setItems(getTargetHours());
+        targetHours.getSelectionModel().select(5);
+        errorLabel.setVisible(false);
         //startDay.setValue();
-        //id
-        //email
+        //toDo: id sollte automatisch
+        //toDo: email, domain von der Firma?
     }
 
     @FXML
-    protected void confirmButtonOnAction(ActionEvent event)
-    {
-        User user = new User();
-        user.setFirstName(firstName.getText());
-        user.setLastName(lastName.getText());
-        user.setEmail(email.getText());
-        user.setDepartment("");
-        //user.setUserId("");
-        //user.setPassword("");
+    protected void addUserButtonOnAction(ActionEvent event) throws IOException {
+        if(forename.getText().isBlank() ||surname.getText().isBlank()|| email.getText().isBlank() )
+        {
+            errorLabel.setVisible(true);
+
+        }else
+        {
+            //Fragen nach Redundancies im Datenbank
+            //add User
+           // DatabaseService.createUser(email.getText(),forename.getText(), surname.getText(),
+             //       email.getText(),"" ,targetHours.getSelectionModel(),0 );
+            //meanwhile
+            //Windows.changeWindow("");
+        }
     }
 
     public static ObservableList<String> getDepartments()
@@ -53,6 +65,12 @@ public class CreateUser extends Application {
         ObservableList<String> departments = FXCollections.observableArrayList();
         departments.addAll("Marketing", "Operations", "Finance", "Sales", "Human Resources", "Purchase");
         return departments;
+    }
+    public static ObservableList<Integer> getTargetHours()
+    {
+        ObservableList<Integer> hours = FXCollections.observableArrayList();
+        hours.addAll(1,2,3,4,5,6,7,8,9,10);
+        return hours;
     }
 
     public static void main(String[] args) {
