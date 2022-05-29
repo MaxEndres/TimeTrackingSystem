@@ -6,7 +6,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import utility.Windows;
+
+import java.io.IOException;
 
 public class ChangePassword extends Application {
     @FXML
@@ -15,6 +19,8 @@ public class ChangePassword extends Application {
     TextField previousPassword, newPassword, confirmNewPassword;
     @FXML
     Label errorLabel;
+    @FXML
+    AnchorPane pane;
 
     @FXML
     private void initialize()
@@ -32,6 +38,10 @@ public class ChangePassword extends Application {
         {
             errorLabel.setVisible(true);
         }
+    }
+    @FXML
+    private void cancelButtonOnAction(ActionEvent event) throws IOException {
+        Windows.closePane(pane);
     }
 
     public static void main(String[] args) {

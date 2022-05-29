@@ -2,14 +2,28 @@ package entities;
 
 public class User {
 
-    private int id;
+    private static int id;
     private String username;
-    private String forename;
-    private String surname;
-    private String email;
+    private static String forename;
+    private static String surname;
+    private static String email;
     private String password;
     private int targetHours;
     private boolean isAdmin;
+
+    public User(){}
+    public User(int id, String forename, String surname, String email, int targetHours, boolean isAdmin) {
+        this.id= id;
+        this.forename=forename;
+        this.surname= surname;
+        this.email= email;
+        this.targetHours=targetHours;
+        this.isAdmin = isAdmin;
+    }
+
+    public static int getUserID() {
+        return id;
+    }
 
     public int getId() {
         return id;
@@ -23,7 +37,7 @@ public class User {
         this.username = username;
     }
 
-    public String getForename() {
+    public static String getForename() {
         return forename;
     }
 
@@ -31,7 +45,7 @@ public class User {
         this.forename = forename;
     }
 
-    public String getSurname() {
+    public static String getSurname() {
         return surname;
     }
 
@@ -39,7 +53,7 @@ public class User {
         this.surname = surname;
     }
 
-    public String getEmail() {
+    public static String getEmail() {
         return email;
     }
 
