@@ -21,9 +21,9 @@ import java.util.TimerTask;
 
 public class UserProfile extends Application  {
     @FXML
-    Label timeLabel;
+    Label timeLabel, workedTimeLabel;
     @FXML
-    Button startButton, pauseButton, stopButton;
+    Button startButton, pauseButton, stopButton, editTimeButton;
     @FXML
     AnchorPane pane;
     Timeline timeline;
@@ -42,6 +42,7 @@ public class UserProfile extends Application  {
         timeLabel.setText(time.format(dtf));
         timeline = new Timeline(new KeyFrame(Duration.millis(1000), actionEvent -> incrementTime()));
         timeline.setCycleCount(Animation.INDEFINITE);
+        stopButton.setVisible(false);
     }
 
     private void incrementTime()
@@ -49,35 +50,15 @@ public class UserProfile extends Application  {
         time= time.plusSeconds(1);
         timeLabel.setText(time.format(dtf));
     }
-/*
-    Timer timer = new Timer(1000, new ActionListener() { //miliseconds
 
-        public void actionPerformed(ActionEvent e)
-        {
-            time = time+1000;
-            hours= time/3600000;
-            minutes = (time/60000)%60;
-            seconds= (time/1000)%60;
-            second = String.format("%02d", seconds);
-            minute = String.format("%02d", minutes);
-            hour = String.format("%02d", hours);
-            timeLabel.setText(hour+":"+minute+":"+second);
-        }
-    });
-
-    public void actionPerformed(java.awt.event.ActionEvent e) {
-        if(e.getSource()==startButton)
-        {
-            timer.start();
-        }
-    }
-
- */
     @FXML
     protected void startButtonOnAction(ActionEvent event)
     {
 
         timeline.play();
+        startButton.setVisible(false);
+        stopButton.setVisible(true);
+        workedTimeLabel.setVisible(false);
     }
     @FXML
     protected void pauseButtonOnAction(ActionEvent event)
@@ -97,12 +78,30 @@ public class UserProfile extends Application  {
     @FXML
     protected void stopButtonOnAction(ActionEvent event)
     {
+        stopButton.setVisible(false);
+        startButton.setVisible(true);
+        if(timeline.getStatus().equals(Animation.Status.PAUSED))
+        {
+            timeline.play();
+        }else if(timeline.getStatus().equals(Animation.Status.RUNNING))
+        {
+            timeline.pause();
+            workedTimeLabel.setVisible(true);
+            workedTimeLabel.setText("Submitted time: "+ timeLabel.getText());
+            time= LocalTime.parse("00:00:00");
+            timeLabel.setText(time.format(dtf));
 
-        //save entry in the database
+            //save entry in the database//Change button
+        }
+
     }
     @FXML
     protected void logOutOnAction(ActionEvent event) throws IOException {
         Windows.changeWindow(stopButton, "hello-view.fxml");
+    }
+    @FXML
+    protected void editTimeButtonOnAction(ActionEvent event) throws IOException {
+        Windows.changeWindow(editTimeButton, "EditRequest.fxml");
     }
     @FXML
     protected void changePasswordOnAction(ActionEvent event) throws IOException {

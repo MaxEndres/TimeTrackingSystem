@@ -13,7 +13,7 @@
 <AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.javafx.UserProfile">
    <children>
       <Label layoutX="317.0" layoutY="26.0" text="Logged in as:" />
-      <AnchorPane fx:id="pane" layoutX="47.0" layoutY="150.0" prefHeight="221.0" prefWidth="506.0" style="-fx-background-color: #fcfeff;">
+      <AnchorPane fx:id="pane" layoutX="47.0" layoutY="122.0" prefHeight="249.0" prefWidth="506.0" style="-fx-background-color: #fcfeff;">
          <children>
             <Label fx:id="timeLabel" layoutX="177.0" prefHeight="43.0" prefWidth="151.0" text="Timer" textAlignment="CENTER" textFill="#3481c0">
                <font>
@@ -21,11 +21,16 @@
                </font>
             </Label>
             <Button fx:id="startButton" layoutX="163.0" layoutY="58.0" mnemonicParsing="false" onAction="#startButtonOnAction" prefHeight="25.0" prefWidth="79.0" text="Start" />
-            <Button fx:id="pauseButton" layoutX="266.0" layoutY="58.0" mnemonicParsing="false" onAction="#pauseButtonOnAction" prefHeight="25.0" prefWidth="79.0" text="Pause" />
-            <Button fx:id="stopButton" layoutX="201.0" layoutY="98.0" mnemonicParsing="false" onAction="#stopButtonOnAction" prefHeight="25.0" prefWidth="103.0" text="Stop" />
-            <Button layoutY="177.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="103.0" text="Edit Request" />
+            <Button fx:id="pauseButton" layoutX="266.0" layoutY="58.0" mnemonicParsing="false" onAction="#pauseButtonOnAction" prefHeight="25.0" prefWidth="79.0" text="Pause" visible="false" />
+            <Button fx:id="stopButton" layoutX="254.0" layoutY="58.0" mnemonicParsing="false" onAction="#stopButtonOnAction" prefHeight="25.0" prefWidth="79.0" text="Stop" />
+            <Button fx:id="editTimeButton" layoutY="177.0" mnemonicParsing="false" onAction="#editTimeButtonOnAction" prefHeight="25.0" prefWidth="103.0" text="Edit Time" />
             <Button layoutX="203.0" layoutY="177.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="103.0" text="View Time" />
             <Button layoutX="402.0" layoutY="177.0" mnemonicParsing="false" text="Contact Support" />
+            <Label fx:id="workedTimeLabel" alignment="CENTER" layoutX="50.0" layoutY="111.0" prefHeight="17.0" prefWidth="406.0" text="Label" visible="false">
+               <font>
+                  <Font size="19.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
       <Label fx:id="userLabel" layoutX="424.0" layoutY="26.0" text="user" />

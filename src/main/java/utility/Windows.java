@@ -51,4 +51,9 @@ public class Windows {
         AnchorPane NewPane =  FXMLLoader.load(Main.class.getResource(fxml));
         page.getChildren().add(NewPane);
     }
+    @FXML
+    public static void closePane( AnchorPane page) throws IOException
+    {
+        page.setVisible(false);
+    }
 }

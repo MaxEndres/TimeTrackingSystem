@@ -2,6 +2,8 @@ package utility;
 
 import entities.Request;
 import entities.User;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.sql.*;
 
@@ -60,6 +62,25 @@ public class DatabaseService {
     // getting a request
     public void readRequest(int timestampId) {
 
+    }
+    //
+    public ObservableList<User> userList() throws SQLException {
+        PreparedStatement preparedStatement = dbconn.prepareStatement("SELECT * FROM onpoint.users");
+        ObservableList<User> userList = FXCollections.observableArrayList();
+        ResultSet queryOutput = preparedStatement.executeQuery();
+
+        while(queryOutput.next())
+        {
+            int id = queryOutput.getInt("id");
+            String forename = queryOutput.getString("forename");
+            String surname = queryOutput.getString("surname");
+            String email = queryOutput.getString("email");
+            int targetHours = queryOutput.getInt("target_hours");
+            boolean isAdmin = queryOutput.getBoolean("is_admin");
+            //toDo: String department = queryOutput.getString("department");
+            userList.add(new User(id,forename, surname, email, targetHours, isAdmin));
+        }
+        return userList;
     }
 
 }

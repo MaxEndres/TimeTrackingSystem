@@ -2,6 +2,8 @@ package com.example.javafx;
 
 import entities.User;
 import javafx.application.Application;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -12,25 +14,39 @@ import utility.DatabaseService;
 import utility.Windows;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 public class CreateUser extends Application {
     @FXML
     TextField forename, surname, email, id;
     @FXML
-    ComboBox department, targetHours;
+    PasswordField password;
+    @FXML
+    ComboBox<String> department;
+    @FXML
+    ComboBox<Integer> targetHours;
     @FXML
     DatePicker startDay;
     @FXML
     Button addUserButton, cancelButton;
     @FXML
     Label errorLabel;
+    @FXML
+    CheckBox isAdminCheckBox;
     LocalDate todaysDate = LocalDate.now();
+    DatabaseService db = new DatabaseService();
+
+    public CreateUser() throws SQLException {
+    }
 
     @FXML
     public void initialize()
     {
+        final String[] forenameText = new String[1];
+        final String[] surnameText = new String[1];
 
         department.setItems(getDepartments());
         department.getSelectionModel().select(0);
@@ -38,25 +54,46 @@ public class CreateUser extends Application {
         targetHours.setItems(getTargetHours());
         targetHours.getSelectionModel().select(5);
         errorLabel.setVisible(false);
+
+        forename.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
+
+                surname.textProperty().addListener(new ChangeListener<String>() {
+
+                    public void changed(ObservableValue<? extends String> observableValue, String s2, String t2) {
+                        email.setText(t1.toLowerCase()+t2.toLowerCase() + "@onpoint.de");
+
+                    }
+                });
+            }
+        });
+
+
         //startDay.setValue();
         //toDo: id sollte automatisch
         //toDo: email, domain von der Firma?
     }
 
     @FXML
-    protected void addUserButtonOnAction(ActionEvent event) throws IOException {
+    protected void addUserButtonOnAction(ActionEvent event) throws IOException, SQLException {
         if(forename.getText().isBlank() ||surname.getText().isBlank()|| email.getText().isBlank() )
         {
             errorLabel.setVisible(true);
 
         }else
         {
-            //Fragen nach Redundancies im Datenbank
-            //add User
-           // DatabaseService.createUser(email.getText(),forename.getText(), surname.getText(),
-             //       email.getText(),"" ,targetHours.getSelectionModel(),0 );
-            //meanwhile
-            //Windows.changeWindow("");
+            User user = new User();
+            user.setEmail(email.getText());
+            user.setForename(forename.getText());
+            user.setSurname(surname.getText());
+            //TODO: password automatisch
+            user.setPassword(password.getText());
+            user.setIsAdmin(isAdminCheckBox.isSelected());
+            user.setTargetHours(targetHours.getSelectionModel().getSelectedItem());
+           // user.setDepartment
+            db.createUser(user);
+            //TODO: send email
         }
     }
 
