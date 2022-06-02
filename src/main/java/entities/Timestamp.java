@@ -10,17 +10,14 @@ public class Timestamp {
     private Date date;
     private Time time;
     private boolean isStart;
+    private String description;
 
-    public Timestamp(int id, int userId, Date date, Time time, boolean isStart) {
-        this.id = id;
+    public Timestamp(int userId, Date date, Time time, boolean isStart, String description) {
         this.userId = userId;
         this.date = date;
         this.time = time;
         this.isStart = isStart;
-    }
-
-    public int getId() {
-        return id;
+        this.description = description;
     }
 
     public int getUserId() {
@@ -31,23 +28,15 @@ public class Timestamp {
         return date;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
     public Time getTime() {
         return time;
     }
 
-    public void setTime(Time time) {
-        this.time = time;
-    }
-
-    public boolean isStart() {
+    public boolean getIsStart() {
         return isStart;
     }
 
-    public void setStart(boolean start) {
-        isStart = start;
+    public String getDescription() {
+        return description;
     }
 }

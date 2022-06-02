@@ -1,6 +1,7 @@
 package utility;
 
 import entities.Request;
+import entities.Timestamp;
 import entities.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -67,4 +68,45 @@ public class DatabaseService {
         }
         return requestList;
     }
+
+    // create a certain timestamp when a user presses start/pause/stop button
+    public void createTimestamp(Timestamp timestamp) throws SQLException {
+        PreparedStatement preparedStatement = dbconn.prepareStatement("INSERT INTO timestamps (user_id, date, time, is_start, description)\n" +
+                "VALUES(?,?,?,?,?);");
+        preparedStatement.setInt(1, timestamp.getUserId());
+        preparedStatement.setDate(2, timestamp.getDate());
+        preparedStatement.setTime(3, timestamp.getTime());
+        preparedStatement.setBoolean(4, timestamp.getIsStart());
+        preparedStatement.setString(5, timestamp.getDescription());
+        preparedStatement.executeUpdate();
+    }
+
+    // create a request when a user wants to change a timestamp they created
+    public void createRequest(Request request) throws SQLException {
+        PreparedStatement preparedStatement = dbconn.prepareStatement("INSERT INTO requests (timestamp_id, new_time, description)" +
+                "VALUES(?,?,?);");
+        preparedStatement.setInt(1, request.getTimestampId());
+        preparedStatement.setTime(2, request.getNewTime());
+        preparedStatement.setString(3, request.getDescription());
+        preparedStatement.executeUpdate();
+    }
+
+    // admin can accept a request which then updates the desired timestamp
+    public void acceptRequest(Request request) throws SQLException {
+        PreparedStatement preparedStatement = dbconn.prepareStatement("UPDATE timestamps SET time = ? WHERE id = ?;");
+        preparedStatement.setTime(1, request.getNewTime());
+        preparedStatement.setInt(2, request.getTimestampId());
+        preparedStatement.executeUpdate();
+        // after accepting a request it will be deleted automatically by using the denyRequest() method
+        denyRequest(request);
+    }
+
+    // admin can deny a request which simply deletes it from the database
+    public void denyRequest(Request request) throws SQLException {
+        PreparedStatement preparedStatement = dbconn.prepareStatement("DELETE FROM requests WHERE timestamp_id = ?");
+        preparedStatement.setInt(1, request.getTimestampId());
+        preparedStatement.executeUpdate();
+    }
+
+
 }
