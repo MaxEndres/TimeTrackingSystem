@@ -7,6 +7,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import java.sql.*;
 
+
 public class DatabaseService {
 
     final private String dbUserName = "indawewdh";
@@ -39,18 +40,17 @@ public class DatabaseService {
                 "JOIN departments ON users.department_id = departments.id;");
         ObservableList<User> userList = FXCollections.observableArrayList();
         ResultSet queryOutput = preparedStatement.executeQuery();
-        while(queryOutput.next())
-        {
+        while (queryOutput.next()) {
             userList.add(new User(queryOutput.getInt("id"),
-                                    queryOutput.getString("department"),
-                                    queryOutput.getDate("start_day"),
-                                    queryOutput.getString("forename"),
-                                    queryOutput.getString("surname"),
-                                    queryOutput.getString("email"),
-                                    queryOutput.getString("password"),
-                                    queryOutput.getString("salt"),
-                                    queryOutput.getInt("target_hours"),
-                                    queryOutput.getBoolean("is_admin")));
+                    queryOutput.getString("department"),
+                    queryOutput.getDate("start_day"),
+                    queryOutput.getString("forename"),
+                    queryOutput.getString("surname"),
+                    queryOutput.getString("email"),
+                    queryOutput.getString("password"),
+                    queryOutput.getString("salt"),
+                    queryOutput.getInt("target_hours"),
+                    queryOutput.getBoolean("is_admin")));
         }
         return userList;
     }
@@ -60,11 +60,10 @@ public class DatabaseService {
         PreparedStatement preparedStatement = dbconn.prepareStatement("SELECT * FROM requests;");
         ObservableList<Request> requestList = FXCollections.observableArrayList();
         ResultSet queryOutput = preparedStatement.executeQuery();
-        while(queryOutput.next())
-        {
+        while (queryOutput.next()) {
             requestList.add(new Request(queryOutput.getInt("timestamp_id"),
-                                        queryOutput.getTime("new_time"),
-                                        queryOutput.getString("description")));
+                    queryOutput.getTime("new_time"),
+                    queryOutput.getString("description")));
         }
         return requestList;
     }
@@ -108,5 +107,24 @@ public class DatabaseService {
         preparedStatement.executeUpdate();
     }
 
-
+    // user wants to see how much hours they worked in a certain month (month is a number between 1 and 12)
+    public int getWorkedHours(User user, int month) throws SQLException {
+        PreparedStatement preparedStatement = dbconn.prepareStatement("SELECT * FROM timestamps WHERE MONTH(date) = ? AND user_id = ? ORDER BY time ASC;");
+        preparedStatement.setInt(1, month);
+        preparedStatement.setInt(2, user.getId());
+        ResultSet queryOutput = preparedStatement.executeQuery();
+        int workedHours = 0;
+        Time tmpTime = null;
+        while (queryOutput.next()) {
+            if(queryOutput.getBoolean("is_start") == true) {
+                tmpTime = queryOutput.getTime("time");
+            }
+            else {
+                long timeDiff = queryOutput.getTime("time").getTime() - tmpTime.getTime(); // in milliseconds
+                timeDiff = timeDiff / 1000 / 60/ 60; // in hours
+                workedHours += timeDiff;
+            }
+        }
+        return workedHours;
+    }
 }

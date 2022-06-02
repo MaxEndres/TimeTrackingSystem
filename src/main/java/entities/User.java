@@ -39,6 +39,10 @@ public class User {
         this.isAdmin = isAdmin;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public String getDepartment() {
         return department;
     }
