@@ -6,21 +6,11 @@ public class Request {
 
     private int timestampId;
     private Time newTime;
+    private String description;
 
-    public Request(int timestampId, Time newTime) {
+    public Request(int timestampId, Time newTime, String description) {
         this.timestampId = timestampId;
         this.newTime = newTime;
-    }
-
-    public int getTimestampId() {
-        return timestampId;
-    }
-
-    public Time getNewTime() {
-        return newTime;
-    }
-
-    public void setNewTime(Time newTime) {
-        this.newTime = newTime;
+        this.description = description;
     }
 }

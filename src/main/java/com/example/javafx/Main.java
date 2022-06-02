@@ -26,9 +26,6 @@ public class Main extends Application {
     }
 }
 
-
-
-
 /*
         String dbUserName = "indawewdh";
         String dbPassword = "kidCm30B";
