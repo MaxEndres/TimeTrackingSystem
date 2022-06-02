@@ -54,4 +54,17 @@ public class DatabaseService {
         return userList;
     }
 
+    // listing all requests
+    public ObservableList<Request> listAllRequests() throws SQLException {
+        PreparedStatement preparedStatement = dbconn.prepareStatement("SELECT * FROM requests;");
+        ObservableList<Request> requestList = FXCollections.observableArrayList();
+        ResultSet queryOutput = preparedStatement.executeQuery();
+        while(queryOutput.next())
+        {
+            requestList.add(new Request(queryOutput.getInt("timestamp_id"),
+                                        queryOutput.getTime("new_time"),
+                                        queryOutput.getString("description")));
+        }
+        return requestList;
+    }
 }
