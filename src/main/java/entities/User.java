@@ -26,6 +26,19 @@ public class User {
         this.isAdmin = isAdmin;
     }
 
+    public User(int id, String department, Date startDay, String forename, String surname, String email, String password, String salt, int targetHours, boolean isAdmin) {
+        this.id = id;
+        this.department = department;
+        this.startDay = startDay;
+        this.forename = forename;
+        this.surname = surname;
+        this.email = email;
+        this.password = password;
+        this.salt = salt;
+        this.targetHours = targetHours;
+        this.isAdmin = isAdmin;
+    }
+
     public String getDepartment() {
         return department;
     }
