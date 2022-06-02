@@ -28,13 +28,13 @@ public class SearchUser extends Application {
 
     @FXML
     protected void initialize() throws SQLException {
-        userTableView.setItems(db.userList());
+        userTableView.setItems(db.listAllUsers());
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         forenameColumn.setCellValueFactory(new PropertyValueFactory<>("forename"));
         surnameColumn.setCellValueFactory(new PropertyValueFactory<>("surname"));
         usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
         //toDo: isAdmin
-        FilteredList<User> patientFilteredList = new FilteredList<>(db.userList(), b -> true);
+        FilteredList<User> patientFilteredList = new FilteredList<>(db.listAllUsers(), b -> true);
         searchUserTextField.textProperty().addListener((observableValue, s, t1)  ->
         {
             patientFilteredList.setPredicate(Patient ->
