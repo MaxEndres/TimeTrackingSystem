@@ -4,10 +4,8 @@ import entities.Request;
 import entities.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-
 import java.sql.*;
 
-// TODO: Test the methods, nothing was tested even once yet
 public class DatabaseService {
 
     final private String dbUserName = "indawewdh";
@@ -20,14 +18,16 @@ public class DatabaseService {
 
     // creating a new user
     public void createUser(User user) throws SQLException {
-        PreparedStatement preparedStatement = dbconn.prepareStatement("INSERT INTO onpoint.users (username, forename, surname, email, password, target_hours, is_admin) VALUES (?,?,?,?,?,?,?)");
-        preparedStatement.setString(1, user.getUsername());
-        preparedStatement.setString(2, user.getForename());
-        preparedStatement.setString(3, user.getSurname());
-        preparedStatement.setString(4, user.getEmail());
-        preparedStatement.setString(5, user.getPassword());
-        preparedStatement.setInt(6, user.getTargetHours());
-        preparedStatement.setBoolean(7, user.getIsAdmin());
+        PreparedStatement preparedStatement = dbconn.prepareStatement("INSERT INTO users (department_id, start_day, forename, surname, email, password, target_hours, is_admin)\n" +
+                "VALUES((SELECT id FROM departments WHERE name = ?),?,?,?,?,?,?,?);");
+        preparedStatement.setString(1, user.getDepartment());
+        preparedStatement.setDate(2, user.getStartDay());
+        preparedStatement.setString(3, user.getForename());
+        preparedStatement.setString(4, user.getSurname());
+        preparedStatement.setString(5, user.getEmail());
+        preparedStatement.setString(6, user.getPassword());
+        preparedStatement.setInt(7, user.getTargetHours());
+        preparedStatement.setBoolean(8, user.getIsAdmin());
         preparedStatement.executeUpdate();
     }
 
@@ -64,7 +64,7 @@ public class DatabaseService {
 
     }
     //
-    public ObservableList<User> userList() throws SQLException {
+    public ObservableList<User> listAllUsers() throws SQLException {
         PreparedStatement preparedStatement = dbconn.prepareStatement("SELECT * FROM onpoint.users");
         ObservableList<User> userList = FXCollections.observableArrayList();
         ResultSet queryOutput = preparedStatement.executeQuery();
@@ -77,8 +77,8 @@ public class DatabaseService {
             String email = queryOutput.getString("email");
             int targetHours = queryOutput.getInt("target_hours");
             boolean isAdmin = queryOutput.getBoolean("is_admin");
-            //toDo: String department = queryOutput.getString("department");
-            userList.add(new User(id,forename, surname, email, targetHours, isAdmin));
+            // TODO: String department = queryOutput.getString("department");
+            // TODO userList.add(new User());
         }
         return userList;
     }
