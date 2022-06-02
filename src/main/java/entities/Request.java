@@ -13,4 +13,16 @@ public class Request {
         this.newTime = newTime;
         this.description = description;
     }
+
+    public int getTimestampId() {
+        return timestampId;
+    }
+
+    public Time getNewTime() {
+        return newTime;
+    }
+
+    public String getDescription() {
+        return description;
+    }
 }
