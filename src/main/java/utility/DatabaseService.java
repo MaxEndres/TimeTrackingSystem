@@ -31,54 +31,25 @@ public class DatabaseService {
         preparedStatement.executeUpdate();
     }
 
-    // getting one specific user
-    public User readUser(int id) throws SQLException {
-        PreparedStatement preparedStatement = dbconn.prepareStatement("SELECT * FROM users WHERE id = ?");
-        preparedStatement.setInt(1, id);
-        return (User) preparedStatement.executeQuery(); // probably does not work tho
-    }
-
-    // updating a user
-    // TODO: what attributes have to be updated in which use cases?
-    public void updateUser(int id) {
-
-    }
-
-    // deleting a user
-    public void deleteUser(int id) throws SQLException {
-        PreparedStatement preparedStatement = dbconn.prepareStatement("DELETE FROM users WHERE id = ?");
-        preparedStatement.setInt(1, id);
-        preparedStatement.executeUpdate();
-    }
-
-    // creating a request
-    public void createRequest(Request request) throws SQLException {
-        PreparedStatement preparedStatement = dbconn.prepareStatement("INSERT INTO onpoint.requests (timestamp_id, new_time) VALUES (?,?)");
-        preparedStatement.setInt(1, request.getTimestampId());
-        preparedStatement.setTime(2, request.getNewTime());
-        preparedStatement.executeUpdate();
-    }
-
-    // getting a request
-    public void readRequest(int timestampId) {
-
-    }
-    //
+    // listing all available users
     public ObservableList<User> listAllUsers() throws SQLException {
-        PreparedStatement preparedStatement = dbconn.prepareStatement("SELECT * FROM onpoint.users");
+        PreparedStatement preparedStatement = dbconn.prepareStatement("SELECT id, departments.name AS department, start_day, forename, surname, email, password, salt, target_hours, is_admin\n" +
+                "FROM users\n" +
+                "JOIN departments ON users.department_id = departments.id;");
         ObservableList<User> userList = FXCollections.observableArrayList();
         ResultSet queryOutput = preparedStatement.executeQuery();
-
         while(queryOutput.next())
         {
-            int id = queryOutput.getInt("id");
-            String forename = queryOutput.getString("forename");
-            String surname = queryOutput.getString("surname");
-            String email = queryOutput.getString("email");
-            int targetHours = queryOutput.getInt("target_hours");
-            boolean isAdmin = queryOutput.getBoolean("is_admin");
-            // TODO: String department = queryOutput.getString("department");
-            // TODO userList.add(new User());
+            userList.add(new User(queryOutput.getInt("id"),
+                                    queryOutput.getString("department"),
+                                    queryOutput.getDate("start_day"),
+                                    queryOutput.getString("forename"),
+                                    queryOutput.getString("surname"),
+                                    queryOutput.getString("email"),
+                                    queryOutput.getString("password"),
+                                    queryOutput.getString("salt"),
+                                    queryOutput.getInt("target_hours"),
+                                    queryOutput.getBoolean("is_admin")));
         }
         return userList;
     }
