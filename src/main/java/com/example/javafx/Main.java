@@ -22,7 +22,6 @@ public class Main extends Application {
 
     public static void main(String[] args) throws SQLException {
         DatabaseService db = new DatabaseService();
-        db.createUser(new User("Help Desk", new Date(42424242), "Eren", "Jäger", "test@test.com", "ewrgiwgHG45", 40, false));
         launch();
     }
 }
