@@ -82,7 +82,8 @@ public class CreateUser extends Application {
             errorLabel.setVisible(true);
 
         }else
-        {
+        {/*
+            // TODO: Konstruktor statt setter verwenden
             User user = new User();
             user.setEmail(email.getText());
             user.setForename(forename.getText());
@@ -94,7 +95,7 @@ public class CreateUser extends Application {
            // user.setDepartment
             db.createUser(user);
             //TODO: send email
-        }
+       */ }
     }
 
     public static ObservableList<String> getDepartments()

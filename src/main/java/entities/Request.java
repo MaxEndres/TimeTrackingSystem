@@ -6,10 +6,12 @@ public class Request {
 
     private int timestampId;
     private Time newTime;
+    private String description;
 
-    public Request(int timestampId, Time newTime) {
+    public Request(int timestampId, Time newTime, String description) {
         this.timestampId = timestampId;
         this.newTime = newTime;
+        this.description = description;
     }
 
     public int getTimestampId() {
@@ -20,7 +22,7 @@ public class Request {
         return newTime;
     }
 
-    public void setNewTime(Time newTime) {
-        this.newTime = newTime;
+    public String getDescription() {
+        return description;
     }
 }

@@ -1,5 +1,6 @@
 package com.example.javafx;
 
+import entities.User;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -24,9 +25,6 @@ public class Main extends Application {
         launch();
     }
 }
-
-
-
 
 /*
         String dbUserName = "indawewdh";
