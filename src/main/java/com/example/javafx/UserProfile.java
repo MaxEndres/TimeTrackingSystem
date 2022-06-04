@@ -1,5 +1,6 @@
 package com.example.javafx;
 
+import entities.Timestamp;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -11,9 +12,16 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import utility.DatabaseService;
 import utility.Windows;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.sql.SQLException;
+import java.sql.Time;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Timer;
@@ -29,6 +37,11 @@ public class UserProfile extends Application  {
     Timeline timeline;
     LocalTime time= LocalTime.parse("00:00:00");
     DateTimeFormatter dtf= DateTimeFormatter.ofPattern("HH:mm:ss");
+    DatabaseService db = new DatabaseService();
+
+    public UserProfile() throws SQLException {
+    }
+
     /*int seconds=0;
     int minutes=0;
     int hours=0;
@@ -52,13 +65,15 @@ public class UserProfile extends Application  {
     }
 
     @FXML
-    protected void startButtonOnAction(ActionEvent event)
-    {
+    protected void startButtonOnAction(ActionEvent event) throws SQLException {
 
         timeline.play();
         startButton.setVisible(false);
         stopButton.setVisible(true);
         workedTimeLabel.setVisible(false);
+        Timestamp timestamp = new Timestamp(1, java.sql.Date.valueOf(LocalDate.now())
+                ,java.sql.Time.valueOf(LocalTime.now()),true,"" );
+        db.createTimestamp(timestamp);
     }
     @FXML
     protected void pauseButtonOnAction(ActionEvent event)
@@ -76,8 +91,7 @@ public class UserProfile extends Application  {
         }
     }
     @FXML
-    protected void stopButtonOnAction(ActionEvent event)
-    {
+    protected void stopButtonOnAction(ActionEvent event) throws SQLException {
         stopButton.setVisible(false);
         startButton.setVisible(true);
         if(timeline.getStatus().equals(Animation.Status.PAUSED))
@@ -93,6 +107,11 @@ public class UserProfile extends Application  {
 
             //save entry in the database//Change button
         }
+
+        Timestamp timestamp = new Timestamp(1, java.sql.Date.valueOf(LocalDate.now())
+                ,java.sql.Time.valueOf(LocalTime.now()),false,"" );
+        db.createTimestamp(timestamp);
+
 
     }
     @FXML

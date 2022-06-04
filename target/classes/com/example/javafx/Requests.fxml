@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.javafx.Requests">
    <children>
       <AnchorPane prefHeight="400.0" prefWidth="229.0">
          <children>
-            <ListView fx:id="requestListView" layoutX="8.0" layoutY="62.0" prefHeight="323.0" prefWidth="214.0" />
+            <TableView fx:id="requestTableView" layoutX="15.0" layoutY="51.0" prefHeight="324.0" prefWidth="200.0">
+              <columns>
+                <TableColumn fx:id="timestampIdTableColumn" prefWidth="198.6666660308838" text="C1" />
+                  <TableColumn fx:id="newTimeTableColumn" prefWidth="198.6666660308838" text="C1" />
+                  <TableColumn fx:id="descriptionTableColumn" prefWidth="198.6666660308838" text="C1" />
+              </columns>
+            </TableView>
          </children></AnchorPane>
       <AnchorPane fx:id="message" layoutX="229.0" layoutY="62.0" prefHeight="315.0" prefWidth="441.0">
          <children>

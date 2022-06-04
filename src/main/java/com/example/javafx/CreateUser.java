@@ -16,7 +16,9 @@ import utility.Windows;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.Locale;
 
 public class CreateUser extends Application {
@@ -82,20 +84,24 @@ public class CreateUser extends Application {
             errorLabel.setVisible(true);
 
         }else
-        {/*
+        {
             // TODO: Konstruktor statt setter verwenden
-            User user = new User();
-            user.setEmail(email.getText());
-            user.setForename(forename.getText());
-            user.setSurname(surname.getText());
+            Date date= Date.from(startDay.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+            java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+            User user = new User(department.getSelectionModel().getSelectedItem(),
+                    sqlDate,
+                    forename.getText(),
+                    surname.getText(),
+                    email.getText(),
+                    password.getText(),
+                    targetHours.getSelectionModel().getSelectedItem(),
+                    isAdminCheckBox.isSelected());
+           // db.createUser(user);
+
             //TODO: password automatisch
-            user.setPassword(password.getText());
-            user.setIsAdmin(isAdminCheckBox.isSelected());
-            user.setTargetHours(targetHours.getSelectionModel().getSelectedItem());
-           // user.setDepartment
-            db.createUser(user);
+
             //TODO: send email
-       */ }
+        }
     }
 
     public static ObservableList<String> getDepartments()
