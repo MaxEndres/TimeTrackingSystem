@@ -14,9 +14,12 @@ import utility.DatabaseService;
 import java.sql.SQLException;
 
 public class SearchUser extends Application {
-
     @FXML
-    public TableColumn idColumn,forenameColumn,surnameColumn,usernameColumn;
+    public TableColumn<User, Integer> idColumn;
+    @FXML
+    public TableColumn<User, String> forenameColumn,surnameColumn,emailColumn;
+    @FXML
+    public TableColumn<User, Boolean> isAdminColumn;
     @FXML
     TableView<User> userTableView;
     @FXML
@@ -32,7 +35,8 @@ public class SearchUser extends Application {
         idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         forenameColumn.setCellValueFactory(new PropertyValueFactory<>("forename"));
         surnameColumn.setCellValueFactory(new PropertyValueFactory<>("surname"));
-        usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
+        emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
+        isAdminColumn.setCellValueFactory(new PropertyValueFactory<>("isAdmin"));
         //toDo: isAdmin
         FilteredList<User> patientFilteredList = new FilteredList<>(db.listAllUsers(), b -> true);
         searchUserTextField.textProperty().addListener((observableValue, s, t1)  ->
@@ -60,6 +64,7 @@ public class SearchUser extends Application {
             });
 
         });
+
     }
 
     public static void main(String[] args) {

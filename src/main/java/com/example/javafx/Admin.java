@@ -24,7 +24,7 @@ public class Admin extends Application {
     protected void searchUserButtonOnAction(ActionEvent event) throws IOException {
         // windows.loadWindow("CreateUser.fxml", pane);
         //Windows.openWindow("User.fxml");
-        Windows.loadWindow("searchUser.fxml",pane);
+        Windows.loadWindow("SearchUser.fxml",pane);
     }
     @FXML
     protected void inboxButtonOnAction(ActionEvent event) throws IOException {

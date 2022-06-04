@@ -1,20 +1,60 @@
 package com.example.javafx;
 
+import entities.Request;
+import entities.Timestamp;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import utility.DatabaseService;
 import utility.Windows;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.sql.SQLException;
+import java.sql.Time;
 
 public class EditRequest extends Application {
 
     @FXML
+    public TableView<Timestamp> timestampsTableView;
+    @FXML
+    public TableColumn<Timestamp, Date> dateTableColumn;
+    @FXML
+    public TableColumn<Timestamp, Integer> timestampIdTableColumn;
+    @FXML
+    public TableColumn<Timestamp,Time > timeTableColumn;
+    @FXML
+    public TableColumn<Timestamp, Boolean> isStartTableColumn;
+    @FXML
+    public TableColumn<Timestamp, String> descriptionTableColumn;
+    @FXML
     Button changeButton;
+    DatabaseService db= new DatabaseService();
+    static Timestamp timestamp;
+
+    public EditRequest() throws SQLException {
+    }
+
+    @FXML
+    public void initialize() throws SQLException {
+        //TODO: change to user.getId();
+        timestampsTableView.setItems(db.listAllTimestamps(1));
+        dateTableColumn.setCellValueFactory(new PropertyValueFactory<Timestamp, Date>("date"));
+        timeTableColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
+        timestampIdTableColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+        isStartTableColumn.setCellValueFactory(new PropertyValueFactory<>("isStart"));
+        descriptionTableColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+
+
+    }
 @FXML
     protected void changeButtonOnAction(ActionEvent e) throws IOException {
+        timestamp = timestampsTableView.getSelectionModel().getSelectedItem();
         Windows.changeWindow(changeButton, "EditConfirmation.fxml");
     }
     public static void main(String[] args) {

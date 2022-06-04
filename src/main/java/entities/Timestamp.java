@@ -12,8 +12,8 @@ public class Timestamp {
     private boolean isStart;
     private String description;
 
-    public Timestamp(int userId, Date date, Time time, boolean isStart, String description) {
-        this.userId = userId;
+    public Timestamp(int id, Date date, Time time, boolean isStart, String description) {
+        this.id = id;
         this.date = date;
         this.time = time;
         this.isStart = isStart;
@@ -23,6 +23,8 @@ public class Timestamp {
     public int getUserId() {
         return userId;
     }
+    public int getId()
+    {return id;}
 
     public Date getDate() {
         return date;

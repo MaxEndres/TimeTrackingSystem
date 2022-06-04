@@ -35,9 +35,9 @@ public class DatabaseService {
 
     // listing all available users
     public ObservableList<User> listAllUsers() throws SQLException {
-        PreparedStatement preparedStatement = dbconn.prepareStatement("SELECT id, departments.name AS department, start_day, forename, surname, email, password, salt, target_hours, is_admin\n" +
-                "FROM users\n" +
-                "JOIN departments ON users.department_id = departments.id;");
+        PreparedStatement preparedStatement = dbconn.prepareStatement("SELECT users.id, departments.name AS department, start_day, forename, surname, email, password, salt, target_hours, is_admin \n" +
+                " FROM onpoint.users\n" +
+                " JOIN onpoint.departments ON users.department_id = departments.id;");
         ObservableList<User> userList = FXCollections.observableArrayList();
         ResultSet queryOutput = preparedStatement.executeQuery();
         while (queryOutput.next()) {
@@ -57,7 +57,7 @@ public class DatabaseService {
 
     // listing all requests
     public ObservableList<Request> listAllRequests() throws SQLException {
-        PreparedStatement preparedStatement = dbconn.prepareStatement("SELECT * FROM requests;");
+        PreparedStatement preparedStatement = dbconn.prepareStatement("SELECT * FROM requests ;");
         ObservableList<Request> requestList = FXCollections.observableArrayList();
         ResultSet queryOutput = preparedStatement.executeQuery();
         while (queryOutput.next()) {
@@ -66,6 +66,21 @@ public class DatabaseService {
                     queryOutput.getString("description")));
         }
         return requestList;
+    }
+    //list all Timestamps from User
+
+    public ObservableList<Timestamp> listAllTimestamps(int user_id) throws SQLException {
+        PreparedStatement preparedStatement = dbconn.prepareStatement("SELECT * FROM onpoint.timestamps WHERE user_id =" + user_id + ";");
+        ObservableList<Timestamp> timestampList = FXCollections.observableArrayList();
+        ResultSet queryOutput = preparedStatement.executeQuery();
+        while (queryOutput.next()) {
+            timestampList.add(new Timestamp(queryOutput.getInt("id"),
+                    queryOutput.getDate("date"),
+                    queryOutput.getTime("time"),
+                    queryOutput.getBoolean("is_start"),
+                    queryOutput.getString("description")));
+        }
+        return timestampList;
     }
 
     // create a certain timestamp when a user presses start/pause/stop button

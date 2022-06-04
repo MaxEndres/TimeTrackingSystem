@@ -13,7 +13,7 @@
           <TableColumn fx:id="idColumn" prefWidth="26.666657090187073" text="ID" />
           <TableColumn fx:id="forenameColumn" prefWidth="77.99997138977051" text="Forename" />
             <TableColumn fx:id="surnameColumn" prefWidth="115.99993133544922" text="Surname" />
-            <TableColumn fx:id="usernameColumn" prefWidth="167.3333282470703" text="Username" />
+            <TableColumn fx:id="emailColumn" prefWidth="167.3333282470703" text="Email" />
             <TableColumn fx:id="isAdminColumn" prefWidth="90.0" text="is Admin" />
         </columns>
       </TableView>

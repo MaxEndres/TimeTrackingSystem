@@ -11,10 +11,11 @@ module com.example.javafx {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires java.sql;
+
     //requires java.datatransfer;
    // requires java.desktop;
 
     opens com.example.javafx to javafx.fxml;
-
+    exports entities;
     exports com.example.javafx;
 }

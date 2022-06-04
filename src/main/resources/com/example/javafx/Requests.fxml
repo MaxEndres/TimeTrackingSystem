@@ -1,26 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.javafx.Requests">
    <children>
       <AnchorPane prefHeight="400.0" prefWidth="229.0">
          <children>
-            <TableView fx:id="requestTableView" layoutX="15.0" layoutY="51.0" prefHeight="324.0" prefWidth="200.0">
+            <TableView fx:id="requestTableView" layoutX="15.0" layoutY="51.0" prefHeight="324.0" prefWidth="257.0">
               <columns>
-                <TableColumn fx:id="timestampIdTableColumn" prefWidth="198.6666660308838" text="C1" />
-                  <TableColumn fx:id="newTimeTableColumn" prefWidth="198.6666660308838" text="C1" />
-                  <TableColumn fx:id="descriptionTableColumn" prefWidth="198.6666660308838" text="C1" />
+                <TableColumn fx:id="timestampIdTableColumn" prefWidth="26.666654586791992" text="ID" />
+                  <TableColumn fx:id="newTimeTableColumn" prefWidth="120.00002670288086" text="C1" />
+                  <TableColumn fx:id="descriptionTableColumn" prefWidth="450.0000457763672" text="C1" />
               </columns>
             </TableView>
+            <Button fx:id="requestButton" layoutX="103.0" layoutY="14.0" mnemonicParsing="false" onAction="#requestButtonOnAction" text="See Request" />
          </children></AnchorPane>
-      <AnchorPane fx:id="message" layoutX="229.0" layoutY="62.0" prefHeight="315.0" prefWidth="441.0">
+      <AnchorPane fx:id="message" layoutX="288.0" layoutY="53.0" prefHeight="315.0" prefWidth="273.0" style="-fx-background-color: #ffff;">
          <children>
-            <Label layoutX="163.0" layoutY="117.0" text="No request selection" />
+            <Label fx:id="newTimeLabel" layoutX="34.0" layoutY="70.0" text="New Time: ">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label fx:id="requestIdLabel" layoutX="33.0" layoutY="22.0" prefHeight="17.0" prefWidth="156.0" text="Request ID: ">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Label fx:id="descriptionLabel" alignment="TOP_LEFT" layoutX="23.0" layoutY="106.0" prefHeight="201.0" prefWidth="237.0">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <Button fx:id="acceptButton" layoutX="47.0" layoutY="207.0" mnemonicParsing="false" onAction="#acceptButtonOnAction" text="Accept" />
+            <Button fx:id="denyButton" layoutX="163.0" layoutY="207.0" mnemonicParsing="false" onAction="#denyButtonOnAction" prefHeight="25.0" prefWidth="53.0" text="Deny" />
          </children>
       </AnchorPane>
+      <Label fx:id="label" layoutX="370.0" layoutY="35.0" text="No request selection" />
    </children>
 </AnchorPane>
