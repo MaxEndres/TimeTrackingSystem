@@ -11,6 +11,7 @@ module com.example.javafx {
     requires org.kordamp.bootstrapfx.core;
     requires eu.hansolo.tilesfx;
     requires java.sql;
+    requires jbcrypt;
 
     //requires java.datatransfer;
    // requires java.desktop;
