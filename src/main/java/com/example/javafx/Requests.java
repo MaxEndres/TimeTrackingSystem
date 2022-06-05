@@ -11,6 +11,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import utility.DatabaseService;
+import utility.Windows;
 
 import java.sql.SQLException;
 import java.sql.Time;
@@ -31,7 +32,7 @@ public class Requests extends Application {
     @FXML
     Label requestIdLabel, newTimeLabel, descriptionLabel, label;
     @FXML
-    Button requestButton;
+    Button requestButton, backButton;
     @FXML
     AnchorPane message;
 
@@ -70,6 +71,11 @@ public class Requests extends Application {
         Request request = requestTableView.getSelectionModel().getSelectedItem();
         db.acceptRequest(request);
         initialize();
+    }
+    @FXML
+    public void backButtonOnAction(ActionEvent e)
+    {
+        Windows.closeWindow(backButton);
     }
 
     public Requests() throws SQLException {

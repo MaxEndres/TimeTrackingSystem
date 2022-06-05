@@ -12,13 +12,22 @@ public class Timestamp {
     private boolean isStart;
     private String description;
 
-    public Timestamp(int id, Date date, Time time, boolean isStart, String description) {
-        this.id = id;
+    public Timestamp(int id, int userId, Date date, Time time, boolean isStart, String description) {
+        this.id=id;
+        this.userId = userId;
         this.date = date;
         this.time = time;
         this.isStart = isStart;
         this.description = description;
     }
+    public Timestamp(int userId, Date date, Time time, boolean isStart, String description) {
+        this.userId = userId;
+        this.date = date;
+        this.time = time;
+        this.isStart = isStart;
+        this.description = description;
+    }
+
 
     public int getUserId() {
         return userId;

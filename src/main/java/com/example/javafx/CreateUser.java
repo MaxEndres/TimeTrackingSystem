@@ -88,7 +88,7 @@ public class CreateUser extends Application {
             // TODO: Konstruktor statt setter verwenden
             Date date= Date.from(startDay.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
             java.sql.Date sqlDate = new java.sql.Date(date.getTime());
-            User user = new User(department.getSelectionModel().getSelectedItem(),
+            User createdUser = new User(department.getSelectionModel().getSelectedItem(),
                     sqlDate,
                     forename.getText(),
                     surname.getText(),
@@ -96,12 +96,18 @@ public class CreateUser extends Application {
                     password.getText(),
                     targetHours.getSelectionModel().getSelectedItem(),
                     isAdminCheckBox.isSelected());
-           // db.createUser(user);
+            //toDo: create user with password and salt etc
+           // db.createUser(createdUser);
 
             //TODO: password automatisch
 
-            //TODO: send email
+            //TODO: send email?
         }
+    }
+
+    @FXML
+    private void cancelButtonOnAction(ActionEvent e) throws IOException {
+        Windows.changeWindow(cancelButton, "Admin.fxml");
     }
 
     public static ObservableList<String> getDepartments()

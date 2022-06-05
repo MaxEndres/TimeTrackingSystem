@@ -75,6 +75,7 @@ public class DatabaseService {
         ResultSet queryOutput = preparedStatement.executeQuery();
         while (queryOutput.next()) {
             timestampList.add(new Timestamp(queryOutput.getInt("id"),
+                    queryOutput.getInt("user_id"),
                     queryOutput.getDate("date"),
                     queryOutput.getTime("time"),
                     queryOutput.getBoolean("is_start"),
@@ -85,7 +86,7 @@ public class DatabaseService {
 
     // create a certain timestamp when a user presses start/pause/stop button
     public void createTimestamp(Timestamp timestamp) throws SQLException {
-        PreparedStatement preparedStatement = dbconn.prepareStatement("INSERT INTO timestamps (user_id, date, time, is_start, description)\n" +
+        PreparedStatement preparedStatement = dbconn.prepareStatement("INSERT INTO onpoint.timestamps (user_id, date, time, is_start, description)\n" +
                 "VALUES(?,?,?,?,?);");
         preparedStatement.setInt(1, timestamp.getUserId());
         preparedStatement.setDate(2, timestamp.getDate());
@@ -97,7 +98,7 @@ public class DatabaseService {
 
     // create a request when a user wants to change a timestamp they created
     public void createRequest(Request request) throws SQLException {
-        PreparedStatement preparedStatement = dbconn.prepareStatement("INSERT INTO requests (timestamp_id, new_time, description)" +
+        PreparedStatement preparedStatement = dbconn.prepareStatement("INSERT INTO onpoint.requests (timestamp_id, new_time, description)" +
                 "VALUES(?,?,?);");
         preparedStatement.setInt(1, request.getTimestampId());
         preparedStatement.setTime(2, request.getNewTime());

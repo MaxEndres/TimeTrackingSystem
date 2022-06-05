@@ -71,6 +71,7 @@ public class UserProfile extends Application  {
         startButton.setVisible(false);
         stopButton.setVisible(true);
         workedTimeLabel.setVisible(false);
+        //TODO: change to user.getId()
         Timestamp timestamp = new Timestamp(1, java.sql.Date.valueOf(LocalDate.now())
                 ,java.sql.Time.valueOf(LocalTime.now()),true,"" );
         db.createTimestamp(timestamp);

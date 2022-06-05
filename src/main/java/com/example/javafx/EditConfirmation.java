@@ -11,7 +11,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import utility.DatabaseService;
+import utility.Windows;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
 
@@ -26,7 +28,7 @@ public class EditConfirmation extends Application {
     @FXML
     public Button sendRequestButton;
     @FXML
-    public CheckBox deleteEntryCheckBox,changeEntryCheckBox;
+    public RadioButton changeRadioButton, deleteRadioButton;
     DatabaseService db = new DatabaseService();
 
     public EditConfirmation() throws SQLException {
@@ -47,48 +49,53 @@ public class EditConfirmation extends Application {
         descriptionTextArea.setVisible(false);
 
 
-
-        deleteEntryCheckBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
-                changeEntryCheckBox.setSelected(false);
-                deleteEntryCheckBox.setSelected(true);
-                newTimeLabel.setVisible(false);
-                descriptionLabel.setVisible(true);
-                punktLabel.setVisible(false);
-                hourComboBox.setVisible(false);
-                minuteComboBox.setVisible(false);
-                descriptionTextArea.setVisible(true);
-            }
-        });
-        changeEntryCheckBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observableValue, Boolean aBoolean, Boolean t1) {
-
-                changeEntryCheckBox.setSelected(true);
-                deleteEntryCheckBox.setSelected(false);
-                newTimeLabel.setVisible(true);
-                descriptionLabel.setVisible(true);
-                punktLabel.setVisible(true);
-                hourComboBox.setVisible(true);
-                minuteComboBox.setVisible(true);
-                descriptionTextArea.setVisible(true);
-            }
-        });
     }
     @FXML
-    protected void changeEntryOnAction(ActionEvent e)
+    protected void addRequestOnAction(ActionEvent event)
     {
+        if(changeRadioButton.isSelected())
+        {
+            newTimeLabel.setVisible(true);
+            descriptionLabel.setVisible(true);
+            punktLabel.setVisible(true);
+            hourComboBox.setVisible(true);
+            minuteComboBox.setVisible(true);
+            descriptionTextArea.setVisible(true);
+        }else if(deleteRadioButton.isSelected())
+        {
+            newTimeLabel.setVisible(false);
+            descriptionLabel.setVisible(true);
+            punktLabel.setVisible(false);
+            hourComboBox.setVisible(false);
+            minuteComboBox.setVisible(false);
+            descriptionTextArea.setVisible(true);
+        }
+    }
+    @FXML
+    protected void sendRequestButtonOnAction(ActionEvent e) throws SQLException, IOException {
 
-        //Date date= new Date(EditRequest.timestamp.getDate().valueOf() );
-       // Request request = new Request(EditRequest.timestamp.getId(), )
-       // db.createRequest();
-       // EditRequest.timestamp
+        if(changeRadioButton.isSelected()) {
+            String hour = hourComboBox.getSelectionModel().getSelectedItem().toString();
+            String minute = minuteComboBox.getSelectionModel().getSelectedItem().toString();
+
+            Request request = new Request(EditRequest.timestamp.getId(), java.sql.Time.valueOf(hour + ":" + minute + ":00"),
+                    descriptionTextArea.getText());
+            db.createRequest(request);
+
+        }else if(deleteRadioButton.isSelected())
+        {
+            //as Request table does not have either is delete or change timestamps,
+            // so I added as automatically description
+            //System.out.println("HOUR: " + EditRequest.timestamp.getTime());
+            Request request = new Request(EditRequest.timestamp.getId(),
+                    EditRequest.timestamp.getTime(),"Delete Timestamp\n"+ descriptionTextArea.getText() );
+            db.createRequest(request);
+        }
+        Windows.changeWindow(sendRequestButton,"User.fxml");
 
     }
     @FXML
-    protected void deleteEntryOnAction(ActionEvent e)
-    {
+    protected void deleteEntryOnAction(ActionEvent e) throws SQLException {
 
     }
 
