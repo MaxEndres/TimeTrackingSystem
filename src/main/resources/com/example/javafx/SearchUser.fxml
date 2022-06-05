@@ -11,9 +11,9 @@
       <TableView fx:id="userTableView" layoutX="5.0" layoutY="58.0" prefHeight="200.0" prefWidth="432.0">
         <columns>
           <TableColumn fx:id="idColumn" prefWidth="26.666657090187073" text="ID" />
-          <TableColumn fx:id="forenameColumn" prefWidth="77.99997138977051" text="Forename" />
-            <TableColumn fx:id="surnameColumn" prefWidth="95.99999237060547" text="Surname" />
-            <TableColumn fx:id="emailColumn" prefWidth="140.00001525878906" text="Email" />
+          <TableColumn fx:id="forenameColumn" prefWidth="63.33327865600586" text="Forename" />
+            <TableColumn fx:id="surnameColumn" prefWidth="88.66669464111328" text="Surname" />
+            <TableColumn fx:id="emailColumn" prefWidth="163.3332977294922" text="Email" />
             <TableColumn fx:id="isAdminColumn" prefWidth="83.33331298828125" text="Admin" />
         </columns>
       </TableView>

@@ -23,8 +23,7 @@ public class EditConfirmation extends Application {
     public Label timestampLabel, currentEntryLabel,newTimeLabel, descriptionLabel, punktLabel;
     @FXML
     public TextArea descriptionTextArea;
-    @FXML
-    public ComboBox hourComboBox, minuteComboBox;
+    public Spinner hourSpinner, minuteSpinner;
     @FXML
     public Button sendRequestButton;
     @FXML
@@ -37,17 +36,22 @@ public class EditConfirmation extends Application {
     @FXML
     protected void initialize()
     {
-        hourComboBox.getItems().add(getHours());
-        minuteComboBox.getItems().add(getHours());
-        timestampLabel.setText("Timestamp ID: " + EditRequest.timestamp.getId());
-        currentEntryLabel.setText("Current Entry: " +EditRequest.timestamp.getDate()+ " " + EditRequest.timestamp.getTime());
+
+        timestampLabel.setText("" + EditRequest.timestamp.getId());
+        currentEntryLabel.setText(" " +EditRequest.timestamp.getDate()+ " " + EditRequest.timestamp.getTime());
         newTimeLabel.setVisible(false);
         descriptionLabel.setVisible(false);
         punktLabel.setVisible(false);
-        hourComboBox.setVisible(false);
-        minuteComboBox.setVisible(false);
         descriptionTextArea.setVisible(false);
+        hourSpinner.setVisible(false);
+        minuteSpinner.setVisible(false);
+        SpinnerValueFactory<Integer> valueFactoryHour= new SpinnerValueFactory.IntegerSpinnerValueFactory(00,60,00);
+        SpinnerValueFactory<Integer> valueFactoryMinute= new SpinnerValueFactory.IntegerSpinnerValueFactory(00,60,00);
 
+        valueFactoryHour.setValue(00);
+        valueFactoryMinute.setValue(00);
+        hourSpinner.setValueFactory(valueFactoryHour);
+        minuteSpinner.setValueFactory(valueFactoryMinute);
 
     }
     @FXML
@@ -58,16 +62,16 @@ public class EditConfirmation extends Application {
             newTimeLabel.setVisible(true);
             descriptionLabel.setVisible(true);
             punktLabel.setVisible(true);
-            hourComboBox.setVisible(true);
-            minuteComboBox.setVisible(true);
+            hourSpinner.setVisible(true);
+            minuteSpinner.setVisible(true);
             descriptionTextArea.setVisible(true);
         }else if(deleteRadioButton.isSelected())
         {
             newTimeLabel.setVisible(false);
             descriptionLabel.setVisible(true);
             punktLabel.setVisible(false);
-            hourComboBox.setVisible(false);
-            minuteComboBox.setVisible(false);
+            hourSpinner.setVisible(false);
+            minuteSpinner.setVisible(false);
             descriptionTextArea.setVisible(true);
         }
     }
@@ -75,8 +79,8 @@ public class EditConfirmation extends Application {
     protected void sendRequestButtonOnAction(ActionEvent e) throws SQLException, IOException {
 
         if(changeRadioButton.isSelected()) {
-            String hour = hourComboBox.getSelectionModel().getSelectedItem().toString();
-            String minute = minuteComboBox.getSelectionModel().getSelectedItem().toString();
+            String hour = hourSpinner.getValue().toString();
+            String minute = minuteSpinner.getValue().toString();
 
             Request request = new Request(EditRequest.timestamp.getId(), java.sql.Time.valueOf(hour + ":" + minute + ":00"),
                     descriptionTextArea.getText());

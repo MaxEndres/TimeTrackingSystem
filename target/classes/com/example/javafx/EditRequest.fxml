@@ -17,6 +17,7 @@
          </columns>
       </TableView>
       <Button fx:id="changeButton" layoutX="78.0" layoutY="319.0" mnemonicParsing="false" onAction="#changeButtonOnAction" prefHeight="25.0" prefWidth="112.0" text="Change/Delete" />
-      <Button layoutX="483.0" layoutY="23.0" mnemonicParsing="false" text="Add new " />
+      <Button fx:id="addNewButton" layoutX="483.0" layoutY="23.0" mnemonicParsing="false" onAction="#addNewButtonOnAction" text="Add new " />
+      <Button fx:id="goBackToProfileButton" layoutX="351.0" layoutY="319.0" mnemonicParsing="false" onAction="#goBackToProfileButtonOnAction" prefHeight="25.0" prefWidth="112.0" text="Go back to profile" />
    </children>
 </AnchorPane>

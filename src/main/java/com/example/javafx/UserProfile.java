@@ -42,13 +42,6 @@ public class UserProfile extends Application  {
     public UserProfile() throws SQLException {
     }
 
-    /*int seconds=0;
-    int minutes=0;
-    int hours=0;
-    int time=0;
-    boolean started = false;
-    String hour, minute, second;
-    */
     @FXML
     public void initialize()
     {

@@ -33,7 +33,7 @@ public class EditRequest extends Application {
     @FXML
     public TableColumn<Timestamp, String> descriptionTableColumn;
     @FXML
-    Button changeButton;
+    Button changeButton, goBackToProfileButton, addNewButton;
     DatabaseService db= new DatabaseService();
     static Timestamp timestamp;
 
@@ -56,6 +56,14 @@ public class EditRequest extends Application {
     protected void changeButtonOnAction(ActionEvent e) throws IOException {
         timestamp = timestampsTableView.getSelectionModel().getSelectedItem();
         Windows.changeWindow(changeButton, "EditConfirmation.fxml");
+    }
+    @FXML
+    protected void addNewButtonOnAction(ActionEvent e) throws IOException {
+        Windows.changeWindow(addNewButton, "AddRequest.fxml");
+    }
+    @FXML
+    protected void goBackToProfileButtonOnAction(ActionEvent e) throws IOException {
+        Windows.changeWindow(goBackToProfileButton, "User.fxml");
     }
     public static void main(String[] args) {
         launch(args);

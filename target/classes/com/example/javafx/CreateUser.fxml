@@ -87,7 +87,7 @@
          </children>
       </VBox>
       <Button fx:id="addUserButton" layoutX="63.0" layoutY="275.0" mnemonicParsing="false" onAction="#addUserButtonOnAction" text="Add User" />
-      <Button fx:id="cancelButton" layoutX="321.0" layoutY="275.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="57.0" text="Cancel" />
+      <Button fx:id="cancelButton" cancelButton="true" layoutX="321.0" layoutY="275.0" mnemonicParsing="false" onAction="#cancelButtonOnAction" prefHeight="25.0" prefWidth="57.0" text="Cancel" />
       <Label fx:id="errorLabel" layoutX="161.0" layoutY="257.0" text="Please fill all the fields!" textFill="#f20404" />
       <CheckBox fx:id="isAdminCheckBox" layoutX="220.0" layoutY="228.0" mnemonicParsing="false" text="Is Admin" />
    </children>

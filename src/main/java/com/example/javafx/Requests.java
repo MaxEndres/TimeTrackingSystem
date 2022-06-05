@@ -55,9 +55,9 @@ public class Requests extends Application {
         message.setVisible(true);
         label.setVisible(false);
         Request request = requestTableView.getSelectionModel().getSelectedItem();
-        requestIdLabel.setText("Request ID: "+ request.getTimestampId());
-        newTimeLabel.setText("New Time: "+ request.getNewTime());
-        descriptionLabel.setText("Description: "+ request.getDescription());
+        requestIdLabel.setText( "" +request.getTimestampId());
+        newTimeLabel.setText(""+ request.getNewTime());
+        descriptionLabel.setText(""+ request.getDescription());
     }
     @FXML
     public void denyButtonOnAction(ActionEvent e) throws SQLException {

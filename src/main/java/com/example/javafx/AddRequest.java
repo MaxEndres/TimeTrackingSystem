@@ -5,10 +5,7 @@ import entities.Timestamp;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import utility.DatabaseService;
 
@@ -17,11 +14,12 @@ import java.time.LocalDate;
 
 public class AddRequest extends Application {
 
+    @FXML
     public TextArea descriptionTextArea;
-    public ComboBox hourComboBox;
-    public ComboBox minuteComboBox;
     public DatePicker dayDatePicker;
     public ComboBox chooseComboBox;
+    @FXML
+    public Spinner<Integer> hourSpinner, minuteSpinner;
     @FXML
     Button sendRequestButton;
     DatabaseService db= new DatabaseService();
@@ -34,6 +32,15 @@ public class AddRequest extends Application {
     {
         chooseComboBox.getItems().addAll("Stop", "Start");
         dayDatePicker.setValue(LocalDate.now());
+        SpinnerValueFactory<Integer> valueFactoryHour= new SpinnerValueFactory.IntegerSpinnerValueFactory(00,60,00);
+        SpinnerValueFactory<Integer> valueFactoryMinute= new SpinnerValueFactory.IntegerSpinnerValueFactory(00,60,00);
+
+        valueFactoryHour.setValue(00);
+        valueFactoryMinute.setValue(00);
+        hourSpinner.setValueFactory(valueFactoryHour);
+        minuteSpinner.setValueFactory(valueFactoryMinute);
+
+
     }
 
     @FXML
@@ -45,8 +52,8 @@ public class AddRequest extends Application {
         }
         //Todo: change to user.getID()
         Timestamp timestamp = new Timestamp(1, java.sql.Date.valueOf(dayDatePicker.getValue()),
-                java.sql.Time.valueOf(hourComboBox.getSelectionModel().getSelectedItem().toString()+":"
-                        +minuteComboBox.getSelectionModel().getSelectedItem().toString()+":00"),is_start,
+                java.sql.Time.valueOf(hourSpinner.getValue().toString()+":"
+                        +minuteSpinner.getValue().toString()+":00"),is_start,
                 descriptionTextArea.getText());
         db.createTimestamp(timestamp);
         //Todo: actually it should send a request. Ask Leon.
