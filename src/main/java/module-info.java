@@ -12,6 +12,7 @@ module com.example.javafx {
     requires eu.hansolo.tilesfx;
     requires java.sql;
     requires jbcrypt;
+    requires itextpdf;
 
     //requires java.datatransfer;
    // requires java.desktop;
