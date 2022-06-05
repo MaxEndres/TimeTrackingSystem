@@ -10,13 +10,16 @@ public class Hashing {
      * generate initial password, generate salt and return hashed+salted initial pw
      * */
 
+
     public static String initPW(String _salt) throws SQLException {
 
         // Generate initial password
         String initPW = genPassword();
 
         // print initPW on screen
+        System.out.println(initPW);
 
+        //Hash pw + salt
         String hash = BCrypt.hashpw(initPW, _salt);
 
         return hash;
