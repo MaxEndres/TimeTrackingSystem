@@ -242,17 +242,16 @@ public class DatabaseService {
             System.out.println("false");
             return;
 
+        }
 
             // check for role and display GUI
-            if (is_admin) {
+        if (is_admin) {
 
-                //TODO: GUI ADMIN
+            //TODO: GUI ADMIN
 
-            } else {
+        } else {
 
-                //TODO: GUI USER
-
-            }
+            //TODO: GUI USER
 
         }
 
