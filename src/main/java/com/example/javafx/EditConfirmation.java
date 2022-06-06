@@ -90,6 +90,7 @@ public class EditConfirmation extends Application {
         {
             //as Request table does not have either is delete or change timestamps,
             // so I added as automatically description
+            //TODO: Leon noch ein Field hinzufugen
             //System.out.println("HOUR: " + EditRequest.timestamp.getTime());
             Request request = new Request(EditRequest.timestamp.getId(),
                     EditRequest.timestamp.getTime(),"Delete Timestamp\n"+ descriptionTextArea.getText() );
@@ -103,21 +104,8 @@ public class EditConfirmation extends Application {
 
     }
 
-
-
     public static void main(String[] args) {
         launch(args);
-    }
-
-    public static ObservableList<Integer> getHours()
-    {
-        ObservableList<Integer> hours = FXCollections.observableArrayList();
-        for(int i=00; i<61; i++ )
-        {
-            hours.add(i);
-        }
-
-        return hours;
     }
 
     @Override

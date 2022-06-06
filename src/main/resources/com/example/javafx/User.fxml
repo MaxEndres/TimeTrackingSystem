@@ -15,13 +15,12 @@
       <Label layoutX="317.0" layoutY="26.0" text="Logged in as:" />
       <AnchorPane fx:id="pane" layoutX="47.0" layoutY="122.0" prefHeight="249.0" prefWidth="506.0" style="-fx-background-color: #fcfeff;">
          <children>
-            <Label fx:id="timeLabel" layoutX="177.0" prefHeight="43.0" prefWidth="151.0" text="Timer" textAlignment="CENTER" textFill="#3481c0">
+            <Label fx:id="timeLabel" layoutX="177.0" prefHeight="43.0" prefWidth="191.0" text="Timer" textAlignment="CENTER" textFill="#3481c0">
                <font>
                   <Font name="Arial Rounded MT Bold" size="36.0" />
                </font>
             </Label>
             <Button fx:id="startButton" layoutX="163.0" layoutY="58.0" mnemonicParsing="false" onAction="#startButtonOnAction" prefHeight="25.0" prefWidth="79.0" text="Start" />
-            <Button fx:id="pauseButton" layoutX="266.0" layoutY="58.0" mnemonicParsing="false" onAction="#pauseButtonOnAction" prefHeight="25.0" prefWidth="79.0" text="Pause" visible="false" />
             <Button fx:id="stopButton" layoutX="254.0" layoutY="58.0" mnemonicParsing="false" onAction="#stopButtonOnAction" prefHeight="25.0" prefWidth="79.0" text="Stop" />
             <Button fx:id="editTimeButton" layoutY="177.0" mnemonicParsing="false" onAction="#editTimeButtonOnAction" prefHeight="25.0" prefWidth="103.0" text="Edit Time" />
             <Button layoutX="203.0" layoutY="177.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="103.0" text="View Time" />
@@ -33,8 +32,7 @@
             </Label>
          </children>
       </AnchorPane>
-      <Label fx:id="userLabel" layoutX="424.0" layoutY="26.0" text="user" />
-      <MenuButton layoutX="419.0" layoutY="61.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="151.0" text="User">
+      <MenuButton fx:id="nameMenuButton" layoutX="411.0" layoutY="30.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="151.0" text="User">
         <items>
           <MenuItem fx:id="changePassword" mnemonicParsing="false" onAction="#changePasswordOnAction" text="Change Password" />
           <MenuItem fx:id="logOut" mnemonicParsing="false" onAction="#logOutOnAction" text="Log out" />
@@ -45,7 +43,7 @@
       </MenuButton>
       <ImageView fitHeight="97.0" fitWidth="136.0" layoutX="29.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@../../../../java/assets/img.png" />
+            <Image url="@../../../assets/img.png" />
          </image>
       </ImageView>
    </children>

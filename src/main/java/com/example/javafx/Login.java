@@ -4,7 +4,6 @@ import entities.User;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import utility.DatabaseService;
 import utility.Windows;
@@ -15,7 +14,8 @@ import javafx.scene.control.Button;
 import java.io.IOException;
 import java.sql.SQLException;
 
-public class MainController {
+public class Login {
+    public static User logInUser;
     public TextField usernameTextfield;
     public PasswordField passwordPasswordField;
     @FXML
@@ -26,7 +26,7 @@ public class MainController {
     Label errorLabel;
     DatabaseService db = new DatabaseService();
 
-    public MainController() throws SQLException {
+    public Login() throws SQLException {
     }
 
     @FXML
@@ -37,11 +37,11 @@ public class MainController {
     }
 
     @FXML
-    protected void loginButtonOnAction(ActionEvent event) throws IOException, SQLException {
+    public void loginButtonOnAction(ActionEvent event) throws IOException, SQLException {
         //Erstmal Admin Oberfläche
         //Windows.changeWindow(loginButton, "Admin.fxml");
 
-        User logInUser= db.validateData(usernameTextfield.getText(), passwordPasswordField.getText());
+        logInUser= db.validateData(usernameTextfield.getText(), passwordPasswordField.getText());
 
         if(logInUser == null)
         {
@@ -54,6 +54,8 @@ public class MainController {
                 Windows.changeWindow(loginButton, "Admin.fxml");
             }else
             {
+                //User: harrish@onpoint.de
+                // Password: $!H9PLqT
                 Windows.changeWindow(loginButton, "User.fxml");
             }
         }

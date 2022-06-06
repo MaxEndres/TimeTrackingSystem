@@ -14,7 +14,7 @@ public class Export {
 
     public static void exportPWasPDF(User user, String password) throws IOException, DocumentException {
 
-        String text = "\n\n\n\n\n\n Hello " + user.getForename() + user.getSurname() + "\n Welcome to your first day at /Company_Name/. \n " +
+        String text = "\n\n\n\n\n\n Hello " + user.getForename() + " "+ user.getSurname() + ",\n Welcome to your first day at /Company_Name/. \n " +
                 "Our time-tracking solution is provided by onPoint. \n" +
                 "The credentials for your first login will be following: \n" +
                 "email: " + user.getEmail() +
@@ -24,7 +24,7 @@ public class Export {
 
         Image img_onPoint = Image.getInstance("src/main/resources/assets/img.png");
         img_onPoint.setAbsolutePosition(470f,730f);
-        img_onPoint.scaleAbsolute(50f,50f);
+        img_onPoint.scaleAbsolute(100f,100f);
         //Image img_company = Image.getInstance("");
 
         PdfWriter writer = PdfWriter.getInstance(doc, new FileOutputStream(

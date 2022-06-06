@@ -42,14 +42,12 @@ public class EditRequest extends Application {
 
     @FXML
     public void initialize() throws SQLException {
-        //TODO: change to user.getId();
-        timestampsTableView.setItems(db.listAllTimestamps(1));
+        timestampsTableView.setItems(db.listAllTimestamps(Login.logInUser.getId()));
         dateTableColumn.setCellValueFactory(new PropertyValueFactory<Timestamp, Date>("date"));
         timeTableColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
         timestampIdTableColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         isStartTableColumn.setCellValueFactory(new PropertyValueFactory<>("isStart"));
         descriptionTableColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
-
 
     }
 @FXML
