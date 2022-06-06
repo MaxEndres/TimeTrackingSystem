@@ -171,7 +171,6 @@ public class DatabaseService {
         String passwordHash = null;
         String salt = null;
         boolean is_admin = false;
-        boolean emailExists = false;
 
         //Check if Record with given email exists
         PreparedStatement stEmailExists = dbconn.prepareStatement("SELECT email " +
