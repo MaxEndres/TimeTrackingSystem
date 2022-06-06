@@ -8,6 +8,7 @@ import javafx.collections.ObservableList;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.*;
+import java.util.Objects;
 
 
 public class DatabaseService {
@@ -21,11 +22,6 @@ public class DatabaseService {
     }
 
 
-    public static void main(String[] args) throws SQLException {
-
-        boolean db = new DatabaseService().validateData("jorin.hagedorn@web.de", "123");
-
-    }
     // creating a new user
     public void createUser(User user) throws SQLException {
         PreparedStatement preparedStatement = dbconn.prepareStatement("INSERT INTO users (department_id, start_day, forename, surname, email, password, target_hours, is_admin)\n" +
@@ -140,12 +136,11 @@ public class DatabaseService {
         int workedHours = 0;
         Time tmpTime = null;
         while (queryOutput.next()) {
-            if(queryOutput.getBoolean("is_start") == true) {
+            if (queryOutput.getBoolean("is_start") == true) {
                 tmpTime = queryOutput.getTime("time");
-            }
-            else {
+            } else {
                 long timeDiff = queryOutput.getTime("time").getTime() - tmpTime.getTime(); // in milliseconds
-                timeDiff = timeDiff / 1000 / 60/ 60; // in hours
+                timeDiff = timeDiff / 1000 / 60 / 60; // in hours
                 workedHours += timeDiff;
             }
         }
@@ -155,58 +150,112 @@ public class DatabaseService {
 
     /**
      * <h1>validateData</h1>
-     *
+     * <p>
      * The validateData function takes the input username and password from the GUI.
-     * First it checks, if there is an existing account with the input credentials. If not, the return value is false,
-     * if so the the return value is true.
-     *
-     * When the return is true, the function has found a matching account in the database,
-     * when it's false, there is no matching account.
+     * First it checks, if there is an existing account with the input credentials. If not, the return value is false.
+     * After a matching email is found, the is_admin, salt and hashed password are fetched from the database.
+     * The password input by the user via GUI is now hashed with the fetched salt using the Blowfish algorithm.
+     * After that, the hashed user-password and the stored pw hash are compared. If the passwords are not matching,
+     * the function returns false. If the passwords are matching, the function displays the GUI windows according to
+     * the role of the user.
      *
      * @param _email
      * @param _password
      * @return
      */
 
-    public boolean validateData(String _email, String _password) throws SQLException {
+    public void validateData(String _email, String _password) throws SQLException {
 
         String inputPassword = _password;
 
         String passwordHash = null;
         String salt = null;
+        boolean is_admin = false;
+        boolean emailExists = false;
 
-        PreparedStatement stHash = dbconn.prepareStatement("SELECT password,salt " +
+        //Check if Record with given email exists
+        PreparedStatement stEmailExists = dbconn.prepareStatement("SELECT email " +
                 "FROM onpoint.users " +
                 "WHERE email=?");
 
+        stEmailExists.setString(1, _email);
+
+        ResultSet rsEmailExists = stEmailExists.executeQuery();
+
+        if (!rsEmailExists.next()) {
+
+            System.out.println("email does not exist");
+            return;
+
+        }
+
+
+        //prepare statments for validation
+        PreparedStatement stHash = dbconn.prepareStatement("SELECT password " +
+                "FROM onpoint.users " +
+                "WHERE email=?");
+
+        PreparedStatement stSalt = dbconn.prepareStatement("SELECT salt " +
+                "FROM onpoint.users " +
+                "WHERE email=?");
+
+        PreparedStatement stIs_Admin = dbconn.prepareStatement("SELECT is_admin " +
+                "FROM onpoint.users " +
+                "WHERE email=?");
 
         stHash.setString(1, _email);
+        stSalt.setString(1, _email);
+        stIs_Admin.setString(1, _email);
 
-        ResultSet rs = stHash.executeQuery();
+        // execute queries and write into Resultsets
+        ResultSet rsHash = stHash.executeQuery();
+        ResultSet rsSalt = stSalt.executeQuery();
+        ResultSet rsIs_Admin = stIs_Admin.executeQuery();
 
-        if (rs.next()) {
 
-            String pw = rs.getString("password");
-            passwordHash = pw;
+        //fetch records and write into variables
+        if (rsHash.next()) {
+
+            passwordHash = rsHash.getString("password");
 
         }
 
-        if (rs.next()) {
+        if (rsSalt.next()) {
 
-            salt = rs.getString("salt");
+            salt = rsSalt.getString("salt");
 
         }
 
-        inputPassword = BCrypt.hashpw(inputPassword,salt);
+        if (rsIs_Admin.next()) {
 
-        if (passwordHash.equals(inputPassword)) {
+            is_admin = rsIs_Admin.getBoolean("is_admin");
 
-            return true;
-
-        } else {
-            return false;
         }
 
+        // hash user-input password with fetched salt
+        inputPassword = BCrypt.hashpw(inputPassword, salt);
+
+
+        // compare fetched passwordhash and user-input passwordhash
+        if (!Objects.equals(passwordHash, inputPassword)) {
+
+            System.out.println("false");
+            return;
+
+
+            // check for role and display GUI
+            if (is_admin) {
+
+                //TODO: GUI ADMIN
+
+            } else {
+
+                //TODO: GUI USER
+
+            }
+
+        }
+
+        return;
     }
-
 }
