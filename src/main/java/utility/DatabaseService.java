@@ -5,6 +5,8 @@ import entities.Timestamp;
 import entities.User;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import org.mindrot.jbcrypt.BCrypt;
+
 import java.sql.*;
 
 
@@ -18,6 +20,12 @@ public class DatabaseService {
     public DatabaseService() throws SQLException {
     }
 
+
+    public static void main(String[] args) throws SQLException {
+
+        boolean db = new DatabaseService().validateData("jorin.hagedorn@web.de", "123");
+
+    }
     // creating a new user
     public void createUser(User user) throws SQLException {
         PreparedStatement preparedStatement = dbconn.prepareStatement("INSERT INTO users (department_id, start_day, forename, surname, email, password, target_hours, is_admin)\n" +
@@ -143,4 +151,62 @@ public class DatabaseService {
         }
         return workedHours;
     }
+
+
+    /**
+     * <h1>validateData</h1>
+     *
+     * The validateData function takes the input username and password from the GUI.
+     * First it checks, if there is an existing account with the input credentials. If not, the return value is false,
+     * if so the the return value is true.
+     *
+     * When the return is true, the function has found a matching account in the database,
+     * when it's false, there is no matching account.
+     *
+     * @param _email
+     * @param _password
+     * @return
+     */
+
+    public boolean validateData(String _email, String _password) throws SQLException {
+
+        String inputPassword = _password;
+
+        String passwordHash = null;
+        String salt = null;
+
+        PreparedStatement stHash = dbconn.prepareStatement("SELECT password,salt " +
+                "FROM onpoint.users " +
+                "WHERE email=?");
+
+
+        stHash.setString(1, _email);
+
+        ResultSet rs = stHash.executeQuery();
+
+        if (rs.next()) {
+
+            String pw = rs.getString("password");
+            passwordHash = pw;
+
+        }
+
+        if (rs.next()) {
+
+            salt = rs.getString("salt");
+
+        }
+
+        inputPassword = BCrypt.hashpw(inputPassword,salt);
+
+        if (passwordHash.equals(inputPassword)) {
+
+            return true;
+
+        } else {
+            return false;
+        }
+
+    }
+
 }
