@@ -1,8 +1,4 @@
 package entities;
-
-import org.mindrot.jbcrypt.BCrypt;
-import java.security.SecureRandom;
-import java.sql.SQLException;
 import java.util.Random;
 
 public class Hashing {
