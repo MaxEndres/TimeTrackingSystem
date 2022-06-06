@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="315.0" prefWidth="441.0" style="-fx-background-color: #fcfeff;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.javafx.SearchUser">
+   <children>
+      <TableView fx:id="userTableView" layoutX="5.0" layoutY="58.0" prefHeight="200.0" prefWidth="432.0">
+        <columns>
+          <TableColumn fx:id="idColumn" prefWidth="26.666657090187073" text="ID" />
+          <TableColumn fx:id="forenameColumn" prefWidth="63.33327865600586" text="Forename" />
+            <TableColumn fx:id="surnameColumn" prefWidth="88.66669464111328" text="Surname" />
+            <TableColumn fx:id="emailColumn" prefWidth="163.3332977294922" text="Email" />
+            <TableColumn fx:id="isAdminColumn" prefWidth="83.33331298828125" text="Admin" />
+        </columns>
+      </TableView>
+      <Button layoutX="57.0" layoutY="264.0" mnemonicParsing="false" text="Edit User" />
+      <TextField fx:id="searchUserTextField" layoutX="95.0" layoutY="14.0" prefHeight="25.0" prefWidth="240.0" promptText="Search user" />
+      <Button fx:id="cancelButton" cancelButton="true" layoutX="293.0" layoutY="264.0" mnemonicParsing="false" onAction="#cancelButtonOnAction" prefHeight="25.0" prefWidth="63.0" text="Cancel" />
+   </children>
+</AnchorPane>
