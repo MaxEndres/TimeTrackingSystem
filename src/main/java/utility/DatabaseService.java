@@ -165,72 +165,45 @@ public class DatabaseService {
      * @return
      */
 
-    public void validateData(String _email, String _password) throws SQLException {
+    public User validateData(String _email, String _password) throws SQLException {
 
         String inputPassword = _password;
 
         String passwordHash = null;
         String salt = null;
-        boolean is_admin = false;
 
         //Check if Record with given email exists
-        PreparedStatement stEmailExists = dbconn.prepareStatement("SELECT email " +
+        PreparedStatement stUser = dbconn.prepareStatement("SELECT * " +
                 "FROM onpoint.users " +
                 "WHERE email=?");
 
-        stEmailExists.setString(1, _email);
+        stUser.setString(1, _email);
 
-        ResultSet rsEmailExists = stEmailExists.executeQuery();
+        ResultSet rsUser = stUser.executeQuery();
 
-        if (!rsEmailExists.next()) {
+        if (!rsUser.next()) {
 
             System.out.println("email does not exist");
-            return;
+            return null;
 
         }
 
-
-        //prepare statments for validation
-        PreparedStatement stHash = dbconn.prepareStatement("SELECT password " +
-                "FROM onpoint.users " +
-                "WHERE email=?");
-
-        PreparedStatement stSalt = dbconn.prepareStatement("SELECT salt " +
-                "FROM onpoint.users " +
-                "WHERE email=?");
-
-        PreparedStatement stIs_Admin = dbconn.prepareStatement("SELECT is_admin " +
-                "FROM onpoint.users " +
-                "WHERE email=?");
-
-        stHash.setString(1, _email);
-        stSalt.setString(1, _email);
-        stIs_Admin.setString(1, _email);
-
-        // execute queries and write into Resultsets
-        ResultSet rsHash = stHash.executeQuery();
-        ResultSet rsSalt = stSalt.executeQuery();
-        ResultSet rsIs_Admin = stIs_Admin.executeQuery();
+        User user = new User(
+                rsUser.getInt("id"),
+                rsUser.getString("department_id"),
+                rsUser.getDate("start_day"),
+                rsUser.getString("forename"),
+                rsUser.getString("surname"),
+                rsUser.getString("email"),
+                rsUser.getString("password"),
+                rsUser.getString("salt"),
+                rsUser.getInt("target_hours"),
+                rsUser.getBoolean("is_admin"));
 
 
-        //fetch records and write into variables
-        if (rsHash.next()) {
+        passwordHash = user.getPassword();
+        salt = user.getSalt();
 
-            passwordHash = rsHash.getString("password");
-
-        }
-
-        if (rsSalt.next()) {
-
-            salt = rsSalt.getString("salt");
-
-        }
-
-        if (rsIs_Admin.next()) {
-
-            is_admin = rsIs_Admin.getBoolean("is_admin");
-
-        }
 
         // hash user-input password with fetched salt
         inputPassword = BCrypt.hashpw(inputPassword, salt);
@@ -240,21 +213,10 @@ public class DatabaseService {
         if (!Objects.equals(passwordHash, inputPassword)) {
 
             System.out.println("false");
-            return;
+            return null;
 
         }
 
-            // check for role and display GUI
-        if (is_admin) {
-
-            //TODO: GUI ADMIN
-
-        } else {
-
-            //TODO: GUI USER
-
-        }
-
-        return;
+        return user;
     }
 }
