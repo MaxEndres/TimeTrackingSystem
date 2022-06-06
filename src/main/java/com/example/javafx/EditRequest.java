@@ -6,6 +6,7 @@ import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -19,7 +20,8 @@ import java.sql.SQLException;
 import java.sql.Time;
 
 public class EditRequest extends Application {
-
+    @FXML
+    Label errorLabel;
     @FXML
     public TableView<Timestamp> timestampsTableView;
     @FXML
@@ -48,12 +50,19 @@ public class EditRequest extends Application {
         timestampIdTableColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         isStartTableColumn.setCellValueFactory(new PropertyValueFactory<>("isStart"));
         descriptionTableColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+        errorLabel.setVisible(false);
 
     }
 @FXML
     protected void changeButtonOnAction(ActionEvent e) throws IOException {
         timestamp = timestampsTableView.getSelectionModel().getSelectedItem();
-        Windows.changeWindow(changeButton, "EditConfirmation.fxml");
+        if(timestamp==null)
+        {
+            errorLabel.setVisible(true);
+        }else
+        {
+            Windows.changeWindow(changeButton, "EditConfirmation.fxml");
+        }
     }
     @FXML
     protected void addNewButtonOnAction(ActionEvent e) throws IOException {

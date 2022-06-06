@@ -120,7 +120,7 @@ public class CreateUser extends Application {
                     createdUser.getEmail() + "credentials" + ".pdf");
             passwordOhneSalt="x";
             //CHANGE WINDOW
-            Windows.closeWindow(addUserButton);
+            Windows.changeWindow(addUserButton, "Admin.fxml");
 
         }
     }

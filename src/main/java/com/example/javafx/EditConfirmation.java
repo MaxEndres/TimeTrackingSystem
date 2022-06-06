@@ -25,7 +25,7 @@ public class EditConfirmation extends Application {
     public TextArea descriptionTextArea;
     public Spinner hourSpinner, minuteSpinner;
     @FXML
-    public Button sendRequestButton;
+    public Button sendRequestButton, cancelButton;
     @FXML
     public RadioButton changeRadioButton, deleteRadioButton;
     DatabaseService db = new DatabaseService();
@@ -100,7 +100,9 @@ public class EditConfirmation extends Application {
 
     }
     @FXML
-    protected void deleteEntryOnAction(ActionEvent e) throws SQLException {
+    protected void cancelButtonOnAction(ActionEvent e) throws SQLException, IOException {
+        EditRequest.timestamp= null;
+        Windows.changeWindow(cancelButton, "User.fxml");
 
     }
 

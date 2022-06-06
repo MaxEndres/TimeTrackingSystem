@@ -1,5 +1,7 @@
 package com.example.javafx;
 
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import utility.Windows;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -11,10 +13,19 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class Admin extends Application {
+    public MenuButton nameMenuButton;
+    public MenuItem changePassword;
+    public MenuItem logOut;
     @FXML
     Button createButton, searchUserButton, inboxButton;
     @FXML
     AnchorPane pane;
+    @FXML
+    public void initialize()
+    {
+        nameMenuButton.setText(Login.logInUser.getForename() +" "+ Login.logInUser.getSurname());
+    }
+
 
     @FXML
     protected void createButtonOnAction(ActionEvent event) throws IOException {
@@ -35,8 +46,15 @@ public class Admin extends Application {
         Windows.openWindow("User.fxml");
     }
     @FXML
-    protected void settingsButtonOnAction(ActionEvent event) throws IOException {
-        Windows.openWindow("Settings.fxml");
+    protected void changePasswordOnAction(ActionEvent event) throws IOException {
+        Windows.loadWindow("ChangePassword.fxml", pane);
+    }
+    @FXML
+    protected void logOutOnAction(ActionEvent event) throws IOException {
+        //TODO: Confirmation
+        Login.logInUser = null;
+        Windows.closeWindow(searchUserButton);
+        Windows.openWindow("hello-view.fxml");
     }
 
 

@@ -6,7 +6,6 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
@@ -37,17 +36,12 @@
                   <Insets top="19.0" />
                </VBox.margin>
             </Label>
-            <Label text="Password:">
-               <VBox.margin>
-                  <Insets top="15.0" />
-               </VBox.margin>
-            </Label>
          </children>
          <padding>
             <Insets top="20.0" />
          </padding>
       </VBox>
-      <VBox layoutX="161.0" layoutY="10.0" prefHeight="218.0" prefWidth="213.0">
+      <VBox layoutX="161.0" layoutY="10.0" prefHeight="190.0" prefWidth="213.0">
          <children>
             <HBox prefHeight="33.0" prefWidth="213.0">
                <children>
@@ -79,16 +73,11 @@
                   <Insets top="10.0" />
                </VBox.margin>
             </ComboBox>
-            <PasswordField fx:id="password" prefHeight="25.0" prefWidth="175.0">
-               <VBox.margin>
-                  <Insets top="10.0" />
-               </VBox.margin>
-            </PasswordField>
          </children>
       </VBox>
-      <Button fx:id="addUserButton" layoutX="63.0" layoutY="275.0" mnemonicParsing="false" onAction="#addUserButtonOnAction" text="Add User" />
-      <Button fx:id="cancelButton" cancelButton="true" layoutX="321.0" layoutY="275.0" mnemonicParsing="false" onAction="#cancelButtonOnAction" prefHeight="25.0" prefWidth="57.0" text="Cancel" />
-      <Label fx:id="errorLabel" layoutX="161.0" layoutY="257.0" text="Please fill all the fields!" textFill="#f20404" />
-      <CheckBox fx:id="isAdminCheckBox" layoutX="220.0" layoutY="228.0" mnemonicParsing="false" text="Is Admin" />
+      <Button fx:id="addUserButton" layoutX="62.0" layoutY="248.0" mnemonicParsing="false" onAction="#addUserButtonOnAction" text="Add User" />
+      <Button fx:id="cancelButton" cancelButton="true" layoutX="312.0" layoutY="248.0" mnemonicParsing="false" onAction="#cancelButtonOnAction" prefHeight="25.0" prefWidth="65.0" text="Cancel" />
+      <Label fx:id="errorLabel" layoutX="160.0" layoutY="230.0" text="Please fill all the fields!" textFill="#f20404" />
+      <CheckBox fx:id="isAdminCheckBox" layoutX="219.0" layoutY="201.0" mnemonicParsing="false" text="Is Admin" />
    </children>
 </AnchorPane>
