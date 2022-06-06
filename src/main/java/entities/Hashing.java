@@ -3,43 +3,28 @@ package entities;
 import org.mindrot.jbcrypt.BCrypt;
 import java.security.SecureRandom;
 import java.sql.SQLException;
+import java.util.Random;
 
 public class Hashing {
 
     /**
-     * generate initial password, generate salt and return hashed+salted initial pw
-     * */
-
-
-    public static String initPW(String _salt) throws SQLException {
-
-        // Generate initial password
-        String initPW = genPassword();
-
-        //Hash pw + salt
-        String hash = BCrypt.hashpw(initPW, _salt);
-
-        return hash;
-
-    }
-
-
-    /**
-     * Generate secure random initial passwordstring
+     * Generate secure random initial passwordstring with 8 characters.
      */
 
     public static String genPassword() {
+        String capitalCaseLetters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String lowerCaseLetters = "abcdefghijklmnopqrstuvwxyz";
+        String specialCharacters = "!@#$";
+        String numbers = "1234567890";
+        String combinedChars = capitalCaseLetters + lowerCaseLetters + specialCharacters + numbers;
+        Random random = new Random();
+        char[] password = new char[8];
 
-        SecureRandom random = new SecureRandom();
-
-        byte[] initPW = new byte[4];
-
-        random.nextBytes(initPW);
-
-        String pw = new String(initPW);
-
-        return pw;
-
+        for(int i = 0; i < 8 ; i++) {
+            password[i] = combinedChars.charAt(random.nextInt(combinedChars.length()));
+        }
+        String passwordStr = new String(password);
+        return passwordStr;
     }
-
 }
+
