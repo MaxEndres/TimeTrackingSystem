@@ -74,4 +74,8 @@ public class User {
     public boolean getIsAdmin() {
         return isAdmin;
     }
+
+    public String getSalt() {
+        return salt;
+    }
 }

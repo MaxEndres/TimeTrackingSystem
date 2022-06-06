@@ -1,5 +1,6 @@
 package com.example.javafx;
 
+import entities.Hashing;
 import entities.User;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
@@ -10,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import org.mindrot.jbcrypt.BCrypt;
 import utility.DatabaseService;
 import utility.Windows;
 
@@ -85,17 +87,29 @@ public class CreateUser extends Application {
 
         }else
         {
+            //
             // TODO: Konstruktor statt setter verwenden
+            //TODO: Salt auch speichern in den Datenbank
+            //Todo: Password ohne Salt speicher NUR zum pdf funktion! und später auf null
+            /*
+            String salt = BCrypt.gensalt();
+            String passwordOhneSalt= ;
+            String passwordMitSalt = Hashing.initPW(salt);
             Date date= Date.from(startDay.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
             java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+
             User createdUser = new User(department.getSelectionModel().getSelectedItem(),
                     sqlDate,
                     forename.getText(),
                     surname.getText(),
                     email.getText(),
-                    password.getText(),
+                    passwordMitSalt,
+
+                    ,
                     targetHours.getSelectionModel().getSelectedItem(),
                     isAdminCheckBox.isSelected());
+                    */
+
             //toDo: create user with password and salt etc
            // db.createUser(createdUser);
 
