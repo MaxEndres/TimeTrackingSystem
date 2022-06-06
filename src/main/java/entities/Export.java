@@ -18,7 +18,7 @@ public class Export {
                 "Our time-tracking solution is provided by onPoint. \n" +
                 "The credentials for your first login will be following: \n" +
                 "email: " + user.getEmail() +
-                "password: " + password;
+                "\npassword: " + password;
 
         Document doc = new Document();
 
@@ -27,10 +27,9 @@ public class Export {
         img_onPoint.scaleAbsolute(50f,50f);
         //Image img_company = Image.getInstance("");
 
-        PdfWriter writer = PdfWriter.getInstance(doc, new FileOutputStream("C:\\Users\\Public\\Downloads\\" +
-                user.getEmail() +
-                "credentials" +
-                ".pdf"));
+        PdfWriter writer = PdfWriter.getInstance(doc, new FileOutputStream(
+                "C:\\Users\\Public\\Downloads\\" +
+                user.getEmail() + "credentials" + ".pdf"));
 
         doc.open();
         doc.add(img_onPoint);

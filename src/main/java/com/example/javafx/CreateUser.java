@@ -1,8 +1,11 @@
 package com.example.javafx;
 
+import com.itextpdf.text.DocumentException;
+import entities.Export;
 import entities.Hashing;
 import entities.User;
 import javafx.application.Application;
+import javafx.application.HostServices;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -80,28 +83,25 @@ public class CreateUser extends Application {
     }
 
     @FXML
-    protected void addUserButtonOnAction(ActionEvent event) throws IOException, SQLException {
+    protected void addUserButtonOnAction(ActionEvent event) throws IOException, SQLException, DocumentException {
         if(forename.getText().isBlank() ||surname.getText().isBlank()|| email.getText().isBlank() )
         {
             errorLabel.setVisible(true);
 
         }else
         {
-            //
-            // TODO: Konstruktor statt setter verwenden
-            //TODO: Salt auch speichern in den Datenbank
-            //Todo: Password ohne Salt speicher NUR zum pdf funktion! und später auf null
 
             String salt = BCrypt.gensalt();
-
-            // NUR FÜR EXPORT FUNKTION!!! passwordOhneSalt NICHT SPEICHERN!!!
             String passwordOhneSalt= Hashing.genPassword();
-
             String passwordMitSalt = BCrypt.hashpw(passwordOhneSalt,salt);
 
+            //TEST
+            System.out.println(passwordOhneSalt);
+            //PARSE FROM DATE TO SQL DATE
             Date date= Date.from(startDay.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
             java.sql.Date sqlDate = new java.sql.Date(date.getTime());
 
+            //CREATE USER
             User createdUser = new User(department.getSelectionModel().getSelectedItem(),
                     sqlDate,
                     forename.getText(),
@@ -111,14 +111,17 @@ public class CreateUser extends Application {
                     salt,
                     targetHours.getSelectionModel().getSelectedItem(),
                     isAdminCheckBox.isSelected());
+            db.createUser(createdUser);
 
+            //PDF EXPORT
+            HostServices doc = getHostServices();
+            Export.exportPWasPDF(createdUser, passwordOhneSalt);
+            doc.showDocument("C:\\Users\\Public\\Downloads\\" +
+                    createdUser.getEmail() + "credentials" + ".pdf");
+            passwordOhneSalt="x";
+            //CHANGE WINDOW
+            Windows.closeWindow(addUserButton);
 
-            //toDo: create user with password and salt etc
-           // db.createUser(createdUser);
-
-            //TODO: password automatisch
-
-            //TODO: send email?
         }
     }
 
