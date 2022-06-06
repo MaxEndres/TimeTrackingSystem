@@ -25,7 +25,7 @@ public class DatabaseService {
     // creating a new user
     public void createUser(User user) throws SQLException {
         PreparedStatement preparedStatement = dbconn.prepareStatement("INSERT INTO users (department_id, start_day, forename, surname, email, password, salt, target_hours, is_admin)\n" +
-                "VALUES((SELECT id FROM departments WHERE name = ?),?,?,?,?,?,?,?);");
+                "VALUES((SELECT id FROM departments WHERE name = ?),?,?,?,?,?,?,?,?);");
         preparedStatement.setString(1, user.getDepartment());
         preparedStatement.setDate(2, user.getStartDay());
         preparedStatement.setString(3, user.getForename());
