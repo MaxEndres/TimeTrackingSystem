@@ -16,9 +16,6 @@ public class Hashing {
         // Generate initial password
         String initPW = genPassword();
 
-        // print initPW on screen
-        System.out.println(initPW);
-
         //Hash pw + salt
         String hash = BCrypt.hashpw(initPW, _salt);
 

@@ -91,10 +91,14 @@ public class CreateUser extends Application {
             // TODO: Konstruktor statt setter verwenden
             //TODO: Salt auch speichern in den Datenbank
             //Todo: Password ohne Salt speicher NUR zum pdf funktion! und später auf null
-            /*
+
             String salt = BCrypt.gensalt();
-            String passwordOhneSalt= ;
-            String passwordMitSalt = Hashing.initPW(salt);
+
+            // NUR FÜR EXPORT FUNKTION!!! passwordOhneSalt NICHT SPEICHERN!!!
+            String passwordOhneSalt= Hashing.genPassword();
+
+            String passwordMitSalt = BCrypt.hashpw(passwordOhneSalt,salt);
+
             Date date= Date.from(startDay.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
             java.sql.Date sqlDate = new java.sql.Date(date.getTime());
 
@@ -104,11 +108,10 @@ public class CreateUser extends Application {
                     surname.getText(),
                     email.getText(),
                     passwordMitSalt,
-
-                    ,
+                    salt,
                     targetHours.getSelectionModel().getSelectedItem(),
                     isAdminCheckBox.isSelected());
-                    */
+
 
             //toDo: create user with password and salt etc
            // db.createUser(createdUser);
