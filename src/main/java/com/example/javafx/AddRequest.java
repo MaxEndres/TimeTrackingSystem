@@ -8,7 +8,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import utility.DatabaseService;
+import utility.Windows;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
@@ -21,7 +23,7 @@ public class AddRequest extends Application {
     @FXML
     public Spinner<Integer> hourSpinner, minuteSpinner;
     @FXML
-    Button sendRequestButton;
+    Button sendRequestButton, cancelButton;
     DatabaseService db= new DatabaseService();
 
     public AddRequest() throws SQLException {
@@ -44,19 +46,24 @@ public class AddRequest extends Application {
     }
 
     @FXML
-    private void sendRequestButtonOnAction(ActionEvent e) throws SQLException {
+    private void sendRequestButtonOnAction(ActionEvent e) throws SQLException, IOException {
         boolean is_start= true;
         if(chooseComboBox.getSelectionModel().getSelectedItem() == "Stop")
         {
             is_start = false;
         }
-        //Todo: change to user.getID()
-        Timestamp timestamp = new Timestamp(1, java.sql.Date.valueOf(dayDatePicker.getValue()),
+        Timestamp timestamp = new Timestamp(Login.logInUser.getId(), java.sql.Date.valueOf(dayDatePicker.getValue()),
                 java.sql.Time.valueOf(hourSpinner.getValue().toString()+":"
                         +minuteSpinner.getValue().toString()+":00"),is_start,
                 descriptionTextArea.getText());
         db.createTimestamp(timestamp);
+        //change Window
+        Windows.changeWindow(sendRequestButton, "User.fxml");
         //Todo: actually it should send a request. Ask Leon.
+    }
+    @FXML
+    private void cancelButtonOnAction(ActionEvent e) throws SQLException, IOException {
+        Windows.changeWindow(cancelButton, "User.fxml");
     }
 
     public static void main(String[] args) {
