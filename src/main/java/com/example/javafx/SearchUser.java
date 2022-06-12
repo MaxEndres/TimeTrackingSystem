@@ -46,7 +46,7 @@ public class SearchUser extends Application {
         surnameColumn.setCellValueFactory(new PropertyValueFactory<>("Surname"));
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("Email"));
         isAdminColumn.setCellValueFactory(new PropertyValueFactory<>("IsAdmin"));
-        workedHoursColumn.setCellValueFactory(new PropertyValueFactory<>("IsAdmin"));
+        //workedHoursColumn.setCellValueFactory(new PropertyValueFactory<>("IsAdmin"));
         //toDo: isAdmin
 
         FilteredList<User> userFilteredList = new FilteredList<>(db.listAllUsers(), b -> true);
