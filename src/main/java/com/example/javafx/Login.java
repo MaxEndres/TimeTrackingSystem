@@ -51,6 +51,8 @@ public class Login {
             //if Admin
             if(logInUser.getIsAdmin())
             {
+                //adminadmin@onpoint.de
+                // wMumJ7hD
                 Windows.changeWindow(loginButton, "Admin.fxml");
             }else
             {

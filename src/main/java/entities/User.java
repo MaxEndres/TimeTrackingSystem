@@ -7,9 +7,9 @@ public class User {
     private int id;
     private String department;
     private Date startDay;
-    private static String forename;
-    private static String surname;
-    private static String email;
+    private String forename;
+    private String surname;
+    private String email;
     private String password;
     private String salt;
     private int targetHours;
@@ -63,16 +63,16 @@ public class User {
         return startDay;
     }
 
-    public static String getForename() {
-        return forename;
+    public String getForename() {
+        return this.forename;
     }
 
-    public static String getSurname() {
-        return surname;
+    public String getSurname() {
+        return this.surname;
     }
 
-    public static String getEmail() {
-        return email;
+    public String getEmail() {
+        return this.email;
     }
 
     public String getPassword() {

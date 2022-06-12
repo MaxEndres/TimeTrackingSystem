@@ -60,6 +60,7 @@ public class DatabaseService {
         return userList;
     }
 
+
     // listing all requests
     public ObservableList<Request> listAllRequests() throws SQLException {
         PreparedStatement preparedStatement = dbconn.prepareStatement("SELECT * FROM requests ;");

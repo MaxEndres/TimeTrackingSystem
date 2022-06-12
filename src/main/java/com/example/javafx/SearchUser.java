@@ -26,6 +26,8 @@ public class SearchUser extends Application {
     @FXML
     public TableColumn<User, Boolean> isAdminColumn;
     @FXML
+    public TableColumn workedHoursColumn;
+    @FXML
     TableView<User> userTableView;
     @FXML
     TextField searchUserTextField;
@@ -39,16 +41,18 @@ public class SearchUser extends Application {
     @FXML
     protected void initialize() throws SQLException {
         userTableView.setItems(db.listAllUsers());
-        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-        forenameColumn.setCellValueFactory(new PropertyValueFactory<>("forename"));
-        surnameColumn.setCellValueFactory(new PropertyValueFactory<>("surname"));
-        emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
-        isAdminColumn.setCellValueFactory(new PropertyValueFactory<>("isAdmin"));
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("Id"));
+        forenameColumn.setCellValueFactory(new PropertyValueFactory<>("Forename"));
+        surnameColumn.setCellValueFactory(new PropertyValueFactory<>("Surname"));
+        emailColumn.setCellValueFactory(new PropertyValueFactory<>("Email"));
+        isAdminColumn.setCellValueFactory(new PropertyValueFactory<>("IsAdmin"));
+        workedHoursColumn.setCellValueFactory(new PropertyValueFactory<>("IsAdmin"));
         //toDo: isAdmin
+
         FilteredList<User> userFilteredList = new FilteredList<>(db.listAllUsers(), b -> true);
         searchUserTextField.textProperty().addListener((observableValue, s, t1)  ->
         {
-            userFilteredList.setPredicate(Patient ->
+            userFilteredList.setPredicate(User ->
             {
                 if (t1.isEmpty() || t1.isBlank()  || t1 == null)
                 {
