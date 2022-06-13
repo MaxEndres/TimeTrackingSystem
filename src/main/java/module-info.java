@@ -21,4 +21,5 @@ module com.example.javafx {
     opens com.example.javafx to javafx.fxml;
     exports entities;
     exports com.example.javafx;
+    exports utility;
 }

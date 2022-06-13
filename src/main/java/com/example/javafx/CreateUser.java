@@ -1,8 +1,8 @@
 package com.example.javafx;
 
 import com.itextpdf.text.DocumentException;
-import entities.Export;
-import entities.Hashing;
+import utility.Export;
+import utility.Hashing;
 import entities.User;
 import javafx.application.Application;
 import javafx.application.HostServices;
@@ -22,9 +22,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.Date;
-import java.util.Locale;
 
 public class CreateUser extends Application {
     @FXML
