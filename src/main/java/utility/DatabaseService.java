@@ -106,11 +106,13 @@ public class DatabaseService {
 
     // create a request when a user wants to change a timestamp they created
     public void createRequest(RequestEntity requestEntity) throws SQLException {
-        PreparedStatement preparedStatement = dbconn.prepareStatement("INSERT INTO onpoint.requests (timestamp_id, new_time, description)" +
-                "VALUES(?,?,?);");
+        PreparedStatement preparedStatement = dbconn.prepareStatement("INSERT INTO onpoint.requests (timestamp_id, new_time, description, status_id, type_id)" +
+                "VALUES(?,?,?,(SELECT id FROM status WHERE name = ?),(SELECT id FROM type WHERE name = ?));");
         preparedStatement.setInt(1, requestEntity.getTimestampId());
         preparedStatement.setTime(2, requestEntity.getNewTime());
         preparedStatement.setString(3, requestEntity.getDescription());
+        preparedStatement.setString(4, requestEntity.getStatus());
+        preparedStatement.setString(5, requestEntity.getType());
         preparedStatement.executeUpdate();
     }
 
