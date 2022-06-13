@@ -142,7 +142,9 @@ public class DatabaseService {
 
     // admin can deny a request
     public void denyRequest(RequestEntity requestEntity) throws SQLException {
-
+        PreparedStatement preparedStatement = dbconn.prepareStatement("UPDATE requests SET status_id = 3 WHERE timestamp_id = ?");
+        preparedStatement.setInt(1, requestEntity.getTimestampId());
+        preparedStatement.executeUpdate();
     }
 
     // user wants to see how much hours they worked in a certain month (month is a number between 1 and 12)
