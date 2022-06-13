@@ -149,12 +149,30 @@ public class DatabaseService {
 
     // user wants to see how much hours they worked in a certain month (month is a number between 1 and 12)
     public int getWorkedHours(UserEntity userEntity, int month) throws SQLException {
+
+
+
         return 0;
     }
 
     // list All pending requests for a certain user
     public ObservableList<RequestEntity> listPendingRequests(int userId) throws SQLException {
-        return null;
+        PreparedStatement preparedStatement = dbconn.prepareStatement("SELECT timestamp_id, new_time, description, status.name AS status, type.name AS type, timestamps.user_id AS user_id FROM onpoint.requests" +
+                "JOIN onpoint.status ON requests.status_id = status.id" +
+                "JOIN onpoint.type ON requests.type_id = type.id" +
+                "JOIN onpoint.timestamps ON requests.timestamp_id = timestamps.id" +
+                "WHERE requests.status = 1 AND timestamps.user_id = ?");
+        ObservableList<RequestEntity> requestEntityList = FXCollections.observableArrayList();
+        ResultSet queryOutput = preparedStatement.executeQuery();
+        while (queryOutput.next()) {
+            requestEntityList.add(new RequestEntity(queryOutput.getInt("timestamp_id"),
+                    queryOutput.getTime("new_time"),
+                    queryOutput.getString("description"),
+                    queryOutput.getString("status"),
+                    queryOutput.getString("type"),
+                    queryOutput.getInt("user_id")));
+        }
+        return requestEntityList;
     }
 
     /**
