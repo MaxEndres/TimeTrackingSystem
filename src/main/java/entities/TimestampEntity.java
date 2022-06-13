@@ -5,14 +5,16 @@ public class TimestampEntity {
 
     private int id;
     private int userId;
-    private Timestamp start;
-    private Timestamp stop;
+    private Time start;
+    private Time stop;
+    private Date date;
 
-    public TimestampEntity(int id, int userId, Timestamp start, Timestamp stop) {
+    public TimestampEntity(int id, int userId, Time start, Time stop, Date date) {
         this.id = id;
         this.userId = userId;
         this.start = start;
         this.stop = stop;
+        this.date = date;
     }
 
     public int getId() {
@@ -23,11 +25,13 @@ public class TimestampEntity {
         return userId;
     }
 
-    public Timestamp getStart() {
+    public Time getStart() {
         return start;
     }
 
-    public Timestamp getStop() {
+    public Time getStop() {
         return stop;
     }
+
+    public Date getDate() { return date; }
 }
