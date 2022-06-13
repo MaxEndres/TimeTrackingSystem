@@ -40,7 +40,7 @@ public class DatabaseService {
 
     // listing all available users
     public ObservableList<User> listAllUsers() throws SQLException {
-        PreparedStatement preparedStatement = dbconn.prepareStatement("SELECT users.id, departments.name AS department, start_day, forename, surname, email, password, salt, target_hours, is_admin \n" +
+        PreparedStatement preparedStatement = dbconn.prepareStatement("SELECT users.id, departments.name AS department, start_day, forename, surname, email, password, salt, target_hours, is_admin, is_first_login \n" +
                 " FROM onpoint.users\n" +
                 " JOIN onpoint.departments ON users.department_id = departments.id;");
         ObservableList<User> userList = FXCollections.observableArrayList();
@@ -55,7 +55,8 @@ public class DatabaseService {
                     queryOutput.getString("password"),
                     queryOutput.getString("salt"),
                     queryOutput.getInt("target_hours"),
-                    queryOutput.getBoolean("is_admin")));
+                    queryOutput.getBoolean("is_admin"),
+                    queryOutput.getBoolean("is_first_login")));
         }
         return userList;
     }
