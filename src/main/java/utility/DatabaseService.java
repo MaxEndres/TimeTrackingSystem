@@ -21,7 +21,6 @@ public class DatabaseService {
     public DatabaseService() throws SQLException {
     }
 
-
     // creating a new user
     public void createUser(User user) throws SQLException {
         PreparedStatement preparedStatement = dbconn.prepareStatement("INSERT INTO users (department_id, start_day, forename, surname, email, password, salt, target_hours, is_admin)\n" +
@@ -165,30 +164,20 @@ public class DatabaseService {
      * @param _password
      * @return
      */
-
     public User validateData(String _email, String _password) throws SQLException {
-
         String inputPassword = _password;
-
         String passwordHash = null;
         String salt = null;
-
         //Check if Record with given email exists
         PreparedStatement stUser = dbconn.prepareStatement("SELECT * " +
                 "FROM onpoint.users " +
                 "WHERE email=?");
-
         stUser.setString(1, _email);
-
         ResultSet rsUser = stUser.executeQuery();
-
         if (!rsUser.next()) {
-
             System.out.println("email does not exist");
             return null;
-
         }
-
         User user = new User(
                 rsUser.getInt("id"),
                 rsUser.getString("department_id"),
@@ -200,24 +189,17 @@ public class DatabaseService {
                 rsUser.getString("salt"),
                 rsUser.getInt("target_hours"),
                 rsUser.getBoolean("is_admin"));
-
-
         passwordHash = user.getPassword();
         salt = user.getSalt();
-
-
         // hash user-input password with fetched salt
         inputPassword = BCrypt.hashpw(inputPassword, salt);
-
-
         // compare fetched passwordhash and user-input passwordhash
         if (!Objects.equals(passwordHash, inputPassword)) {
-
             System.out.println("false");
             return null;
-
         }
-
         return user;
     }
+
+
 }
