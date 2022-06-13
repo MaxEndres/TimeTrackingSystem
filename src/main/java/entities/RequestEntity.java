@@ -2,7 +2,7 @@ package entities;
 
 import java.sql.Time;
 
-public class Request {
+public class RequestEntity {
 
     private int timestampId;
     private Time newTime;
@@ -10,7 +10,7 @@ public class Request {
     private String status;
     private String type;
 
-    public Request(int timestampId, Time newTime, String description, String status, String type) {
+    public RequestEntity(int timestampId, Time newTime, String description, String status, String type) {
         this.timestampId = timestampId;
         this.newTime = newTime;
         this.description = description;

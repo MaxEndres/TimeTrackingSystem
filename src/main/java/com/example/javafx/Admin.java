@@ -23,7 +23,7 @@ public class Admin extends Application {
     @FXML
     public void initialize()
     {
-        nameMenuButton.setText(Login.logInUser.getForename() +" "+ Login.logInUser.getSurname());
+        nameMenuButton.setText(Login.logInUserEntity.getForename() +" "+ Login.logInUserEntity.getSurname());
     }
 
 
@@ -52,7 +52,7 @@ public class Admin extends Application {
     @FXML
     protected void logOutOnAction(ActionEvent event) throws IOException {
         //TODO: Confirmation
-        Login.logInUser = null;
+        Login.logInUserEntity = null;
         Windows.closeWindow(searchUserButton);
         Windows.openWindow("hello-view.fxml");
     }

@@ -1,6 +1,6 @@
 package com.example.javafx;
 
-import entities.User;
+import entities.UserEntity;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 public class Login {
-    public static User logInUser;
+    public static UserEntity logInUserEntity;
     public TextField usernameTextfield;
     public PasswordField passwordPasswordField;
     @FXML
@@ -41,15 +41,15 @@ public class Login {
         //Erstmal Admin Oberfläche
         //Windows.changeWindow(loginButton, "Admin.fxml");
 
-        logInUser= db.validateData(usernameTextfield.getText(), passwordPasswordField.getText());
+        logInUserEntity = db.validateData(usernameTextfield.getText(), passwordPasswordField.getText());
 
-        if(logInUser == null)
+        if(logInUserEntity == null)
         {
             errorLabel.setVisible(true);
         }else
         {
             //if Admin
-            if(logInUser.getIsAdmin())
+            if(logInUserEntity.getIsAdmin())
             {
                 //adminadmin@onpoint.de
                 // wMumJ7hD

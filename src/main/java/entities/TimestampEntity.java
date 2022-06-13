@@ -1,14 +1,14 @@
 package entities;
 import java.sql.*;
 
-public class Timestamp {
+public class TimestampEntity {
 
     private int id;
     private int userId;
     private Timestamp start;
     private Timestamp stop;
 
-    public Timestamp(int id, int userId, Timestamp start, Timestamp stop) {
+    public TimestampEntity(int id, int userId, Timestamp start, Timestamp stop) {
         this.id = id;
         this.userId = userId;
         this.start = start;

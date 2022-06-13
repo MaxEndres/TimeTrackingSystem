@@ -1,11 +1,7 @@
 package com.example.javafx;
 
-import entities.Request;
+import entities.RequestEntity;
 import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -14,7 +10,6 @@ import utility.DatabaseService;
 import utility.Windows;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.sql.SQLException;
 
 public class EditConfirmation extends Application {
@@ -82,9 +77,9 @@ public class EditConfirmation extends Application {
             String hour = hourSpinner.getValue().toString();
             String minute = minuteSpinner.getValue().toString();
 
-            Request request = new Request(EditRequest.timestamp.getId(), java.sql.Time.valueOf(hour + ":" + minute + ":00"),
+            RequestEntity requestEntity = new RequestEntity(EditRequest.timestamp.getId(), java.sql.Time.valueOf(hour + ":" + minute + ":00"),
                     descriptionTextArea.getText());
-            db.createRequest(request);
+            db.createRequest(requestEntity);
 
         }else if(deleteRadioButton.isSelected())
         {
@@ -92,9 +87,9 @@ public class EditConfirmation extends Application {
             // so I added as automatically description
             //TODO: Leon noch ein Field hinzufugen
             //System.out.println("HOUR: " + EditRequest.timestamp.getTime());
-            Request request = new Request(EditRequest.timestamp.getId(),
+            RequestEntity requestEntity = new RequestEntity(EditRequest.timestamp.getId(),
                     EditRequest.timestamp.getTime(),"Delete Timestamp\n"+ descriptionTextArea.getText() );
-            db.createRequest(request);
+            db.createRequest(requestEntity);
         }
         Windows.changeWindow(sendRequestButton,"User.fxml");
 
