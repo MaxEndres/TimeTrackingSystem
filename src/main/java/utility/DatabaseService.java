@@ -88,19 +88,21 @@ public class DatabaseService {
         while (queryOutput.next()) {
             timestampList.add(new TimestampEntity(queryOutput.getInt("id"),
                     queryOutput.getInt("user_id"),
-                    queryOutput.getTimestamp("start"),
-                    queryOutput.getTimestamp("stop")));
+                    queryOutput.getTime("start"),
+                    queryOutput.getTime("stop"),
+                    queryOutput.getDate("date")));
         }
         return timestampList;
     }
 
     // create a certain timestamp when a user presses start/pause/stop button
     public void createTimestamp(TimestampEntity timestamp) throws SQLException {
-        PreparedStatement preparedStatement = dbconn.prepareStatement("INSERT INTO onpoint.timestamps (user_id, start, stop)\n" +
-                "VALUES(?,?,?);");
+        PreparedStatement preparedStatement = dbconn.prepareStatement("INSERT INTO onpoint.timestamps (user_id, start, stop, date)\n" +
+                "VALUES(?,?,?,?);");
         preparedStatement.setInt(1, timestamp.getUserId());
-        preparedStatement.setTimestamp(2, timestamp.getStart());
-        preparedStatement.setTimestamp(3, timestamp.getStop());
+        preparedStatement.setTime(2, timestamp.getStart());
+        preparedStatement.setTime(3, timestamp.getStop());
+        preparedStatement.setDate(4, timestamp.getDate());
         preparedStatement.executeUpdate();
     }
 
@@ -118,43 +120,40 @@ public class DatabaseService {
 
     // admin can accept a request which then updates the desired timestamp
     public void acceptRequest(RequestEntity requestEntity) throws SQLException {
-        PreparedStatement preparedStatement = dbconn.prepareStatement("UPDATE timestamps SET time = ? WHERE id = ?;");
-        preparedStatement.setTime(1, requestEntity.getNewTime());
-        preparedStatement.setInt(2, requestEntity.getTimestampId());
-        preparedStatement.executeUpdate();
-        // after accepting a request it will be deleted automatically by using the denyRequest() method
-        denyRequest(requestEntity);
-    }
-
-    // admin can deny a request which simply deletes it from the database
-    public void denyRequest(RequestEntity requestEntity) throws SQLException {
-        PreparedStatement preparedStatement = dbconn.prepareStatement("DELETE FROM requests WHERE timestamp_id = ?");
+        if (requestEntity.getType().equals("UPDATE_START")) {
+            PreparedStatement preparedStatement = dbconn.prepareStatement("UPDATE timestamps SET start = ? WHERE id = ?");
+            preparedStatement.setTime(1, requestEntity.getNewTime());
+            preparedStatement.setInt(2, requestEntity.getTimestampId());
+            preparedStatement.executeUpdate();
+        } else if (requestEntity.getType().equals("UPDATE_STOP")) {
+            PreparedStatement preparedStatement = dbconn.prepareStatement("UPDATE timestamps SET stop = ? WHERE id = ?");
+            preparedStatement.setTime(1, requestEntity.getNewTime());
+            preparedStatement.setInt(2, requestEntity.getTimestampId());
+            preparedStatement.executeUpdate();
+        } else if(requestEntity.getType().equals("DELETE")) {
+            PreparedStatement preparedStatement = dbconn.prepareStatement("DELETE FROM timestamps WHERE id = ?");
+            preparedStatement.setInt(1, requestEntity.getTimestampId());
+            preparedStatement.executeUpdate();
+        }
+        PreparedStatement preparedStatement = dbconn.prepareStatement("UPDATE requests SET status_id = 2 WHERE timestamp_id = ?");
         preparedStatement.setInt(1, requestEntity.getTimestampId());
         preparedStatement.executeUpdate();
     }
 
+    // admin can deny a request
+    public void denyRequest(RequestEntity requestEntity) throws SQLException {
+
+    }
+
     // user wants to see how much hours they worked in a certain month (month is a number between 1 and 12)
     public int getWorkedHours(UserEntity userEntity, int month) throws SQLException {
-        PreparedStatement preparedStatement = dbconn.prepareStatement("SELECT * FROM timestamps WHERE MONTH(date) = ? AND user_id = ? ORDER BY time ASC;");
-        preparedStatement.setInt(1, month);
-        preparedStatement.setInt(2, userEntity.getId());
-        ResultSet queryOutput = preparedStatement.executeQuery();
-        int workedHours = 0;
-        Time tmpTime = null;
-        while (queryOutput.next()) {
-            if (queryOutput.getBoolean("is_start") == true) {
-                tmpTime = queryOutput.getTime("time");
-            } else {
-                long timeDiff = queryOutput.getTime("time").getTime() - tmpTime.getTime(); // in milliseconds
-                timeDiff = timeDiff / 1000 / 60 / 60; // in hours
-                workedHours += timeDiff;
-            }
-        }
-        return workedHours;
+        return 0;
     }
 
     // list All pending requests for a certain user
-
+    public ObservableList<RequestEntity> listPendingRequests(int userId) throws SQLException {
+        return null;
+    }
 
     /**
      * <h1>validateData</h1>
