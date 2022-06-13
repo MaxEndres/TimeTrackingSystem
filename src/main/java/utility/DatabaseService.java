@@ -95,14 +95,12 @@ public class DatabaseService {
     }
 
     // create a certain timestamp when a user presses start/pause/stop button
-    public void createTimestamp(Timestamp timestamp) throws SQLException {
-        PreparedStatement preparedStatement = dbconn.prepareStatement("INSERT INTO onpoint.timestamps (user_id, date, time, is_start, description)\n" +
-                "VALUES(?,?,?,?,?);");
+    public void createTimestamp(TimestampEntity timestamp) throws SQLException {
+        PreparedStatement preparedStatement = dbconn.prepareStatement("INSERT INTO onpoint.timestamps (user_id, start, stop)\n" +
+                "VALUES(?,?,?);");
         preparedStatement.setInt(1, timestamp.getUserId());
-        preparedStatement.setDate(2, timestamp.getDate());
-        preparedStatement.setTime(3, timestamp.getTime());
-        preparedStatement.setBoolean(4, timestamp.getIsStart());
-        preparedStatement.setString(5, timestamp.getDescription());
+        preparedStatement.setTimestamp(2, timestamp.getStart());
+        preparedStatement.setTimestamp(3, timestamp.getStop());
         preparedStatement.executeUpdate();
     }
 
