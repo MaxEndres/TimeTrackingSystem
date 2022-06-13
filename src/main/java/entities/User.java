@@ -66,11 +66,11 @@ public class User {
         return targetHours;
     }
 
-    public boolean isAdmin() {
+    public boolean getIsAdmin() {
         return isAdmin;
     }
 
-    public boolean isFirstLogin() {
+    public boolean getIsFirstLogin() {
         return isFirstLogin;
     }
 }
