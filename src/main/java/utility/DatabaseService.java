@@ -64,13 +64,17 @@ public class DatabaseService {
 
     // listing all requests
     public ObservableList<Request> listAllRequests() throws SQLException {
-        PreparedStatement preparedStatement = dbconn.prepareStatement("SELECT * FROM requests ;");
+        PreparedStatement preparedStatement = dbconn.prepareStatement("SELECT timestamp_id, new_time, description, status.name AS status, type.name AS type FROM requests" +
+                "JOIN onpoint.status ON requests.status_id = status.id" +
+                "JOIN onpoint.type ON requests.type_id = type.id;");
         ObservableList<Request> requestList = FXCollections.observableArrayList();
         ResultSet queryOutput = preparedStatement.executeQuery();
         while (queryOutput.next()) {
             requestList.add(new Request(queryOutput.getInt("timestamp_id"),
                     queryOutput.getTime("new_time"),
-                    queryOutput.getString("description")));
+                    queryOutput.getString("description"),
+                    queryOutput.getString("status"),
+                    queryOutput.getString("type")));
         }
         return requestList;
     }
