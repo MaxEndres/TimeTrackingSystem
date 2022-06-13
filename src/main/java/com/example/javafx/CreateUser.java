@@ -3,7 +3,7 @@ package com.example.javafx;
 import com.itextpdf.text.DocumentException;
 import utility.Export;
 import utility.Hashing;
-import entities.User;
+import entities.UserEntity;
 import javafx.application.Application;
 import javafx.application.HostServices;
 import javafx.beans.value.ChangeListener;
@@ -100,7 +100,7 @@ public class CreateUser extends Application {
             java.sql.Date sqlDate = new java.sql.Date(date.getTime());
 
             //CREATE USER
-            User createdUser = new User(department.getSelectionModel().getSelectedItem(),
+            UserEntity createdUserEntity = new UserEntity(department.getSelectionModel().getSelectedItem(),
                     sqlDate,
                     forename.getText(),
                     surname.getText(),
@@ -109,13 +109,13 @@ public class CreateUser extends Application {
                     salt,
                     targetHours.getSelectionModel().getSelectedItem(),
                     isAdminCheckBox.isSelected());
-            db.createUser(createdUser);
+            db.createUser(createdUserEntity);
 
             //PDF EXPORT
             HostServices doc = getHostServices();
-            Export.exportPWasPDF(createdUser, passwordOhneSalt);
+            Export.exportPWasPDF(createdUserEntity, passwordOhneSalt);
             doc.showDocument("C:\\Users\\Public\\Downloads\\" +
-                    createdUser.getEmail() + "credentials" + ".pdf");
+                    createdUserEntity.getEmail() + "credentials" + ".pdf");
             passwordOhneSalt="x";
             //CHANGE WINDOW
             Windows.changeWindow(addUserButton, "Admin.fxml");

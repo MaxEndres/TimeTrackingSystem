@@ -1,7 +1,6 @@
 package com.example.javafx;
 
-import entities.Request;
-import entities.Timestamp;
+import entities.TimestampEntity;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -23,29 +22,29 @@ public class EditRequest extends Application {
     @FXML
     Label errorLabel;
     @FXML
-    public TableView<Timestamp> timestampsTableView;
+    public TableView<TimestampEntity> timestampsTableView;
     @FXML
-    public TableColumn<Timestamp, Date> dateTableColumn;
+    public TableColumn<TimestampEntity, Date> dateTableColumn;
     @FXML
-    public TableColumn<Timestamp, Integer> timestampIdTableColumn;
+    public TableColumn<TimestampEntity, Integer> timestampIdTableColumn;
     @FXML
-    public TableColumn<Timestamp,Time > timeTableColumn;
+    public TableColumn<TimestampEntity,Time > timeTableColumn;
     @FXML
-    public TableColumn<Timestamp, Boolean> isStartTableColumn;
+    public TableColumn<TimestampEntity, Boolean> isStartTableColumn;
     @FXML
-    public TableColumn<Timestamp, String> descriptionTableColumn;
+    public TableColumn<TimestampEntity, String> descriptionTableColumn;
     @FXML
     Button changeButton, goBackToProfileButton, addNewButton;
     DatabaseService db= new DatabaseService();
-    static Timestamp timestamp;
+    static TimestampEntity timestamp;
 
     public EditRequest() throws SQLException {
     }
 
     @FXML
     public void initialize() throws SQLException {
-        timestampsTableView.setItems(db.listAllTimestamps(Login.logInUser.getId()));
-        dateTableColumn.setCellValueFactory(new PropertyValueFactory<Timestamp, Date>("date"));
+        timestampsTableView.setItems(db.listAllTimestamps(Login.logInUserEntity.getId()));
+        dateTableColumn.setCellValueFactory(new PropertyValueFactory<TimestampEntity, Date>("date"));
         timeTableColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
         timestampIdTableColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
         isStartTableColumn.setCellValueFactory(new PropertyValueFactory<>("isStart"));

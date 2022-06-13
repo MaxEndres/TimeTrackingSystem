@@ -1,7 +1,6 @@
 package com.example.javafx;
 
-import entities.Request;
-import entities.Timestamp;
+import entities.TimestampEntity;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -52,7 +51,7 @@ public class AddRequest extends Application {
         {
             is_start = false;
         }
-        Timestamp timestamp = new Timestamp(Login.logInUser.getId(), java.sql.Date.valueOf(dayDatePicker.getValue()),
+        TimestampEntity timestamp = new TimestampEntity(Login.logInUserEntity.getId(), java.sql.Date.valueOf(dayDatePicker.getValue()),
                 java.sql.Time.valueOf(hourSpinner.getValue().toString()+":"
                         +minuteSpinner.getValue().toString()+":00"),is_start,
                 descriptionTextArea.getText());

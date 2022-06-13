@@ -1,6 +1,6 @@
 package com.example.javafx;
 
-import entities.Timestamp;
+import entities.TimestampEntity;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -46,7 +46,7 @@ public class UserProfile extends Application  {
         timeline = new Timeline(new KeyFrame(Duration.millis(1000), actionEvent -> incrementTime()));
         timeline.setCycleCount(Animation.INDEFINITE);
         stopButton.setVisible(false);
-        nameMenuButton.setText(Login.logInUser.getForename() +" "+ Login.logInUser.getSurname());
+        nameMenuButton.setText(Login.logInUserEntity.getForename() +" "+ Login.logInUserEntity.getSurname());
     }
 
     private void incrementTime()
@@ -64,7 +64,7 @@ public class UserProfile extends Application  {
         workedTimeLabel.setVisible(false);
 
         //CREATE TIMESTAMP
-        Timestamp timestamp = new Timestamp(Login.logInUser.getId(),
+        TimestampEntity timestamp = new TimestampEntity(Login.logInUserEntity.getId(),
                 java.sql.Date.valueOf(LocalDate.now())
                 ,java.sql.Time.valueOf(LocalTime.now()),
                 true,"" );
@@ -90,7 +90,7 @@ public class UserProfile extends Application  {
             //save entry in the database//Change button
         }
 
-        Timestamp timestamp = new Timestamp(Login.logInUser.getId(),
+        TimestampEntity timestamp = new TimestampEntity(Login.logInUserEntity.getId(),
                 java.sql.Date.valueOf(LocalDate.now())
                 ,java.sql.Time.valueOf(LocalTime.now()),
                 false,"" );
@@ -101,7 +101,7 @@ public class UserProfile extends Application  {
     @FXML
     protected void logOutOnAction(ActionEvent event) throws IOException {
         //TODO: Confirmation
-        Login.logInUser = null;
+        Login.logInUserEntity = null;
         Windows.changeWindow(stopButton, "hello-view.fxml");
     }
     @FXML

@@ -1,6 +1,6 @@
 package com.example.javafx;
 
-import entities.User;
+import entities.UserEntity;
 import javafx.application.Application;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
@@ -20,15 +20,15 @@ import java.sql.SQLException;
 
 public class SearchUser extends Application {
     @FXML
-    public TableColumn<User, Integer> idColumn;
+    public TableColumn<UserEntity, Integer> idColumn;
     @FXML
-    public TableColumn<User, String> forenameColumn,surnameColumn,emailColumn;
+    public TableColumn<UserEntity, String> forenameColumn,surnameColumn,emailColumn;
     @FXML
-    public TableColumn<User, Boolean> isAdminColumn;
+    public TableColumn<UserEntity, Boolean> isAdminColumn;
     @FXML
     public TableColumn workedHoursColumn;
     @FXML
-    TableView<User> userTableView;
+    TableView<UserEntity> userTableView;
     @FXML
     TextField searchUserTextField;
     @FXML
@@ -49,10 +49,10 @@ public class SearchUser extends Application {
         //workedHoursColumn.setCellValueFactory(new PropertyValueFactory<>("IsAdmin"));
         //toDo: isAdmin
 
-        FilteredList<User> userFilteredList = new FilteredList<>(db.listAllUsers(), b -> true);
+        FilteredList<UserEntity> userEntityFilteredList = new FilteredList<>(db.listAllUsers(), b -> true);
         searchUserTextField.textProperty().addListener((observableValue, s, t1)  ->
         {
-            userFilteredList.setPredicate(User ->
+            userEntityFilteredList.setPredicate(User ->
             {
                 if (t1.isEmpty() || t1.isBlank()  || t1 == null)
                 {
@@ -75,11 +75,11 @@ public class SearchUser extends Application {
             });
 
         });
-        SortedList<User> userSortedList= new SortedList<>(userFilteredList);
+        SortedList<UserEntity> userEntitySortedList = new SortedList<>(userEntityFilteredList);
         //Result with Table View
-        userSortedList.comparatorProperty().bind(userTableView.comparatorProperty());
+        userEntitySortedList.comparatorProperty().bind(userTableView.comparatorProperty());
         //Add filters to the table view
-        userTableView.setItems(userSortedList);
+        userTableView.setItems(userEntitySortedList);
 
     }
 

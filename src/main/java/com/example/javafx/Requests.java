@@ -1,6 +1,6 @@
 package com.example.javafx;
 
-import entities.Request;
+import entities.RequestEntity;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -9,7 +9,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import utility.DatabaseService;
 import utility.Windows;
 
@@ -22,13 +21,13 @@ public class Requests extends Application {
     DatabaseService db = new DatabaseService();
 
     @FXML
-    TableView<Request> requestTableView;
+    TableView<RequestEntity> requestTableView;
     @FXML
-    TableColumn<Request, Integer> timestampIdTableColumn;
+    TableColumn<RequestEntity, Integer> timestampIdTableColumn;
     @FXML
-    TableColumn<Request, Time> newTimeTableColumn;
+    TableColumn<RequestEntity, Time> newTimeTableColumn;
     @FXML
-    TableColumn<Request, String> descriptionTableColumn;
+    TableColumn<RequestEntity, String> descriptionTableColumn;
     @FXML
     Label requestIdLabel, newTimeLabel, descriptionLabel, label;
     @FXML
@@ -39,8 +38,8 @@ public class Requests extends Application {
     @FXML
     public void initialize() throws SQLException {
         message.setVisible(false);
-        ObservableList<Request> requestList = db.listAllRequests();
-        requestTableView.setItems(requestList);
+        ObservableList<RequestEntity> requestEntityList = db.listAllRequests();
+        requestTableView.setItems(requestEntityList);
         timestampIdTableColumn.setCellValueFactory(new PropertyValueFactory<>("timestampId"));
         newTimeTableColumn.setCellValueFactory(new PropertyValueFactory<>("newTime"));
         descriptionTableColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
@@ -54,22 +53,22 @@ public class Requests extends Application {
     {
         message.setVisible(true);
         label.setVisible(false);
-        Request request = requestTableView.getSelectionModel().getSelectedItem();
-        requestIdLabel.setText( "" +request.getTimestampId());
-        newTimeLabel.setText(""+ request.getNewTime());
-        descriptionLabel.setText(""+ request.getDescription());
+        RequestEntity requestEntity = requestTableView.getSelectionModel().getSelectedItem();
+        requestIdLabel.setText( "" + requestEntity.getTimestampId());
+        newTimeLabel.setText(""+ requestEntity.getNewTime());
+        descriptionLabel.setText(""+ requestEntity.getDescription());
     }
     @FXML
     public void denyButtonOnAction(ActionEvent e) throws SQLException {
-        Request request = requestTableView.getSelectionModel().getSelectedItem();
-        db.denyRequest(request);
+        RequestEntity requestEntity = requestTableView.getSelectionModel().getSelectedItem();
+        db.denyRequest(requestEntity);
         initialize();
 
     }
     @FXML
     public void acceptButtonOnAction(ActionEvent e) throws SQLException {
-        Request request = requestTableView.getSelectionModel().getSelectedItem();
-        db.acceptRequest(request);
+        RequestEntity requestEntity = requestTableView.getSelectionModel().getSelectedItem();
+        db.acceptRequest(requestEntity);
         initialize();
     }
     @FXML

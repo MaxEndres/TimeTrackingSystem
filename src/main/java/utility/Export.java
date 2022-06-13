@@ -5,20 +5,19 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.Image;
-import entities.User;
+import entities.UserEntity;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class Export {
 
-    public static void exportPWasPDF(User user, String password) throws IOException, DocumentException {
+    public static void exportPWasPDF(UserEntity userEntity, String password) throws IOException, DocumentException {
 
-        String text = "\n\n\n\n\n\n Hello " + user.getForename() + " "+ user.getSurname() + ",\n Welcome to your first day at /Company_Name/. \n " +
+        String text = "\n\n\n\n\n\n Hello " + userEntity.getForename() + " "+ userEntity.getSurname() + ",\n Welcome to your first day at /Company_Name/. \n " +
                 "Our time-tracking solution is provided by onPoint. \n" +
                 "The credentials for your first login will be following: \n" +
-                "email: " + user.getEmail() +
+                "email: " + userEntity.getEmail() +
                 "\npassword: " + password;
 
         Document doc = new Document();
@@ -30,7 +29,7 @@ public class Export {
 
         PdfWriter writer = PdfWriter.getInstance(doc, new FileOutputStream(
                 "C:\\Users\\Public\\Downloads\\" +
-                user.getEmail() + "credentials" + ".pdf"));
+                userEntity.getEmail() + "credentials" + ".pdf"));
 
         doc.open();
         doc.add(img_onPoint);

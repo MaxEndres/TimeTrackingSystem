@@ -2,7 +2,7 @@ package entities;
 
 import java.sql.Date;
 
-public class User {
+public class UserEntity {
 
     private int id;
     private String department;
@@ -16,7 +16,7 @@ public class User {
     private boolean isAdmin;
     private boolean isFirstLogin;
 
-    public User(int id, String department, Date startDay, String forename, String surname, String email, String password, String salt, int targetHours, boolean isAdmin, boolean isFirstLogin) {
+    public UserEntity(int id, String department, Date startDay, String forename, String surname, String email, String password, String salt, int targetHours, boolean isAdmin, boolean isFirstLogin) {
         this.id = id;
         this.department = department;
         this.startDay = startDay;
