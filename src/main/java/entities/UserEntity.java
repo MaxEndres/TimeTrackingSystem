@@ -12,7 +12,7 @@ public class UserEntity {
     private final String email;
     private final String password;
     private final String salt;
-    private final int targetHours;
+    private int targetHours;
     private final boolean isAdmin;
     private final boolean isFirstLogin;
 
@@ -29,6 +29,7 @@ public class UserEntity {
         this.isAdmin = isAdmin;
         this.isFirstLogin = isFirstLogin;
     }
+    //creating a new user
     public UserEntity( String department, Date startDay, String forename, String surname, String email, String password, String salt, int targetHours, boolean isAdmin, boolean isFirstLogin) {
 
         this.department = department;
@@ -85,5 +86,9 @@ public class UserEntity {
 
     public boolean getIsFirstLogin() {
         return isFirstLogin;
+    }
+
+    public void setTargetHours(int _targetHours) {
+        targetHours = _targetHours;
     }
 }

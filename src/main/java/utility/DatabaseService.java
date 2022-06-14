@@ -8,6 +8,8 @@ import javafx.collections.ObservableList;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.*;
+import java.time.Duration;
+import java.time.LocalDate;
 import java.util.Objects;
 
 
@@ -45,8 +47,9 @@ public class DatabaseService {
                 " JOIN onpoint.departments ON users.department_id = departments.id;");
         ObservableList<UserEntity> userEntityList = FXCollections.observableArrayList();
         ResultSet queryOutput = preparedStatement.executeQuery();
+        int workedHours=0;
         while (queryOutput.next()) {
-            userEntityList.add(new UserEntity(queryOutput.getInt("id"),
+            UserEntity queryUser = new UserEntity(queryOutput.getInt("id"),
                     queryOutput.getString("department"),
                     queryOutput.getDate("start_day"),
                     queryOutput.getString("forename"),
@@ -56,7 +59,12 @@ public class DatabaseService {
                     queryOutput.getString("salt"),
                     queryOutput.getInt("target_hours"),
                     queryOutput.getBoolean("is_admin"),
-                    queryOutput.getBoolean("is_first_login")));
+                    queryOutput.getBoolean("is_first_login"));
+
+
+            workedHours= getWorkedHours(queryUser, LocalDate.now().getMonthValue()); //TODO:
+            queryUser.setTargetHours(workedHours);
+            userEntityList.add(queryUser);
         }
         return userEntityList;
     }
@@ -176,11 +184,28 @@ public class DatabaseService {
     }
 
     // user wants to see how much hours they worked in a certain month (month is a number between 1 and 12)
-    public int getWorkedHours(UserEntity userEntity, int month) throws SQLException {
+    public int getWorkedHours(UserEntity userEntity, int month) throws SQLException
+    {
+        int workedHours =0;
+        PreparedStatement preparedStatement = dbconn.prepareStatement("SELECT onpoint.timestamps.start, onpoint.timestamps.stop FROM onpoint.timestamps" +
+                " WHERE user_id = ? AND MONTH(date)= ?;");
+        preparedStatement.setInt(1, userEntity.getId());
+        preparedStatement.setInt(2, month);
+        ResultSet queryOutput = preparedStatement.executeQuery();
+        Duration duration;
+        long durationInHours = 0;
 
+        while (queryOutput.next())
+        {
+            duration = Duration.between(queryOutput.getTime("start").toLocalTime(),
+                    queryOutput.getTime("stop").toLocalTime() );
+            durationInHours = durationInHours + duration.getSeconds()/3600;
+            System.out.printf("DURATION IN HOURS: %s ",duration.getSeconds()/3600); //prints the difference in each timestamp
 
-
-        return 0;
+        }
+        System.out.println( userEntity.getTargetHours()-durationInHours);
+        int timeDiff =(int) (durationInHours-userEntity.getTargetHours());
+        return timeDiff ;
     }
 
     // list All pending requests for a certain user

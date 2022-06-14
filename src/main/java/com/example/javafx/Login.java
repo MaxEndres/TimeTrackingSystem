@@ -42,6 +42,7 @@ public class Login {
         //Windows.changeWindow(loginButton, "Admin.fxml");
 
         logInUserEntity = db.validateData(usernameTextfield.getText(), passwordPasswordField.getText());
+        db.getWorkedHours(logInUserEntity, 6);
 
         if(logInUserEntity == null)
         {
