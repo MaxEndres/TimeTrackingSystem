@@ -4,13 +4,19 @@ import java.sql.*;
 public class TimestampEntity {
 
     private int id;
-    private int userId;
-    private Time start;
-    private Time stop;
-    private Date date;
+    private final int userId;
+    private final Time start;
+    private final Time stop;
+    private final Date date;
 
     public TimestampEntity(int id, int userId, Time start, Time stop, Date date) {
         this.id = id;
+        this.userId = userId;
+        this.start = start;
+        this.stop = stop;
+        this.date = date;
+    }
+    public TimestampEntity(int userId, Time start, Time stop, Date date) {
         this.userId = userId;
         this.start = start;
         this.stop = stop;

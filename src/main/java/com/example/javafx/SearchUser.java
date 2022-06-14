@@ -62,16 +62,12 @@ public class SearchUser extends Application {
                 if (User.getSurname().toLowerCase().indexOf(keyword) > -1) {
                     //Means we found a match in First Name
                     return true;
-                } else if (User.getForename().toLowerCase().indexOf(keyword) > -1) {
+                } else //Means we found a match in email
+                    //no match found
+                    if (User.getForename().toLowerCase().indexOf(keyword) > -1) {
                     //Means we found a match in Last Name
                     return true;
-                } else if (User.getEmail().toLowerCase().indexOf(keyword) > -1) {
-                    //Means we found a match in email
-                    return true;
-                }  else {
-                    //no match found
-                    return false;
-                }
+                } else return User.getEmail().toLowerCase().indexOf(keyword) > -1;
             });
 
         });

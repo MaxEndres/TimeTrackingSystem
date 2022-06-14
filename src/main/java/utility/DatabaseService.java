@@ -16,7 +16,7 @@ public class DatabaseService {
     final private String dbUserName = "indawewdh";
     final private String dbPassword = "kidCm30B";
     final private String dbHostname = "jdbc:mysql://ec2-3-68-76-92.eu-central-1.compute.amazonaws.com:3306/onpoint";
-    private Connection dbconn = DriverManager.getConnection(dbHostname, dbUserName, dbPassword);
+    private final Connection dbconn = DriverManager.getConnection(dbHostname, dbUserName, dbPassword);
 
     public DatabaseService() throws SQLException {
     }
@@ -62,26 +62,51 @@ public class DatabaseService {
     }
 
 
-    // listing all requests
-    public ObservableList<RequestEntity> listAllRequests() throws SQLException {
-        PreparedStatement preparedStatement = dbconn.prepareStatement("SELECT timestamp_id, new_time, description, status.name AS status, type.name AS type FROM onpoint.requests" +
-                "JOIN onpoint.status ON requests.status_id = status.id" +
-                "JOIN onpoint.type ON requests.type_id = type.id;");
+    // listing all requests for admin
+    public ObservableList<RequestEntity> listAllRequests(String status) throws SQLException {
+        PreparedStatement preparedStatement = dbconn.prepareStatement("SELECT timestamp_id,  new_time_start, new_time_stop, description, status.name AS status, type.name AS type, timestamps.user_id AS user_id \n" +
+                "FROM onpoint.requests\n" +
+                "JOIN onpoint.status ON requests.status_id = status.id\n" +
+                "JOIN onpoint.type ON requests.type_id = type.id\n" +
+                "JOIN onpoint.timestamps ON requests.timestamp_id = timestamps.id " +
+                "WHERE status.name = " + "'" + status+ "';");
         ObservableList<RequestEntity> requestEntityList = FXCollections.observableArrayList();
         ResultSet queryOutput = preparedStatement.executeQuery();
         while (queryOutput.next()) {
             requestEntityList.add(new RequestEntity(queryOutput.getInt("timestamp_id"),
-                    queryOutput.getTime("new_time"),
+                    queryOutput.getTime("new_time_start"),
+                    queryOutput.getTime("new_time_stop"),
                     queryOutput.getString("description"),
                     queryOutput.getString("status"),
-                    queryOutput.getString("type")));
+                    queryOutput.getString("type"),
+                    queryOutput.getInt("user_id")));
+        }
+        return requestEntityList;
+    }
+    //list all request for user
+    public ObservableList<RequestEntity> listAllRequests() throws SQLException {
+        PreparedStatement preparedStatement = dbconn.prepareStatement("SELECT timestamp_id,  new_time_start, new_time_stop, description, status.name AS status, type.name AS type, timestamps.user_id AS user_id \n" +
+                "FROM onpoint.requests\n" +
+                "JOIN onpoint.status ON requests.status_id = status.id\n" +
+                "JOIN onpoint.type ON requests.type_id = type.id\n" +
+                "JOIN onpoint.timestamps ON requests.timestamp_id = timestamps.id;");
+        ObservableList<RequestEntity> requestEntityList = FXCollections.observableArrayList();
+        ResultSet queryOutput = preparedStatement.executeQuery();
+        while (queryOutput.next()) {
+            requestEntityList.add(new RequestEntity(queryOutput.getInt("timestamp_id"),
+                    queryOutput.getTime("new_time_start"),
+                    queryOutput.getTime("new_time_stop"),
+                    queryOutput.getString("description"),
+                    queryOutput.getString("status"),
+                    queryOutput.getString("type"),
+                    queryOutput.getInt("user_id")));
         }
         return requestEntityList;
     }
 
     // list all Timestamps from User
     public ObservableList<TimestampEntity> listAllTimestamps(int userId) throws SQLException {
-        PreparedStatement preparedStatement = dbconn.prepareStatement("SELECT * FROM onpoint.timestamps WHERE user_id = ?;");
+        PreparedStatement preparedStatement = dbconn.prepareStatement("SELECT * FROM onpoint.timestamps WHERE timestamps.user_id = ?;");
         preparedStatement.setInt(1, userId);
         ResultSet queryOutput = preparedStatement.executeQuery();
         ObservableList<TimestampEntity> timestampList = FXCollections.observableArrayList();
@@ -108,41 +133,44 @@ public class DatabaseService {
 
     // create a request when a user wants to change a timestamp they created
     public void createRequest(RequestEntity requestEntity) throws SQLException {
-        PreparedStatement preparedStatement = dbconn.prepareStatement("INSERT INTO onpoint.requests (timestamp_id, new_time, description, status_id, type_id)" +
-                "VALUES(?,?,?,(SELECT id FROM status WHERE name = ?),(SELECT id FROM type WHERE name = ?));");
+        PreparedStatement preparedStatement = dbconn.prepareStatement("INSERT INTO onpoint.requests (timestamp_id, new_time_start, new_time_stop, description, status_id, type_id)" +
+                "VALUES(?,?,?,?,(SELECT id FROM status WHERE name = ?),(SELECT id FROM type WHERE name = ?));");
         preparedStatement.setInt(1, requestEntity.getTimestampId());
-        preparedStatement.setTime(2, requestEntity.getNewTime());
-        preparedStatement.setString(3, requestEntity.getDescription());
-        preparedStatement.setString(4, requestEntity.getStatus());
-        preparedStatement.setString(5, requestEntity.getType());
+        preparedStatement.setTime(2, requestEntity.getNewTimeStart());
+        preparedStatement.setTime(3, requestEntity.getNewTimeStop());
+        preparedStatement.setString(4, requestEntity.getDescription());
+        preparedStatement.setString(5, requestEntity.getStatus());
+        preparedStatement.setString(6, requestEntity.getType());
         preparedStatement.executeUpdate();
     }
 
     // admin can accept a request which then updates the desired timestamp
     public void acceptRequest(RequestEntity requestEntity) throws SQLException {
         if (requestEntity.getType().equals("UPDATE_START")) {
-            PreparedStatement preparedStatement = dbconn.prepareStatement("UPDATE timestamps SET start = ? WHERE id = ?");
-            preparedStatement.setTime(1, requestEntity.getNewTime());
-            preparedStatement.setInt(2, requestEntity.getTimestampId());
+            PreparedStatement preparedStatement = dbconn.prepareStatement("UPDATE onpoint.timestamps SET start = ?, stop = ? WHERE id = ?");
+            preparedStatement.setTime(1, requestEntity.getNewTimeStart());
+            preparedStatement.setTime(2, requestEntity.getNewTimeStop());
+            preparedStatement.setInt(3, requestEntity.getTimestampId());
             preparedStatement.executeUpdate();
-        } else if (requestEntity.getType().equals("UPDATE_STOP")) {
+       /* } else if (requestEntity.getType().equals("UPDATE_STOP")) {
             PreparedStatement preparedStatement = dbconn.prepareStatement("UPDATE timestamps SET stop = ? WHERE id = ?");
             preparedStatement.setTime(1, requestEntity.getNewTime());
             preparedStatement.setInt(2, requestEntity.getTimestampId());
             preparedStatement.executeUpdate();
+            */
         } else if(requestEntity.getType().equals("DELETE")) {
-            PreparedStatement preparedStatement = dbconn.prepareStatement("DELETE FROM timestamps WHERE id = ?");
+            PreparedStatement preparedStatement = dbconn.prepareStatement("DELETE FROM onpoint.timestamps WHERE id = ?");
             preparedStatement.setInt(1, requestEntity.getTimestampId());
             preparedStatement.executeUpdate();
         }
-        PreparedStatement preparedStatement = dbconn.prepareStatement("UPDATE requests SET status_id = 2 WHERE timestamp_id = ?");
+        PreparedStatement preparedStatement = dbconn.prepareStatement("UPDATE onpoint.requests SET status_id = 2 WHERE timestamp_id = ?");
         preparedStatement.setInt(1, requestEntity.getTimestampId());
         preparedStatement.executeUpdate();
     }
 
     // admin can deny a request
     public void denyRequest(RequestEntity requestEntity) throws SQLException {
-        PreparedStatement preparedStatement = dbconn.prepareStatement("UPDATE requests SET status_id = 3 WHERE timestamp_id = ?");
+        PreparedStatement preparedStatement = dbconn.prepareStatement("UPDATE onpoint.requests SET status_id = 3 WHERE timestamp_id = ?");
         preparedStatement.setInt(1, requestEntity.getTimestampId());
         preparedStatement.executeUpdate();
     }
@@ -157,7 +185,7 @@ public class DatabaseService {
 
     // list All pending requests for a certain user
     public ObservableList<RequestEntity> listPendingRequests(int userId) throws SQLException {
-        PreparedStatement preparedStatement = dbconn.prepareStatement("SELECT timestamp_id, new_time, description, status.name AS status, type.name AS type, timestamps.user_id AS user_id FROM onpoint.requests" +
+        PreparedStatement preparedStatement = dbconn.prepareStatement("SELECT timestamp_id, new_time_start, new_time_stop, description, status.name AS status, type.name AS type, timestamps.user_id AS user_id FROM onpoint.requests" +
                 "JOIN onpoint.status ON requests.status_id = status.id" +
                 "JOIN onpoint.type ON requests.type_id = type.id" +
                 "JOIN onpoint.timestamps ON requests.timestamp_id = timestamps.id" +
@@ -166,13 +194,25 @@ public class DatabaseService {
         ResultSet queryOutput = preparedStatement.executeQuery();
         while (queryOutput.next()) {
             requestEntityList.add(new RequestEntity(queryOutput.getInt("timestamp_id"),
-                    queryOutput.getTime("new_time"),
+                    queryOutput.getTime("new_time_start"),
+                    queryOutput.getTime("new_time_stop"),
                     queryOutput.getString("description"),
                     queryOutput.getString("status"),
                     queryOutput.getString("type"),
                     queryOutput.getInt("user_id")));
         }
         return requestEntityList;
+    }
+
+    public String nameOfUser(int userId) throws SQLException {
+        PreparedStatement preparedStatement = dbconn.prepareStatement("SELECT forename, surname FROM onpoint.users WHERE id = "+userId+";");
+        String name="";
+        ResultSet queryOutput = preparedStatement.executeQuery();
+        while(queryOutput.next())
+        {
+            name = queryOutput.getString("forename")+" "+queryOutput.getString("surname");
+        }
+        return name;
     }
 
     /**
@@ -214,7 +254,8 @@ public class DatabaseService {
                 rsUser.getString("password"),
                 rsUser.getString("salt"),
                 rsUser.getInt("target_hours"),
-                rsUser.getBoolean("is_admin"));
+                rsUser.getBoolean("is_admin"),
+                rsUser.getBoolean("is_first_login"));
         passwordHash = userEntity.getPassword();
         salt = userEntity.getSalt();
         // hash user-input password with fetched salt
@@ -226,6 +267,25 @@ public class DatabaseService {
         }
         return userEntity;
     }
+    public void updatePassword(int userId, String password) throws SQLException {
+        String salt = BCrypt.gensalt();
+        String passwordMitSalt = BCrypt.hashpw(password,salt);
+        PreparedStatement stUser = dbconn.prepareStatement("UPDATE onpoint.users " +
+                "SET " +
+                "password = '" + passwordMitSalt +
+                "' ,salt = '"+ salt + "' WHERE id = " + userId );
+
+        stUser.executeUpdate();
+
+    }
+
+    public void updateFirstLogIn(int userId) throws SQLException {
+        PreparedStatement stUser = dbconn.prepareStatement("UPDATE onpoint.users "+
+                " SET is_first_login = false WHERE id = "+ userId);
+        stUser.executeUpdate();
+
+    }
+
 
 
 }

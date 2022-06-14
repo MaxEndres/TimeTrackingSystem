@@ -12,9 +12,8 @@
          <columns>
             <TableColumn fx:id="timestampIdTableColumn" prefWidth="84.66665649414062" text="TimeStampID" />
             <TableColumn fx:id="dateTableColumn" prefWidth="98.66668701171875" text="Date" />
-            <TableColumn fx:id="timeTableColumn" prefWidth="86.0" text="Time" />
-            <TableColumn fx:id="isStartTableColumn" prefWidth="86.00006103515625" text="Start" />
-            <TableColumn fx:id="descriptionTableColumn" prefWidth="191.33331298828125" text="Description" />
+            <TableColumn fx:id="startTableColumn" prefWidth="86.00006103515625" text="Start" />
+            <TableColumn fx:id="stopTableColumn" prefWidth="86.0" text="Time" />
          </columns>
       </TableView>
       <Button fx:id="changeButton" layoutX="78.0" layoutY="319.0" mnemonicParsing="false" onAction="#changeButtonOnAction" prefHeight="25.0" prefWidth="112.0" text="Change/Delete" />

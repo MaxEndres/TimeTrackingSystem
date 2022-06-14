@@ -17,7 +17,9 @@ import utility.DatabaseService;
 import utility.Windows;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -26,7 +28,7 @@ public class UserProfile extends Application  {
     @FXML
     Label timeLabel, workedTimeLabel;
     @FXML
-    Button startButton, stopButton, editTimeButton;
+    Button startButton, stopButton, editTimeButton, pendingRequestButton;
     @FXML
     AnchorPane pane;
     @FXML
@@ -35,6 +37,8 @@ public class UserProfile extends Application  {
     LocalTime time= LocalTime.parse("00:00:00");
     DateTimeFormatter dtf= DateTimeFormatter.ofPattern("HH:mm:ss");
     DatabaseService db = new DatabaseService();
+    Date startDate;
+    Time startTime;
 
     public UserProfile() throws SQLException {
     }
@@ -64,11 +68,16 @@ public class UserProfile extends Application  {
         workedTimeLabel.setVisible(false);
 
         //CREATE TIMESTAMP
+        /*
         TimestampEntity timestamp = new TimestampEntity(Login.logInUserEntity.getId(),
                 java.sql.Date.valueOf(LocalDate.now())
                 ,java.sql.Time.valueOf(LocalTime.now()),
                 true,"" );
         db.createTimestamp(timestamp);
+
+         */
+        startDate= java.sql.Date.valueOf(LocalDate.now());
+        startTime= java.sql.Time.valueOf(LocalTime.now());
     }
 
 
@@ -90,10 +99,10 @@ public class UserProfile extends Application  {
             //save entry in the database//Change button
         }
 
+        Time stopTime = java.sql.Time.valueOf(LocalTime.now());
+
         TimestampEntity timestamp = new TimestampEntity(Login.logInUserEntity.getId(),
-                java.sql.Date.valueOf(LocalDate.now())
-                ,java.sql.Time.valueOf(LocalTime.now()),
-                false,"" );
+                startTime, stopTime,startDate);
         db.createTimestamp(timestamp);
 
 
@@ -103,6 +112,10 @@ public class UserProfile extends Application  {
         //TODO: Confirmation
         Login.logInUserEntity = null;
         Windows.changeWindow(stopButton, "hello-view.fxml");
+    }
+    @FXML
+    protected void pendingRequestButtonOnAction(ActionEvent e) throws IOException {
+        Windows.changeWindow(pendingRequestButton, "PendingRequests.fxml");
     }
     @FXML
     protected void editTimeButtonOnAction(ActionEvent event) throws IOException {

@@ -48,18 +48,28 @@ public class Login {
             errorLabel.setVisible(true);
         }else
         {
-            //if Admin
-            if(logInUserEntity.getIsAdmin())
+            //if first login then change password first
+            if(logInUserEntity.getIsFirstLogin())
             {
-                //adminadmin@onpoint.de
-                // wMumJ7hD
-                Windows.changeWindow(loginButton, "Admin.fxml");
+                Windows.changeWindow(loginButton, "FirstLogIn.fxml");
             }else
             {
-                //User: harrish@onpoint.de
-                // Password: $!H9PLqT
-                Windows.changeWindow(loginButton, "User.fxml");
+                //if Admin
+                if(logInUserEntity.getIsAdmin())
+                {
+                    //adminadmin@onpoint.de
+                    // wMumJ7hD
+                    Windows.changeWindow(loginButton, "Admin.fxml");
+                }else
+                {
+                    //User: harrish@onpoint.de
+                    // Password: $!H9PLqT
+                    Windows.changeWindow(loginButton, "User.fxml");
+                }
             }
+
+
+
         }
 
     }

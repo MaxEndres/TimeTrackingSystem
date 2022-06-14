@@ -108,7 +108,7 @@ public class CreateUser extends Application {
                     passwordMitSalt,
                     salt,
                     targetHours.getSelectionModel().getSelectedItem(),
-                    isAdminCheckBox.isSelected());
+                    isAdminCheckBox.isSelected(), true);
             db.createUser(createdUserEntity);
 
             //PDF EXPORT

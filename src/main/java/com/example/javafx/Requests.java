@@ -23,13 +23,13 @@ public class Requests extends Application {
     @FXML
     TableView<RequestEntity> requestTableView;
     @FXML
-    TableColumn<RequestEntity, Integer> timestampIdTableColumn;
+    TableColumn<RequestEntity, Integer> timestampIdTableColumn, userIdTableColumn;
     @FXML
     TableColumn<RequestEntity, Time> newTimeTableColumn;
     @FXML
-    TableColumn<RequestEntity, String> descriptionTableColumn;
+    TableColumn<RequestEntity, String> typeTableColumn;
     @FXML
-    Label requestIdLabel, newTimeLabel, descriptionLabel, label;
+    Label requestIdLabel, timeLabel, descriptionLabel, label;
     @FXML
     Button requestButton, backButton;
     @FXML
@@ -38,24 +38,24 @@ public class Requests extends Application {
     @FXML
     public void initialize() throws SQLException {
         message.setVisible(false);
-        ObservableList<RequestEntity> requestEntityList = db.listAllRequests();
+        ObservableList<RequestEntity> requestEntityList = db.listAllRequests("PENDING");
         requestTableView.setItems(requestEntityList);
         timestampIdTableColumn.setCellValueFactory(new PropertyValueFactory<>("timestampId"));
-        newTimeTableColumn.setCellValueFactory(new PropertyValueFactory<>("newTime"));
-        descriptionTableColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+        typeTableColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+        userIdTableColumn.setCellValueFactory(new PropertyValueFactory<>("userId"));
 
 
     }
 
 
     @FXML
-    public void requestButtonOnAction(ActionEvent e)
-    {
+    public void requestButtonOnAction(ActionEvent e) throws SQLException {
         message.setVisible(true);
         label.setVisible(false);
         RequestEntity requestEntity = requestTableView.getSelectionModel().getSelectedItem();
-        requestIdLabel.setText( "" + requestEntity.getTimestampId());
-        newTimeLabel.setText(""+ requestEntity.getNewTime());
+        requestIdLabel.setText(requestEntity.getType() + " FROM: "+
+                db.nameOfUser(requestEntity.getUserId()) + " ID: "+ requestEntity.getUserId());
+        timeLabel.setText("FROM "+ requestEntity.getNewTimeStart()+ " TO "+ requestEntity.getNewTimeStop());
         descriptionLabel.setText(""+ requestEntity.getDescription());
     }
     @FXML
@@ -63,6 +63,7 @@ public class Requests extends Application {
         RequestEntity requestEntity = requestTableView.getSelectionModel().getSelectedItem();
         db.denyRequest(requestEntity);
         initialize();
+        requestEntity = null;
 
     }
     @FXML
@@ -70,6 +71,7 @@ public class Requests extends Application {
         RequestEntity requestEntity = requestTableView.getSelectionModel().getSelectedItem();
         db.acceptRequest(requestEntity);
         initialize();
+        requestEntity= null;
     }
     @FXML
     public void backButtonOnAction(ActionEvent e)

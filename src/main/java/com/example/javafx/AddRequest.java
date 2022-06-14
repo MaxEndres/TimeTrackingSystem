@@ -46,11 +46,8 @@ public class AddRequest extends Application {
 
     @FXML
     private void sendRequestButtonOnAction(ActionEvent e) throws SQLException, IOException {
-        boolean is_start= true;
-        if(chooseComboBox.getSelectionModel().getSelectedItem() == "Stop")
-        {
-            is_start = false;
-        }
+        boolean is_start= chooseComboBox.getSelectionModel().getSelectedItem() != "Stop";
+        /*
         TimestampEntity timestamp = new TimestampEntity(Login.logInUserEntity.getId(), java.sql.Date.valueOf(dayDatePicker.getValue()),
                 java.sql.Time.valueOf(hourSpinner.getValue().toString()+":"
                         +minuteSpinner.getValue().toString()+":00"),is_start,
@@ -59,6 +56,8 @@ public class AddRequest extends Application {
         //change Window
         Windows.changeWindow(sendRequestButton, "User.fxml");
         //Todo: actually it should send a request. Ask Leon.
+
+         */
     }
     @FXML
     private void cancelButtonOnAction(ActionEvent e) throws SQLException, IOException {

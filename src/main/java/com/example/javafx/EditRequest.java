@@ -2,6 +2,7 @@ package com.example.javafx;
 
 import entities.TimestampEntity;
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -28,11 +29,9 @@ public class EditRequest extends Application {
     @FXML
     public TableColumn<TimestampEntity, Integer> timestampIdTableColumn;
     @FXML
-    public TableColumn<TimestampEntity,Time > timeTableColumn;
+    public TableColumn<TimestampEntity,Time > stopTableColumn;
     @FXML
-    public TableColumn<TimestampEntity, Boolean> isStartTableColumn;
-    @FXML
-    public TableColumn<TimestampEntity, String> descriptionTableColumn;
+    public TableColumn<TimestampEntity, Time> startTableColumn;
     @FXML
     Button changeButton, goBackToProfileButton, addNewButton;
     DatabaseService db= new DatabaseService();
@@ -43,12 +42,14 @@ public class EditRequest extends Application {
 
     @FXML
     public void initialize() throws SQLException {
-        timestampsTableView.setItems(db.listAllTimestamps(Login.logInUserEntity.getId()));
-        dateTableColumn.setCellValueFactory(new PropertyValueFactory<TimestampEntity, Date>("date"));
-        timeTableColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
+
+        ObservableList<TimestampEntity> list = db.listAllTimestamps(Login.logInUserEntity.getId());
+        timestampsTableView.setItems(list);
+        dateTableColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+        startTableColumn.setCellValueFactory(new PropertyValueFactory<>("start"));
+        stopTableColumn.setCellValueFactory(new PropertyValueFactory<>("stop"));
         timestampIdTableColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
-        isStartTableColumn.setCellValueFactory(new PropertyValueFactory<>("isStart"));
-        descriptionTableColumn.setCellValueFactory(new PropertyValueFactory<>("description"));
+
         errorLabel.setVisible(false);
 
     }

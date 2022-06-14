@@ -4,24 +4,27 @@ import java.sql.Time;
 
 public class RequestEntity {
 
-    private int timestampId;
-    private Time newTime;
-    private String description;
-    private String status;
-    private String type;
+    private final int timestampId;
+    private final Time newTimeStart;
+    private final Time newTimeStop;
+    private final String description;
+    private final String status;
+    private final String type;
     private int userId;
 
-    public RequestEntity(int timestampId, Time newTime, String description, String status, String type) {
+    public RequestEntity(int timestampId, Time newTimeStart, Time newTimeStop, String description, String status, String type) {
         this.timestampId = timestampId;
-        this.newTime = newTime;
+        this.newTimeStart = newTimeStart;
+        this.newTimeStop = newTimeStop;
         this.description = description;
         this.status = status;
         this.type = type;
     }
 
-    public RequestEntity(int timestampId, Time newTime, String description, String status, String type, int userId) {
+    public RequestEntity(int timestampId, Time newTimeStart, Time newTimeStop, String description, String status, String type, int userId) {
         this.timestampId = timestampId;
-        this.newTime = newTime;
+        this.newTimeStart = newTimeStart;
+        this.newTimeStop = newTimeStop;
         this.description = description;
         this.status = status;
         this.type = type;
@@ -32,8 +35,8 @@ public class RequestEntity {
         return timestampId;
     }
 
-    public Time getNewTime() {
-        return newTime;
+    public Time getNewTimeStart() {
+        return newTimeStart;
     }
 
     public String getDescription() {
@@ -49,4 +52,8 @@ public class RequestEntity {
     }
 
     public int getUserId() { return userId; }
+
+    public Time getNewTimeStop() {
+        return newTimeStop;
+    }
 }
