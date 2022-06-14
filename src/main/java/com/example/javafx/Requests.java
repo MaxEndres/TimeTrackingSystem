@@ -29,7 +29,7 @@ public class Requests extends Application {
     @FXML
     TableColumn<RequestEntity, String> typeTableColumn;
     @FXML
-    Label requestIdLabel, timeLabel, descriptionLabel, label;
+    Label requestIdLabel, timeLabel, descriptionLabel, label, dateLabel, userLabel;
     @FXML
     Button requestButton, backButton;
     @FXML
@@ -53,8 +53,9 @@ public class Requests extends Application {
         message.setVisible(true);
         label.setVisible(false);
         RequestEntity requestEntity = requestTableView.getSelectionModel().getSelectedItem();
-        requestIdLabel.setText(requestEntity.getType() + " FROM: "+
-                db.nameOfUser(requestEntity.getUserId()) + " ID: "+ requestEntity.getUserId());
+        requestIdLabel.setText("" +requestEntity.getType());
+        userLabel.setText(db.nameOfUser(requestEntity.getUserId())+ " (ID: "+ requestEntity.getUserId()+")");
+
         timeLabel.setText("FROM "+ requestEntity.getNewTimeStart()+ " TO "+ requestEntity.getNewTimeStop());
         descriptionLabel.setText(""+ requestEntity.getDescription());
     }
