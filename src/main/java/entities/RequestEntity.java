@@ -12,19 +12,24 @@ public class RequestEntity {
     private final String type;
     private int userId;
 
-    public RequestEntity(int timestampId, Time newTimeStart, Time newTimeStop, String description, String status, String type) {
+    public RequestEntity(int timestampId, Time _newTimeStart, Time _newTimeStop, String description, String status, String type) {
+        assert _newTimeStart.before(_newTimeStop) : "Stopp is before Start Time!";
+
         this.timestampId = timestampId;
-        this.newTimeStart = newTimeStart;
-        this.newTimeStop = newTimeStop;
+        this.newTimeStart = _newTimeStart;
+        this.newTimeStop = _newTimeStop;
         this.description = description;
         this.status = status;
         this.type = type;
+
+
     }
 
-    public RequestEntity(int timestampId, Time newTimeStart, Time newTimeStop, String description, String status, String type, int userId) {
+    public RequestEntity(int timestampId, Time _newTimeStart, Time _newTimeStop, String description, String status, String type, int userId) {
+        assert _newTimeStart.before(_newTimeStop) : "Stopp is before Start Time!";
         this.timestampId = timestampId;
-        this.newTimeStart = newTimeStart;
-        this.newTimeStop = newTimeStop;
+        this.newTimeStart = _newTimeStart;
+        this.newTimeStop = _newTimeStop;
         this.description = description;
         this.status = status;
         this.type = type;
