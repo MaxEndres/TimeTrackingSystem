@@ -37,6 +37,7 @@ public class UserProfile extends Application  {
     LocalTime time= LocalTime.parse("00:00:00");
     DateTimeFormatter dtf= DateTimeFormatter.ofPattern("HH:mm:ss");
     DatabaseService db = new DatabaseService();
+    TimestampEntity timestamp;
     Date startDate;
     Time startTime;
 
@@ -78,6 +79,9 @@ public class UserProfile extends Application  {
          */
         startDate= java.sql.Date.valueOf(LocalDate.now());
         startTime= java.sql.Time.valueOf(LocalTime.now());
+        timestamp = new TimestampEntity(Login.logInUserEntity.getId(),
+                startTime, startDate);
+        db.insertTimestamp(timestamp);
     }
 
 
@@ -101,9 +105,9 @@ public class UserProfile extends Application  {
 
         Time stopTime = java.sql.Time.valueOf(LocalTime.now());
 
-        TimestampEntity timestamp = new TimestampEntity(Login.logInUserEntity.getId(),
-                startTime, stopTime,startDate);
-        db.createTimestamp(timestamp);
+       // timestamp = new TimestampEntity(Login.logInUserEntity.getId(),
+         //       startTime, stopTime,startDate);
+        db.updateTimestamp(stopTime);
 
 
     }
@@ -115,11 +119,11 @@ public class UserProfile extends Application  {
     }
     @FXML
     protected void pendingRequestButtonOnAction(ActionEvent e) throws IOException {
-        Windows.changeWindow(pendingRequestButton, "PendingRequests.fxml");
+        Windows.openWindow("PendingRequests.fxml");
     }
     @FXML
     protected void editTimeButtonOnAction(ActionEvent event) throws IOException {
-        Windows.changeWindow(editTimeButton, "EditRequest.fxml");
+        Windows.openWindow( "EditRequest.fxml");
     }
     @FXML
     protected void changePasswordOnAction(ActionEvent event) throws IOException {

@@ -16,7 +16,7 @@ import java.sql.Time;
 public class EditConfirmation extends Application {
 
     @FXML
-    public Label timestampLabel, currentEntryLabel,newTimeLabel, descriptionLabel, punktLabel;
+    public Label timestampLabel, errorLabel, currentEntryLabel,newTimeLabel, descriptionLabel, punktLabel;
     @FXML
     public TextArea descriptionTextArea;
     public Spinner hourStartSpinner, minuteStartSpinner, hourStopSpinner, minuteStopSpinner;
@@ -32,7 +32,7 @@ public class EditConfirmation extends Application {
     @FXML
     protected void initialize()
     {
-
+        errorLabel.setVisible(false);
         timestampLabel.setText("" + EditRequest.timestamp.getId());
         currentEntryLabel.setText(" Date " +EditRequest.timestamp.getDate());
         /*
@@ -52,9 +52,6 @@ public class EditConfirmation extends Application {
 
         Time timeStart = EditRequest.timestamp.getStart();
         String[] stringTimeStart = timeStart.toString().split(":");
-        Time timeStop = EditRequest.timestamp.getStop();
-        String[] stringTimeStop = timeStop.toString().split(":");
-
         //START
         valueFactoryHourStart.setValue(Integer.valueOf(stringTimeStart[0]));
         valueFactoryMinuteStart.setValue(Integer.valueOf(stringTimeStart[1]));
@@ -62,12 +59,27 @@ public class EditConfirmation extends Application {
         hourStartSpinner.setValueFactory(valueFactoryHourStart);
         minuteStartSpinner.setValueFactory(valueFactoryMinuteStart);
 
-        //STOP
-        valueFactoryHourStop.setValue(Integer.valueOf(stringTimeStop[0]));
-        valueFactoryMinuteStop.setValue(Integer.valueOf(stringTimeStop[1]));
+        //STOPP
+        Time timeStop = EditRequest.timestamp.getStop();
+        if(EditRequest.timestamp.getStop() == null)
+        {
+            valueFactoryHourStop.setValue(Integer.valueOf("18"));
+            valueFactoryMinuteStop.setValue(Integer.valueOf("00"));
+            hourStopSpinner.setValueFactory(valueFactoryHourStop);
+            minuteStopSpinner.setValueFactory(valueFactoryMinuteStop);
+            errorLabel.setVisible(true);
+            cancelButton.setVisible(false);
+        }else
+        {
+            String[] stringTimeStop = timeStop.toString().split(":");
+            //STOP
+            valueFactoryHourStop.setValue(Integer.valueOf(stringTimeStop[0]));
+            valueFactoryMinuteStop.setValue(Integer.valueOf(stringTimeStop[1]));
 
-        hourStopSpinner.setValueFactory(valueFactoryHourStop);
-        minuteStopSpinner.setValueFactory(valueFactoryMinuteStop);
+            hourStopSpinner.setValueFactory(valueFactoryHourStop);
+            minuteStopSpinner.setValueFactory(valueFactoryMinuteStop);
+        }
+
 
     }
     @FXML

@@ -1,5 +1,6 @@
 package com.example.javafx;
 
+import entities.TimestampEntity;
 import entities.UserEntity;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -13,6 +14,8 @@ import javafx.scene.control.Button;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.Time;
+import java.time.LocalTime;
 
 public class Login {
     public static UserEntity logInUserEntity;
@@ -42,7 +45,7 @@ public class Login {
         //Windows.changeWindow(loginButton, "Admin.fxml");
 
         logInUserEntity = db.validateData(usernameTextfield.getText(), passwordPasswordField.getText());
-        db.getWorkedHours(logInUserEntity, 6);
+      //  db.getWorkedHours(logInUserEntity, 6);
 
         if(logInUserEntity == null)
         {
@@ -55,18 +58,32 @@ public class Login {
                 Windows.changeWindow(loginButton, "FirstLogIn.fxml");
             }else
             {
-                //if Admin
-                if(logInUserEntity.getIsAdmin())
+                if(db.checkTimestamp(logInUserEntity.getId()) != null)
                 {
-                    //adminadmin@onpoint.de
-                    // wMumJ7hD
-                    Windows.changeWindow(loginButton, "Admin.fxml");
+                    Time stopTime = java.sql.Time.valueOf("18:00:00");
+                    //db.updateTimestamp(stopTime);
+                    EditRequest.timestamp = db.checkTimestamp(logInUserEntity.getId());
+                    db.updateTimestamp(stopTime);
+                    System.out.println("ID: " + EditRequest.timestamp.getId());
+                    Windows.openWindow("EditConfirmation.fxml");
                 }else
                 {
-                    //User: harrish@onpoint.de
-                    // Password: $!H9PLqT
-                    Windows.changeWindow(loginButton, "User.fxml");
+//if Admin
+                    if(logInUserEntity.getIsAdmin())
+                    {
+                        //adminadmin@onpoint.de
+                        // wMumJ7hD
+                        Windows.changeWindow(loginButton, "Admin.fxml");
+                    }else
+                    {
+                        //User: harrish@onpoint.de
+                        // Password: $!H9PLqT
+                        Windows.changeWindow(loginButton, "User.fxml");
+
+                    }
                 }
+
+
             }
 
 

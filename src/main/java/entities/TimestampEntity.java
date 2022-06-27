@@ -6,7 +6,7 @@ public class TimestampEntity {
     private int id;
     private final int userId;
     private final Time start;
-    private final Time stop;
+    private Time stop;
     private final Date date;
 
     public TimestampEntity(int id, int userId, Time start, Time stop, Date date) {
@@ -20,6 +20,12 @@ public class TimestampEntity {
         this.userId = userId;
         this.start = start;
         this.stop = stop;
+        this.date = date;
+    }
+
+    public TimestampEntity(int userId, Time start, Date date) {
+        this.userId = userId;
+        this.start = start;
         this.date = date;
     }
 

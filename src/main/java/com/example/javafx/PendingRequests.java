@@ -33,7 +33,7 @@ public class PendingRequests extends Application {
 
     @FXML
     public void initialize() throws SQLException {
-        requestTableView.setItems(db.listAllRequests());
+        requestTableView.setItems(db.listAllRequests(Login.logInUserEntity.getId()));
         requestIdTableColumn.setCellValueFactory(new PropertyValueFactory<>("timestampId"));
         //dateTableColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
         startTableColumn.setCellValueFactory(new PropertyValueFactory<>("newTimeStart"));

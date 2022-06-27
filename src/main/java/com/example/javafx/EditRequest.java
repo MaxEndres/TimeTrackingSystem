@@ -70,7 +70,7 @@ public class EditRequest extends Application {
     }
     @FXML
     protected void goBackToProfileButtonOnAction(ActionEvent e) throws IOException {
-        Windows.changeWindow(goBackToProfileButton, "User.fxml");
+        Windows.closeWindow(goBackToProfileButton);
     }
     public static void main(String[] args) {
         launch(args);

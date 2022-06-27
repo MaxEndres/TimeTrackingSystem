@@ -92,12 +92,13 @@ public class DatabaseService {
         return requestEntityList;
     }
     //list all request for user
-    public ObservableList<RequestEntity> listAllRequests() throws SQLException {
+    public ObservableList<RequestEntity> listAllRequests(int userId) throws SQLException {
         PreparedStatement preparedStatement = dbconn.prepareStatement("SELECT timestamp_id,  new_time_start, new_time_stop, description, status.name AS status, type.name AS type, timestamps.user_id AS user_id \n" +
                 "FROM onpoint.requests\n" +
                 "JOIN onpoint.status ON requests.status_id = status.id\n" +
                 "JOIN onpoint.type ON requests.type_id = type.id\n" +
-                "JOIN onpoint.timestamps ON requests.timestamp_id = timestamps.id;");
+                "JOIN onpoint.timestamps ON requests.timestamp_id = timestamps.id " +
+                "WHERE timestamps.user_id = "+userId+ ";");
         ObservableList<RequestEntity> requestEntityList = FXCollections.observableArrayList();
         ResultSet queryOutput = preparedStatement.executeQuery();
         while (queryOutput.next()) {
@@ -112,7 +113,56 @@ public class DatabaseService {
         return requestEntityList;
     }
 
-    // list all Timestamps from User
+    public void updateTimestamp(Time stopTime) throws SQLException {
+        PreparedStatement preparedStatement =
+                dbconn.prepareStatement("" +
+                        " UPDATE onpoint.timestamps SET stop = '" + stopTime+"' WHERE stop IS NULL; ");
+        preparedStatement.executeUpdate();
+        System.out.println("UPDATED");
+    }
+
+
+    public TimestampEntity checkTimestamp(int userId) throws SQLException
+    {
+        PreparedStatement preparedStatement =
+                dbconn.prepareStatement("SELECT count(*) FROM onpoint.timestamps WHERE stop IS NULL AND user_id = "+ userId + " ;");
+        ResultSet queryOutput = preparedStatement.executeQuery();
+        queryOutput.next();
+        int count = queryOutput.getInt(1);
+        if(count == 0)
+        {
+
+            return null;
+        }else {
+
+            PreparedStatement preparedStatement2 =
+                    dbconn.prepareStatement("SELECT * FROM onpoint.timestamps WHERE timestamps.stop IS NULL AND timestamps.user_id = " + userId + " ;");
+            ResultSet queryOutput2 = preparedStatement2.executeQuery();
+            queryOutput2.next();
+            TimestampEntity timestamp = new TimestampEntity(queryOutput2.getInt("id"),
+                        queryOutput2.getInt("user_id"),
+                        queryOutput2.getTime("start"),
+                        queryOutput2.getTime("stop"),
+                        queryOutput2.getDate("date"));
+            System.out.println("TIMESTAMPS: "+ timestamp.getId());
+
+            return timestamp;
+
+        }
+
+
+    }
+
+
+    public void insertTimestamp(TimestampEntity timestamp) throws SQLException {
+        PreparedStatement preparedStatement = dbconn.prepareStatement("INSERT INTO onpoint.timestamps (user_id, start, date)\n" +
+                "VALUES(?,?,?);");
+        preparedStatement.setInt(1, timestamp.getUserId());
+        preparedStatement.setTime(2, timestamp.getStart());
+        preparedStatement.setDate(3, timestamp.getDate());
+        preparedStatement.executeUpdate();
+    }
+    // list all Timestamps for User
     public ObservableList<TimestampEntity> listAllTimestamps(int userId) throws SQLException {
         PreparedStatement preparedStatement = dbconn.prepareStatement("SELECT * FROM onpoint.timestamps WHERE timestamps.user_id = ?;");
         preparedStatement.setInt(1, userId);
@@ -210,11 +260,13 @@ public class DatabaseService {
 
     // list All pending requests for a certain user
     public ObservableList<RequestEntity> listPendingRequests(int userId) throws SQLException {
-        PreparedStatement preparedStatement = dbconn.prepareStatement("SELECT timestamp_id, new_time_start, new_time_stop, description, status.name AS status, type.name AS type, timestamps.user_id AS user_id FROM onpoint.requests" +
-                "JOIN onpoint.status ON requests.status_id = status.id" +
-                "JOIN onpoint.type ON requests.type_id = type.id" +
-                "JOIN onpoint.timestamps ON requests.timestamp_id = timestamps.id" +
-                "WHERE requests.status = 1 AND timestamps.user_id = ?");
+        PreparedStatement preparedStatement = dbconn.prepareStatement("SELECT timestamp_id, new_time_start, new_time_stop, description, status.name AS status, type.name AS type, timestamps.user_id AS user_id FROM onpoint.requests " +
+                "JOIN onpoint.status ON requests.status_id = status.id " +
+                "JOIN onpoint.type ON requests.type_id = type.id " +
+                "JOIN onpoint.timestamps ON requests.timestamp_id = timestamps.id " +
+                "WHERE requests.status = 1 AND timestamps.user_id = ?;");
+        preparedStatement.setInt(1, userId);
+
         ObservableList<RequestEntity> requestEntityList = FXCollections.observableArrayList();
         ResultSet queryOutput = preparedStatement.executeQuery();
         while (queryOutput.next()) {
