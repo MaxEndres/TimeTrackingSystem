@@ -127,7 +127,8 @@ public class UserProfile extends Application  {
     }
     @FXML
     protected void changePasswordOnAction(ActionEvent event) throws IOException {
-        Windows.loadWindow("ChangePassword.fxml", pane);
+        //Windows.loadWindow("ChangePassword.fxml", pane);
+        Windows.openWindow("ChangePassword.fxml");
     }
     public static void main(String[] args) {
         launch(args);

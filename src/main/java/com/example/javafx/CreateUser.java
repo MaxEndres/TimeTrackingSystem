@@ -50,29 +50,12 @@ public class CreateUser extends Application {
     @FXML
     public void initialize()
     {
-        final String[] forenameText = new String[1];
-        final String[] surnameText = new String[1];
-
         department.setItems(getDepartments());
         department.getSelectionModel().select(0);
         startDay.setValue(todaysDate);
         targetHours.setItems(getTargetHours());
         targetHours.getSelectionModel().select(5);
         errorLabel.setVisible(false);
-
-        forename.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observableValue, String s, String t1) {
-
-                surname.textProperty().addListener(new ChangeListener<String>() {
-
-                    public void changed(ObservableValue<? extends String> observableValue, String s2, String t2) {
-                        email.setText(t1.toLowerCase()+t2.toLowerCase() + "@onpoint.de");
-
-                    }
-                });
-            }
-        });
 
 
         //startDay.setValue();
@@ -131,7 +114,7 @@ public class CreateUser extends Application {
     public static ObservableList<String> getDepartments()
     {
         ObservableList<String> departments = FXCollections.observableArrayList();
-        departments.addAll("Marketing", "Operations", "Finance", "Sales", "Human Resources", "Purchase");
+        departments.addAll("Help Desk", "IT", "Sales", "Marketing", "Human Resource Management", "Research and Development");
         return departments;
     }
     public static ObservableList<Integer> getTargetHours()

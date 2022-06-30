@@ -33,6 +33,7 @@ public class SearchUser extends Application {
     TextField searchUserTextField;
     @FXML
     Button cancelButton, editUserButton;
+    static UserEntity editUser = null;
     DatabaseService db = new DatabaseService();
 
     public SearchUser() throws SQLException {
@@ -47,7 +48,7 @@ public class SearchUser extends Application {
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("Email"));
         isAdminColumn.setCellValueFactory(new PropertyValueFactory<>("IsAdmin"));
         workedHoursColumn.setCellValueFactory(new PropertyValueFactory<>("targetHours"));
-        //toDo: isAdmin
+
 
         FilteredList<UserEntity> userEntityFilteredList = new FilteredList<>(db.listAllUsers(), b -> true);
         searchUserTextField.textProperty().addListener((observableValue, s, t1)  ->
@@ -81,6 +82,8 @@ public class SearchUser extends Application {
 
     @FXML
     private void editUserButtonOnAction(ActionEvent e) throws IOException {
+        editUser = userTableView.getSelectionModel().getSelectedItem();
+        System.out.println(editUser.getDepartment());
         Windows.changeWindow(editUserButton, "EditUser.fxml");
     }
     @FXML

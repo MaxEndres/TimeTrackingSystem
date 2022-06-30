@@ -62,7 +62,7 @@ public class DatabaseService {
                     queryOutput.getBoolean("is_first_login"));
 
 
-            workedHours= getWorkedHours(queryUser, LocalDate.now().getMonthValue()); //TODO:
+            workedHours= getWorkedHours(queryUser, LocalDate.now().getMonthValue()); //TODO: fixMe
             queryUser.setTargetHours(workedHours);
             userEntityList.add(queryUser);
         }
@@ -363,6 +363,45 @@ public class DatabaseService {
 
     }
 
+    public void updateUser(UserEntity userEntity) throws SQLException {
+// ToDo: only Update forename, surname and mail
+        PreparedStatement preparedStatement =
+                dbconn.prepareStatement(
+                        " UPDATE onpoint.users SET onpoint.users.department_id = (SELECT departments.id FROM onpoint.departments WHERE onpoint.departments.name = ' "+ userEntity.getDepartment() +"'" +
+                                "), onpoint.users.start_day = '"+userEntity.getStartDay()+ "' , onpoint.users.forename = '" + userEntity.getForename()+
+                                "', onpoint.users.surname = '" +userEntity.getSurname()+"' , onpoint.users.email= ' " + userEntity.getEmail() +
+                                "', onpoint.users.target_hours = "+ userEntity.getTargetHours()+ " , onpoint.users.is_admin = " +userEntity.getIsAdmin()+
+                                " WHERE onpoint.users.id = "+userEntity.getId() + ";");
+        /*
+        preparedStatement.setString(1, userEntity.getDepartment());
+        preparedStatement.setDate(2, userEntity.getStartDay());
+        preparedStatement.setString(3, userEntity.getForename());
+        preparedStatement.setString(4, userEntity.getSurname());
+        preparedStatement.setString(5, userEntity.getEmail());
+        preparedStatement.setInt(6, userEntity.getTargetHours());
+        preparedStatement.setBoolean(7, userEntity.getIsAdmin());
+        preparedStatement.setInt(8, userEntity.getId());
 
+         */
+        preparedStatement.executeUpdate();
+        System.out.println("*****");
+    }
+    public void updateUser(String department, Date startDay, String forename, String surname, String email, int targetHours, boolean isAdmin, int id) throws SQLException {
+
+        PreparedStatement preparedStatement =
+                dbconn.prepareStatement(
+                        " UPDATE onpoint.users SET department_id = (SELECT id FROM departments WHERE name = ?), start_day = ?, forename = ?" +
+                                ", surname = ?, email= ?, target_hours = ?, is_admin = ? WHERE id = ?;");
+        preparedStatement.setString(1, department);
+        preparedStatement.setDate(2, startDay);
+        preparedStatement.setString(3, forename);
+        preparedStatement.setString(4, surname);
+        preparedStatement.setString(5, email);
+        preparedStatement.setInt(6, targetHours);
+        preparedStatement.setBoolean(7, isAdmin);
+        preparedStatement.setInt(8, id);
+        preparedStatement.executeUpdate();
+        System.out.println("*****");
+    }
 
 }

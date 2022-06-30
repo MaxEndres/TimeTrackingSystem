@@ -5,16 +5,16 @@ import java.sql.Date;
 public class UserEntity {
 
     private int id;
-    private final String department;
-    private final Date startDay;
-    private final String forename;
-    private final String surname;
-    private final String email;
-    private final String password;
-    private final String salt;
+    private String department;
+    private Date startDay;
+    private String forename;
+    private String surname;
+    private String email;
+    private String password;
+    private String salt;
     private int targetHours;
-    private final boolean isAdmin;
-    private final boolean isFirstLogin;
+    private boolean isAdmin;
+    private boolean isFirstLogin;
 
     public UserEntity(int id, String department, Date startDay, String forename, String surname, String email, String password, String salt, int targetHours, boolean isAdmin, boolean isFirstLogin) {
         this.id = id;
@@ -42,6 +42,18 @@ public class UserEntity {
         this.targetHours = targetHours;
         this.isAdmin = isAdmin;
         this.isFirstLogin = isFirstLogin;
+    }
+
+    public UserEntity(String department, Date startDay, String forename, String surname, String email, int targetHours, boolean isAdmin)
+    {
+        this.department = department;
+        this.startDay = startDay;
+        this.forename = forename;
+        this.surname = surname;
+        this.email = email;
+        this.targetHours = targetHours;
+        this.isAdmin = isAdmin;
+
     }
 
     public int getId() {

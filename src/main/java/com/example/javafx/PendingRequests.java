@@ -43,7 +43,7 @@ public class PendingRequests extends Application {
     }
     @FXML
     public void goBackButtonOnAction(ActionEvent e) throws IOException {
-        Windows.changeWindow(goBackButton, "User.fxml");
+        Windows.closeWindow(goBackButton);
     }
 
     public static void main(String[] args) {
