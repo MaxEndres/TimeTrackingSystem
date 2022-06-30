@@ -25,6 +25,7 @@ public class EditConfirmation extends Application {
     @FXML
     public RadioButton changeRadioButton, deleteRadioButton;
     DatabaseService db = new DatabaseService();
+    Alert a = new Alert(Alert.AlertType.ERROR);
 
     public EditConfirmation() throws SQLException {
     }
@@ -81,6 +82,7 @@ public class EditConfirmation extends Application {
         }
 
 
+
     }
     @FXML
     protected void addRequestOnAction(ActionEvent event)
@@ -120,31 +122,45 @@ public class EditConfirmation extends Application {
         String minuteStart = minuteStartSpinner.getValue().toString();
         String hourStop = hourStopSpinner.getValue().toString();
         String minuteStop = minuteStopSpinner.getValue().toString();
+        Time start = java.sql.Time.valueOf(hourStart + ":" + minuteStart + ":00");
+        Time stop = java.sql.Time.valueOf(hourStop + ":" + minuteStop + ":00");
+
 
         if(changeRadioButton.isSelected()) {
-
-            RequestEntity requestEntity = new RequestEntity(EditRequest.timestamp.getId(),
-                    java.sql.Time.valueOf(hourStart + ":" + minuteStart + ":00"),
-                    java.sql.Time.valueOf(hourStop + ":" + minuteStop + ":00"),
-                    descriptionTextArea.getText(), "PENDING","UPDATE_START" );
-            db.createRequest(requestEntity);
-            requestEntity=null;
-
+            if(stop.before(start)){
+                a.setContentText("Stopp time is before start time!");
+                a.show();
+            }
+            else {
+                RequestEntity requestEntity = new RequestEntity(EditRequest.timestamp.getId(),
+                        start,
+                        stop,
+                        descriptionTextArea.getText(), "PENDING", "UPDATE_START");
+                db.createRequest(requestEntity);
+                requestEntity = null;
+                Windows.changeWindow(sendRequestButton,"User.fxml");
+            }
         }else if(deleteRadioButton.isSelected())
         {
-            //as Request table does not have either is delete or change timestamps,
-            // so I added as automatically description
-            //TODO: Leon noch ein Field hinzufugen
-            //System.out.println("HOUR: " + EditRequest.timestamp.getTime());
-            RequestEntity requestEntity = new RequestEntity(EditRequest.timestamp.getId(),
-                java.sql.Time.valueOf(hourStart + ":" + minuteStart + ":00"),
-                java.sql.Time.valueOf(hourStop + ":" + minuteStop + ":00"),
-                descriptionTextArea.getText(), "PENDING","DELETE" );
-            db.createRequest(requestEntity);
-            requestEntity=null;
+            if(stop.before(start)){
+                a.setContentText("Stopp time is before start time!");
+                a.show();
 
+        }else {
+                //as Request table does not have either is delete or change timestamps,
+                // so I added as automatically description
+                //TODO: Leon noch ein Field hinzufugen
+                //System.out.println("HOUR: " + EditRequest.timestamp.getTime());
+                RequestEntity requestEntity = new RequestEntity(EditRequest.timestamp.getId(),
+                        java.sql.Time.valueOf(hourStart + ":" + minuteStart + ":00"),
+                        java.sql.Time.valueOf(hourStop + ":" + minuteStop + ":00"),
+                        descriptionTextArea.getText(), "PENDING", "DELETE");
+                db.createRequest(requestEntity);
+                requestEntity = null;
+                Windows.changeWindow(sendRequestButton,"User.fxml");
+            }
         }
-        Windows.changeWindow(sendRequestButton,"User.fxml");
+
 
     }
     @FXML
