@@ -18,7 +18,7 @@
             <TableColumn fx:id="workedHoursColumn" prefWidth="110.66659545898438" text="Worked Hours" />
         </columns>
       </TableView>
-      <Button layoutX="57.0" layoutY="264.0" mnemonicParsing="false" text="Edit User" />
+      <Button fx:id="editUserButton" layoutX="57.0" layoutY="264.0" mnemonicParsing="false" onAction="#editUserButtonOnAction" text="Edit User" />
       <TextField fx:id="searchUserTextField" layoutX="95.0" layoutY="14.0" prefHeight="25.0" prefWidth="240.0" promptText="Search user" />
       <Button fx:id="cancelButton" cancelButton="true" layoutX="293.0" layoutY="264.0" mnemonicParsing="false" onAction="#cancelButtonOnAction" prefHeight="25.0" prefWidth="63.0" text="Cancel" />
    </children>

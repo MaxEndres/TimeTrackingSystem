@@ -53,7 +53,7 @@
                   <TextField fx:id="surname" prefHeight="25.0" prefWidth="99.0" promptText="Surname" />
                </children>
             </HBox>
-            <TextField fx:id="email" editable="false" prefHeight="25.0" prefWidth="171.0">
+            <TextField fx:id="email" prefHeight="25.0" prefWidth="171.0">
                <VBox.margin>
                   <Insets top="10.0" />
                </VBox.margin>
