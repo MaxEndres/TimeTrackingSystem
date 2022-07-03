@@ -14,6 +14,7 @@ module com.example.javafx {
     requires java.sql;
     requires jbcrypt;
     requires itextpdf;
+    requires commons.csv;
 
     //requires java.datatransfer;
    // requires java.desktop;

@@ -6,9 +6,9 @@ import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.Image;
 import entities.UserEntity;
-
-import java.io.FileOutputStream;
-import java.io.IOException;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
+import java.io.*;
 
 public class Export {
 
@@ -38,6 +38,32 @@ public class Export {
         doc.close();
         writer.close();
 
+    }
+
+    public static void exportAllTimeStamps() throws IOException {
+        CSVFormat format = CSVFormat.DEFAULT.withRecordSeparator("\n");
+        // file name
+        final String FILE_NAME = "timestamp.csv";
+        // creating the file object
+        File file = new File(FILE_NAME);
+        // creating file writer object
+        FileWriter fw = new FileWriter(file);
+
+        // creating the csv printer object
+        CSVPrinter printer = new CSVPrinter(fw, format);
+
+        System.out.println("Enter the query ----> ");
+
+        // reading the query from user as input
+
+        // printing the result in 'CSV' file
+        printer.printRecords(DatabaseService.get);
+
+        System.out.println("Query has been executed successfully...");
+
+
+        fw.close();
+        printer.close();
     }
 
 }

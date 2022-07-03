@@ -1,5 +1,6 @@
 package utility;
 
+import com.itextpdf.text.Document;
 import entities.RequestEntity;
 import entities.TimestampEntity;
 import entities.UserEntity;
@@ -7,10 +8,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import org.mindrot.jbcrypt.BCrypt;
 
+import java.io.FileWriter;
+import java.io.Writer;
 import java.sql.*;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.util.Objects;
+
 
 
 public class DatabaseService {
@@ -403,5 +407,6 @@ public class DatabaseService {
         preparedStatement.executeUpdate();
         System.out.println("*****");
     }
+
 
 }
