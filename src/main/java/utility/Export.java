@@ -57,7 +57,7 @@ public class Export {
         // reading the query from user as input
 
         // printing the result in 'CSV' file
-        printer.printRecords(DatabaseService.get);
+        //printer.printRecords(DatabaseService.get);
 
         System.out.println("Query has been executed successfully...");
 
