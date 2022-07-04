@@ -70,14 +70,14 @@ public class Export {
         // creating the csv printer object
         CSVPrinter printer = new CSVPrinter(fw, format);
         // printing the result in 'CSV' file
-        printer.printRecords(String.valueOf(columNames));
+        printer.print(columNames);
+        printer.println();
         printer.printRecords(queryOutput);
 
 
 
         fw.close();
         printer.close();
-        System.out.println("Query has been executed successfully...");
     }
 
 }
