@@ -27,6 +27,13 @@ public class DatabaseService {
     public DatabaseService() throws SQLException {
     }
 
+    public ResultSet timeStampsForCSV(int userId) throws SQLException {
+        PreparedStatement preparedStatement = dbconn.prepareStatement("SELECT * FROM onpoint.timestamps WHERE timestamps.user_id = ?;");
+        preparedStatement.setInt(1, userId);
+        ResultSet queryOutput = preparedStatement.executeQuery();
+
+        return queryOutput;
+    }
     // creating a new user
     public void createUser(UserEntity userEntity) throws SQLException {
         PreparedStatement preparedStatement = dbconn.prepareStatement("INSERT INTO onpoint.users (department_id, start_day, forename, surname, email, password, salt, target_hours, is_admin, is_first_login)\n" +
@@ -407,6 +414,7 @@ public class DatabaseService {
         preparedStatement.executeUpdate();
         System.out.println("*****");
     }
+
 
 
 }

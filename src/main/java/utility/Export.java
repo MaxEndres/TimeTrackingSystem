@@ -9,6 +9,11 @@ import entities.UserEntity;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import java.io.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import utility.DatabaseService;
 
 public class Export {
 
@@ -40,7 +45,10 @@ public class Export {
 
     }
 
-    public static void exportAllTimeStamps() throws IOException {
+    public static void exportAllTimeStamps(int userID) throws IOException, SQLException {
+
+        DatabaseService databaseService = new DatabaseService();
+        ResultSet queryOutput = databaseService.timeStampsForCSV(userID);
         CSVFormat format = CSVFormat.DEFAULT.withRecordSeparator("\n");
         // file name
         final String FILE_NAME = "timestamp.csv";
@@ -51,14 +59,8 @@ public class Export {
 
         // creating the csv printer object
         CSVPrinter printer = new CSVPrinter(fw, format);
-
-        System.out.println("Enter the query ----> ");
-
-        // reading the query from user as input
-
         // printing the result in 'CSV' file
-        //printer.printRecords(DatabaseService.get);
-
+        printer.printRecords(queryOutput);
         System.out.println("Query has been executed successfully...");
 
 
