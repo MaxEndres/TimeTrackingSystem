@@ -166,8 +166,7 @@ public class EditConfirmation extends Application {
     @FXML
     protected void cancelButtonOnAction(ActionEvent e) throws SQLException, IOException {
         EditRequest.timestamp= null;
-        Windows.changeWindow(cancelButton, "User.fxml");
-
+        Windows.closeWindow(cancelButton);
     }
 
     public static void main(String[] args) {
