@@ -51,14 +51,7 @@ public class Export {
 
         DatabaseService databaseService = new DatabaseService();
         ResultSet queryOutput = databaseService.timeStampsForCSV(userID);
-        ResultSetMetaData rsmd = queryOutput.getMetaData();
-        String columNames = "";
-        columNames = rsmd.getColumnName(1)+",";
-        for(int i = 2; i < 6; i++){
-            columNames = columNames + rsmd.getColumnName(i) + ",";
-        }
-        columNames = columNames + rsmd.getColumnName(6);
-        CSVFormat format = CSVFormat.DEFAULT.withRecordSeparator("\n");
+        CSVFormat format = CSVFormat.DEFAULT.withRecordSeparator("\n").withHeader(queryOutput);
         LocalDate today = LocalDate.now();
         // file name
         final String FILE_NAME = "timestamp"+ today + ".csv";
@@ -70,8 +63,8 @@ public class Export {
         // creating the csv printer object
         CSVPrinter printer = new CSVPrinter(fw, format);
         // printing the result in 'CSV' file
-        printer.print(columNames);
-        printer.println();
+        //printer.print(columNames);
+       // printer.println();
         printer.printRecords(queryOutput);
 
 
