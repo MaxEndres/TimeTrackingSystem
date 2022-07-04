@@ -10,6 +10,7 @@ import utility.DatabaseService;
 import utility.Windows;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Time;
 
@@ -126,6 +127,7 @@ public class EditConfirmation extends Application {
         Time stop = java.sql.Time.valueOf(hourStop + ":" + minuteStop + ":00");
 
 
+
         if(changeRadioButton.isSelected()) {
             if(stop.before(start)){
                 a.setContentText("Stopp time is before start time!");
@@ -138,6 +140,7 @@ public class EditConfirmation extends Application {
                         descriptionTextArea.getText(), "PENDING", "UPDATE_START");
                 db.createRequest(requestEntity);
                 requestEntity = null;
+
                 Windows.changeWindow(sendRequestButton,"User.fxml");
             }
         }else if(deleteRadioButton.isSelected())
