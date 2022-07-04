@@ -24,6 +24,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
+import static utility.Export.exportAllTimeStamps;
+
 public class UserProfile extends Application  {
     @FXML
     Label timeLabel, workedTimeLabel;
@@ -83,7 +85,10 @@ public class UserProfile extends Application  {
                 startTime, startDate);
         db.insertTimestamp(timestamp);
     }
-
+    @FXML
+    public void viewTimeButtonOnAction(ActionEvent event) throws SQLException, IOException {
+        exportAllTimeStamps(Login.logInUserEntity.getId());
+    }
 
     @FXML
     protected void stopButtonOnAction(ActionEvent event) throws SQLException {

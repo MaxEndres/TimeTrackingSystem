@@ -11,7 +11,9 @@ import org.apache.commons.csv.CSVPrinter;
 import java.io.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 import utility.DatabaseService;
 
@@ -49,9 +51,17 @@ public class Export {
 
         DatabaseService databaseService = new DatabaseService();
         ResultSet queryOutput = databaseService.timeStampsForCSV(userID);
+        ResultSetMetaData rsmd = queryOutput.getMetaData();
+        String columNames = "";
+        columNames = rsmd.getColumnName(1)+",";
+        for(int i = 2; i < 6; i++){
+            columNames = columNames + rsmd.getColumnName(i) + ",";
+        }
+        columNames = columNames + rsmd.getColumnName(6);
         CSVFormat format = CSVFormat.DEFAULT.withRecordSeparator("\n");
+        LocalDate today = LocalDate.now();
         // file name
-        final String FILE_NAME = "timestamp.csv";
+        final String FILE_NAME = "timestamp"+ today + ".csv";
         // creating the file object
         File file = new File(FILE_NAME);
         // creating file writer object
@@ -60,12 +70,14 @@ public class Export {
         // creating the csv printer object
         CSVPrinter printer = new CSVPrinter(fw, format);
         // printing the result in 'CSV' file
+        printer.printRecords(String.valueOf(columNames));
         printer.printRecords(queryOutput);
-        System.out.println("Query has been executed successfully...");
+
 
 
         fw.close();
         printer.close();
+        System.out.println("Query has been executed successfully...");
     }
 
 }
