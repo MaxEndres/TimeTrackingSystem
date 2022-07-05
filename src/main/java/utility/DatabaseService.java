@@ -28,7 +28,7 @@ public class DatabaseService {
     }
 
     public ResultSet timeStampsForCSV(int userId) throws SQLException {
-        PreparedStatement preparedStatement = dbconn.prepareStatement("SELECT id,date,start,stop,((stop-start)*0.0001) AS 'worked Time' FROM onpoint.timestamps WHERE timestamps.user_id = ?;");
+        PreparedStatement preparedStatement = dbconn.prepareStatement("SELECT id,date,start,stop,CAST(TIMEDIFF(stop,start) AS CHAR) AS 'worked Time' FROM onpoint.timestamps WHERE timestamps.user_id = ?;");
         preparedStatement.setInt(1, userId);
         ResultSet queryOutput = preparedStatement.executeQuery();
 
