@@ -61,7 +61,8 @@ public class AddRequest extends Application {
     }
     @FXML
     private void cancelButtonOnAction(ActionEvent e) throws SQLException, IOException {
-        Windows.changeWindow(cancelButton, "User.fxml");
+       // Windows.changeWindow(cancelButton, "User.fxml");
+        Windows.closeWindow(cancelButton);
     }
 
     public static void main(String[] args) {

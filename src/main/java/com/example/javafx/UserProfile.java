@@ -56,7 +56,7 @@ public class UserProfile extends Application  {
         nameMenuButton.setText(Login.logInUserEntity.getForename() +" "+ Login.logInUserEntity.getSurname());
         if(Login.logInUserEntity.getIsAdmin())
         {
-            nameMenuButton.setDisable(true);
+            nameMenuButton.setVisible(false);
             //logOut.setDisable(true);
         }
     }

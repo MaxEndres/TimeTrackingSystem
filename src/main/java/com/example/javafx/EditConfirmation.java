@@ -141,7 +141,8 @@ public class EditConfirmation extends Application {
                 db.createRequest(requestEntity);
                 requestEntity = null;
 
-                Windows.changeWindow(sendRequestButton,"User.fxml");
+                //Windows.changeWindow(sendRequestButton,"User.fxml");
+                Windows.closeWindow(cancelButton);
             }
         }else if(deleteRadioButton.isSelected())
         {
@@ -160,7 +161,8 @@ public class EditConfirmation extends Application {
                         descriptionTextArea.getText(), "PENDING", "DELETE");
                 db.createRequest(requestEntity);
                 requestEntity = null;
-                Windows.changeWindow(sendRequestButton,"User.fxml");
+                //Windows.changeWindow(sendRequestButton,"User.fxml");
+                Windows.closeWindow(cancelButton);
             }
         }
 
