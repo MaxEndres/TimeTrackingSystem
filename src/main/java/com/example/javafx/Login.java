@@ -60,34 +60,31 @@ public class Login {
             {
                 if(db.checkTimestamp(logInUserEntity.getId()) != null)
                 {
+                    if(logInUserEntity.getIsAdmin())
+                {
+                    Windows.changeWindow(loginButton, "Admin.fxml");
+                }
                     Time stopTime = java.sql.Time.valueOf("18:00:00");
                     //db.updateTimestamp(stopTime);
                     EditRequest.timestamp = db.checkTimestamp(logInUserEntity.getId());
                     db.updateTimestamp(stopTime);
                     System.out.println("ID: " + EditRequest.timestamp.getId());
                     Windows.openWindow("EditConfirmation.fxml");
-                }else
+
+                }else if(logInUserEntity.getIsAdmin())
                 {
 //if Admin
-                    if(logInUserEntity.getIsAdmin())
-                    {
                         //adminadmin@onpoint.de
                         // wMumJ7hD
                         Windows.changeWindow(loginButton, "Admin.fxml");
-                    }else
-                    {
+                }else
+                {
                         //User: harrish@onpoint.de
                         // Password: $!H9PLqT
                         Windows.changeWindow(loginButton, "User.fxml");
 
-                    }
                 }
-
-
             }
-
-
-
         }
 
     }

@@ -51,12 +51,17 @@ public class EditRequest extends Application {
         timestampIdTableColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
 
         errorLabel.setVisible(false);
+        timestamp = timestampsTableView.getSelectionModel().getSelectedItem();
+
 
     }
 @FXML
-    protected void changeButtonOnAction(ActionEvent e) throws IOException {
+    protected void changeButtonOnAction(ActionEvent e) throws IOException, SQLException {
         timestamp = timestampsTableView.getSelectionModel().getSelectedItem();
-        if(timestamp==null)
+        if(db.checkRequestTable(timestamp.getId()))
+        {
+
+        }if(timestamp==null)
         {
             errorLabel.setVisible(true);
         }else

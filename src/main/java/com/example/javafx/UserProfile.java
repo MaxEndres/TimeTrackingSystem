@@ -54,6 +54,11 @@ public class UserProfile extends Application  {
         timeline.setCycleCount(Animation.INDEFINITE);
         stopButton.setVisible(false);
         nameMenuButton.setText(Login.logInUserEntity.getForename() +" "+ Login.logInUserEntity.getSurname());
+        if(Login.logInUserEntity.getIsAdmin())
+        {
+            nameMenuButton.setDisable(true);
+            //logOut.setDisable(true);
+        }
     }
 
     private void incrementTime()

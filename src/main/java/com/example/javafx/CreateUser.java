@@ -38,7 +38,7 @@ public class CreateUser extends Application {
     @FXML
     Button addUserButton, cancelButton;
     @FXML
-    Label errorLabel;
+    Label errorLabel, errorLabelDate, errorLabelEmail;
     @FXML
     CheckBox isAdminCheckBox;
     LocalDate todaysDate = LocalDate.now();
@@ -56,8 +56,8 @@ public class CreateUser extends Application {
         targetHours.setItems(getTargetHours());
         targetHours.getSelectionModel().select(5);
         errorLabel.setVisible(false);
-
-
+        errorLabelDate.setVisible(false);
+        errorLabelEmail.setVisible(false);
         //startDay.setValue();
         //toDo: id sollte automatisch
         //toDo: email, domain von der Firma?
@@ -68,7 +68,19 @@ public class CreateUser extends Application {
         if(forename.getText().isBlank() ||surname.getText().isBlank()|| email.getText().isBlank() )
         {
             errorLabel.setVisible(true);
+            errorLabelDate.setVisible(false);
+            errorLabelEmail.setVisible(false);
 
+        }else if(startDay.getValue().isAfter(LocalDate.now()))
+        {
+            errorLabel.setVisible(false);
+            errorLabelDate.setVisible(true);
+            errorLabelEmail.setVisible(false);
+        }else if(!db.checkEmail(email.getText()))
+        {
+            errorLabel.setVisible(false);
+            errorLabelDate.setVisible(false);
+            errorLabelEmail.setVisible(true);
         }else
         {
 

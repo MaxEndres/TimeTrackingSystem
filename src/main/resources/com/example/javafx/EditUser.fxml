@@ -79,9 +79,11 @@
             </VBox>
             <Button fx:id="addUserButton" layoutX="44.0" layoutY="248.0" mnemonicParsing="false" onAction="#addUserButtonOnAction" text="Confirm Changes" />
             <Button fx:id="cancelButton" cancelButton="true" layoutX="288.0" layoutY="248.0" mnemonicParsing="false" onAction="#cancelButtonOnAction" prefHeight="25.0" prefWidth="107.0" text="Cancel" />
-            <Label fx:id="errorLabel" layoutX="160.0" layoutY="230.0" text="Please fill all the fields!" textFill="#f20404" />
+            <Label fx:id="errorLabel" layoutX="14.0" layoutY="228.0" text="Please fill all the fields!" textFill="#f20404" />
             <CheckBox fx:id="isAdminCheckBox" layoutX="219.0" layoutY="201.0" mnemonicParsing="false" text="Is Admin" />
             <Button fx:id="deleteUserButton" layoutX="165.0" layoutY="248.0" mnemonicParsing="false" onAction="#deleteUserButtonOnAction" prefHeight="25.0" prefWidth="107.0" text="Delete User" />
+            <Label fx:id="errorLabelDate" layoutX="153.0" layoutY="228.0" text="Start day is in the future!" textFill="#f20404" />
+            <Label fx:id="errorLabelEmail" layoutX="296.0" layoutY="228.0" text="Email is already in use!" textFill="#f20404" />
          </children>
       </AnchorPane>
    </children>

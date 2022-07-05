@@ -53,29 +53,38 @@ public class DatabaseService {
 
     // listing all available users
     public ObservableList<UserEntity> listAllUsers() throws SQLException {
-        PreparedStatement preparedStatement = dbconn.prepareStatement("SELECT users.id, departments.name AS department, start_day, forename, surname, email, password, salt, target_hours, is_admin, is_first_login \n" +
+        PreparedStatement preparedStatement = dbconn.prepareStatement("SELECT users.id,users.is_deleted departments.name AS department, start_day, forename, surname, email, password, salt, target_hours, is_admin, is_first_login \n" +
                 " FROM onpoint.users\n" +
                 " JOIN onpoint.departments ON users.department_id = departments.id;");
         ObservableList<UserEntity> userEntityList = FXCollections.observableArrayList();
         ResultSet queryOutput = preparedStatement.executeQuery();
         int workedHours=0;
         while (queryOutput.next()) {
-            UserEntity queryUser = new UserEntity(queryOutput.getInt("id"),
-                    queryOutput.getString("department"),
-                    queryOutput.getDate("start_day"),
-                    queryOutput.getString("forename"),
-                    queryOutput.getString("surname"),
-                    queryOutput.getString("email"),
-                    queryOutput.getString("password"),
-                    queryOutput.getString("salt"),
-                    queryOutput.getInt("target_hours"),
-                    queryOutput.getBoolean("is_admin"),
-                    queryOutput.getBoolean("is_first_login"));
+            if(queryOutput.getBoolean("is_deleted"))
+            {
+                continue;
+
+            }else
+            {
+                UserEntity queryUser = new UserEntity(queryOutput.getInt("id"),
+                        queryOutput.getString("department"),
+                        queryOutput.getDate("start_day"),
+                        queryOutput.getString("forename"),
+                        queryOutput.getString("surname"),
+                        queryOutput.getString("email"),
+                        queryOutput.getString("password"),
+                        queryOutput.getString("salt"),
+                        queryOutput.getInt("target_hours"),
+                        queryOutput.getBoolean("is_admin"),
+                        queryOutput.getBoolean("is_first_login"));
 
 
-            workedHours= getWorkedHours(queryUser, LocalDate.now().getMonthValue()); //TODO: fixMe
-            queryUser.setTargetHours(workedHours);
-            userEntityList.add(queryUser);
+                workedHours= getWorkedHours(queryUser, LocalDate.now().getMonthValue()); //TODO: fixMe
+                queryUser.setTargetHours(workedHours);
+                userEntityList.add(queryUser);
+            }
+
+
         }
         return userEntityList;
     }
@@ -104,7 +113,7 @@ public class DatabaseService {
     }
     //list all request for user
     public ObservableList<RequestEntity> listAllRequests(int userId) throws SQLException {
-        PreparedStatement preparedStatement = dbconn.prepareStatement("SELECT timestamp_id,  new_time_start, new_time_stop, description, status.name AS status, type.name AS type, timestamps.user_id AS user_id \n" +
+        PreparedStatement preparedStatement = dbconn.prepareStatement("SELECT timestamp_id, requests.is_deleted, new_time_start, new_time_stop, description, status.name AS status, type.name AS type, timestamps.user_id AS user_id \n" +
                 "FROM onpoint.requests\n" +
                 "JOIN onpoint.status ON requests.status_id = status.id\n" +
                 "JOIN onpoint.type ON requests.type_id = type.id\n" +
@@ -113,13 +122,20 @@ public class DatabaseService {
         ObservableList<RequestEntity> requestEntityList = FXCollections.observableArrayList();
         ResultSet queryOutput = preparedStatement.executeQuery();
         while (queryOutput.next()) {
-            requestEntityList.add(new RequestEntity(queryOutput.getInt("timestamp_id"),
-                    queryOutput.getTime("new_time_start"),
-                    queryOutput.getTime("new_time_stop"),
-                    queryOutput.getString("description"),
-                    queryOutput.getString("status"),
-                    queryOutput.getString("type"),
-                    queryOutput.getInt("user_id")));
+            if(queryOutput.getBoolean("is_deleted"))
+            {
+                continue;
+            }else
+            {
+                requestEntityList.add(new RequestEntity(queryOutput.getInt("timestamp_id"),
+                        queryOutput.getTime("new_time_start"),
+                        queryOutput.getTime("new_time_stop"),
+                        queryOutput.getString("description"),
+                        queryOutput.getString("status"),
+                        queryOutput.getString("type"),
+                        queryOutput.getInt("user_id")));
+            }
+
         }
         return requestEntityList;
     }
@@ -132,7 +148,24 @@ public class DatabaseService {
         System.out.println("UPDATED");
     }
 
+    //check if timestamp has already been requested
+    public boolean checkRequestTable(int timestampId) throws SQLException {
+        PreparedStatement preparedStatement =
+                dbconn.prepareStatement("SELECT count(*) FROM onpoint.requests WHERE requests.timestamp_id =" + timestampId+"  ;");
+        ResultSet queryOutput = preparedStatement.executeQuery();
+        queryOutput.next();
+        int count = queryOutput.getInt(1);
+        if(count == 0)
+        {
 
+            return false;
+        }else
+        {
+            return true;
+        }
+    }
+
+    //Check if timestamp has stop
     public TimestampEntity checkTimestamp(int userId) throws SQLException
     {
         PreparedStatement preparedStatement =
@@ -180,11 +213,18 @@ public class DatabaseService {
         ResultSet queryOutput = preparedStatement.executeQuery();
         ObservableList<TimestampEntity> timestampList = FXCollections.observableArrayList();
         while (queryOutput.next()) {
-            timestampList.add(new TimestampEntity(queryOutput.getInt("id"),
-                    queryOutput.getInt("user_id"),
-                    queryOutput.getTime("start"),
-                    queryOutput.getTime("stop"),
-                    queryOutput.getDate("date")));
+            if(queryOutput.getBoolean("is_deleted"))
+            {
+                continue;
+            }else
+            {
+                timestampList.add(new TimestampEntity(queryOutput.getInt("id"),
+                        queryOutput.getInt("user_id"),
+                        queryOutput.getTime("start"),
+                        queryOutput.getTime("stop"),
+                        queryOutput.getDate("date")));
+            }
+
         }
         return timestampList;
     }
@@ -202,6 +242,15 @@ public class DatabaseService {
 
     // create a request when a user wants to change a timestamp they created
     public void createRequest(RequestEntity requestEntity) throws SQLException {
+
+        if(checkRequestTable(requestEntity.getTimestampId()))
+        {
+            //denyRequest(requestEntity);
+            PreparedStatement preparedStatement = dbconn.prepareStatement("DELETE FROM onpoint.requests WHERE timestamp_id = ?");
+            preparedStatement.setInt(1, requestEntity.getTimestampId());
+            preparedStatement.executeUpdate();
+        }
+
         PreparedStatement preparedStatement = dbconn.prepareStatement("INSERT INTO onpoint.requests (timestamp_id, new_time_start, new_time_stop, description, status_id, type_id)" +
                 "VALUES(?,?,?,?,(SELECT id FROM status WHERE name = ?),(SELECT id FROM type WHERE name = ?));");
         preparedStatement.setInt(1, requestEntity.getTimestampId());
@@ -210,6 +259,9 @@ public class DatabaseService {
         preparedStatement.setString(4, requestEntity.getDescription());
         preparedStatement.setString(5, requestEntity.getStatus());
         preparedStatement.setString(6, requestEntity.getType());
+
+
+
         preparedStatement.executeUpdate();
     }
 
@@ -228,7 +280,7 @@ public class DatabaseService {
             preparedStatement.executeUpdate();
             */
         } else if(requestEntity.getType().equals("DELETE")) {
-            PreparedStatement preparedStatement = dbconn.prepareStatement("DELETE FROM onpoint.timestamps WHERE id = ?");
+            PreparedStatement preparedStatement = dbconn.prepareStatement("UPDATE timestamps SET is_deleted = true WHERE id = ?");
             preparedStatement.setInt(1, requestEntity.getTimestampId());
             preparedStatement.executeUpdate();
         }
@@ -239,7 +291,7 @@ public class DatabaseService {
 
     // admin can deny a request
     public void denyRequest(RequestEntity requestEntity) throws SQLException {
-        PreparedStatement preparedStatement = dbconn.prepareStatement("UPDATE onpoint.requests SET status_id = 3 WHERE timestamp_id = ?");
+        PreparedStatement preparedStatement = dbconn.prepareStatement("UPDATE onpoint.requests SET status_id = 3 set is_deleted = true WHERE timestamp_id = ?");
         preparedStatement.setInt(1, requestEntity.getTimestampId());
         preparedStatement.executeUpdate();
     }
@@ -355,6 +407,20 @@ public class DatabaseService {
         }
         return userEntity;
     }
+    public boolean checkEmail(String _email) throws SQLException {
+        //Check if Record with given email exists
+        PreparedStatement stUser = dbconn.prepareStatement("SELECT * " +
+                "FROM onpoint.users " +
+                "WHERE email=?");
+        stUser.setString(1, _email);
+        ResultSet rsUser = stUser.executeQuery();
+        if (!rsUser.next()) {
+            System.out.println("email does not exist");
+            return true;
+        }else {
+            return false;
+        }
+    }
     public void updatePassword(int userId, String password) throws SQLException {
         String salt = BCrypt.gensalt();
         String passwordMitSalt = BCrypt.hashpw(password,salt);
@@ -413,6 +479,14 @@ public class DatabaseService {
         preparedStatement.setInt(8, id);
         preparedStatement.executeUpdate();
         System.out.println("*****");
+    }
+
+    public void deleteUser(int id) throws SQLException {
+        PreparedStatement preparedStatement =
+                dbconn.prepareStatement(
+                        " UPDATE onpoint.users SET is_deleted = 1 WHERE users.id = ?;");
+        preparedStatement.setInt(1, id);
+        preparedStatement.executeUpdate();
     }
 
 

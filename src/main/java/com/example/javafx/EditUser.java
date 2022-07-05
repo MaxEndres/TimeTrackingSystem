@@ -28,7 +28,7 @@ public class EditUser {
     @FXML
     Button addUserButton, cancelButton, deleteUserButton;
     @FXML
-    Label errorLabel;
+    Label errorLabel, errorLabelDate, errorLabelEmail;
     @FXML
     CheckBox isAdminCheckBox;
     LocalDate todaysDate = LocalDate.now();
@@ -50,13 +50,27 @@ public class EditUser {
         startDay.setValue(SearchUser.editUser.getStartDay().toLocalDate());
         isAdminCheckBox.setSelected(SearchUser.editUser.getIsAdmin());
         errorLabel.setVisible(false);
+        errorLabelDate.setVisible(false);
+        errorLabelEmail.setVisible(false);
     }
     @FXML
     protected void addUserButtonOnAction(ActionEvent event) throws SQLException, IOException {
         if(forename.getText().isBlank() ||surname.getText().isBlank()|| email.getText().isBlank() )
         {
             errorLabel.setVisible(true);
+            errorLabelDate.setVisible(false);
+            errorLabelEmail.setVisible(false);
 
+        }else if(startDay.getValue().isAfter(LocalDate.now()))
+        {
+            errorLabel.setVisible(false);
+            errorLabelDate.setVisible(true);
+            errorLabelEmail.setVisible(false);
+        }else if(!db.checkEmail(email.getText()))
+        {
+            errorLabel.setVisible(false);
+            errorLabelDate.setVisible(false);
+            errorLabelEmail.setVisible(true);
         }else
         {
             Date date= Date.from(Instant.from(startDay.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
@@ -88,9 +102,9 @@ public class EditUser {
         Windows.changeWindow(cancelButton, "Admin.fxml");
     }
     @FXML
-    public void deleteUserButtonOnAction(ActionEvent actionEvent)
-    {
-        //toDo: Delete User
+    public void deleteUserButtonOnAction(ActionEvent actionEvent) throws SQLException {
+
+        db.deleteUser(SearchUser.editUser.getId());
         Windows.closeWindow(deleteUserButton);
     }
 

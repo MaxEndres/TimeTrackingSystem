@@ -79,5 +79,7 @@
       <Button fx:id="cancelButton" cancelButton="true" layoutX="312.0" layoutY="248.0" mnemonicParsing="false" onAction="#cancelButtonOnAction" prefHeight="25.0" prefWidth="65.0" text="Cancel" />
       <Label fx:id="errorLabel" layoutX="160.0" layoutY="230.0" text="Please fill all the fields!" textFill="#f20404" />
       <CheckBox fx:id="isAdminCheckBox" layoutX="219.0" layoutY="201.0" mnemonicParsing="false" text="Is Admin" />
+      <Label fx:id="errorLabelDate" layoutX="155.0" layoutY="252.0" text="Start day is in the future!" textFill="#f20404" />
+      <Label fx:id="errorLabelEmail" layoutX="157.0" layoutY="273.0" text="User is already created!" textFill="#f20404" />
    </children>
 </AnchorPane>
