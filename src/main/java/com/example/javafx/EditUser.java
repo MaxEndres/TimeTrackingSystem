@@ -66,11 +66,6 @@ public class EditUser {
             errorLabel.setVisible(false);
             errorLabelDate.setVisible(true);
             errorLabelEmail.setVisible(false);
-        }else if(!db.checkEmail(email.getText()))
-        {
-            errorLabel.setVisible(false);
-            errorLabelDate.setVisible(false);
-            errorLabelEmail.setVisible(true);
         }else
         {
             Date date= Date.from(Instant.from(startDay.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
