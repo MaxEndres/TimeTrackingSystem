@@ -27,8 +27,10 @@ import java.time.format.DateTimeFormatter;
 import static utility.Export.exportAllTimeStamps;
 
 public class UserProfile extends Application  {
+
+
     @FXML
-    Label timeLabel, workedTimeLabel;
+    Label timeLabel, workedTimeLabel, loggedInAs;
     @FXML
     Button startButton, stopButton, editTimeButton, pendingRequestButton;
     @FXML
@@ -56,8 +58,11 @@ public class UserProfile extends Application  {
         nameMenuButton.setText(Login.logInUserEntity.getForename() +" "+ Login.logInUserEntity.getSurname());
         if(Login.logInUserEntity.getIsAdmin())
         {
-            nameMenuButton.setDisable(true);
+            loggedInAs.setVisible(false);
+            nameMenuButton.setVisible(false);
             //logOut.setDisable(true);
+        }else {
+            loggedInAs.setVisible(true);
         }
     }
 
