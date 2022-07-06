@@ -137,7 +137,7 @@ public class EditConfirmation extends Application {
                 RequestEntity requestEntity = new RequestEntity(EditRequest.timestamp.getId(),
                         start,
                         stop,
-                        descriptionTextArea.getText(), "PENDING", "UPDATE_START");
+                        descriptionTextArea.getText(), "PENDING", "UPDATE");
                 db.createRequest(requestEntity);
                 requestEntity = null;
 
@@ -161,8 +161,8 @@ public class EditConfirmation extends Application {
                         descriptionTextArea.getText(), "PENDING", "DELETE");
                 db.createRequest(requestEntity);
                 requestEntity = null;
-                //Windows.changeWindow(sendRequestButton,"User.fxml");
-                Windows.closeWindow(cancelButton);
+                Windows.changeWindow(sendRequestButton,"User.fxml");
+               // Windows.closeWindow(cancelButton);
             }
         }
 

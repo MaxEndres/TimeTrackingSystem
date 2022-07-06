@@ -97,10 +97,10 @@ public class EditUser {
         Windows.changeWindow(cancelButton, "Admin.fxml");
     }
     @FXML
-    public void deleteUserButtonOnAction(ActionEvent actionEvent) throws SQLException {
+    public void deleteUserButtonOnAction(ActionEvent actionEvent) throws SQLException, IOException {
 
         db.deleteUser(SearchUser.editUser.getId());
-        Windows.closeWindow(deleteUserButton);
+        Windows.changeWindow(deleteUserButton, "Admin.fxml");
     }
 
 }

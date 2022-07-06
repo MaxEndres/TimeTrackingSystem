@@ -11,9 +11,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="315.0" prefWidth="441.0" style="-fx-background-color: #fcfeff;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.javafx.CreateUser">
+<AnchorPane prefHeight="315.0" prefWidth="600.0" style="-fx-background-color: #fcfeff;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.javafx.CreateUser">
    <children>
-      <VBox layoutX="63.0" prefHeight="237.0" prefWidth="100.0">
+      <VBox layoutX="154.0" layoutY="12.0" prefHeight="237.0" prefWidth="100.0">
          <children>
             <Label prefHeight="17.0" prefWidth="73.0" text="User:" />
             <Label text="Email address:">
@@ -41,7 +41,7 @@
             <Insets top="20.0" />
          </padding>
       </VBox>
-      <VBox layoutX="161.0" layoutY="10.0" prefHeight="190.0" prefWidth="213.0">
+      <VBox layoutX="252.0" layoutY="22.0" prefHeight="190.0" prefWidth="213.0">
          <children>
             <HBox prefHeight="33.0" prefWidth="213.0">
                <children>
@@ -75,11 +75,11 @@
             </ComboBox>
          </children>
       </VBox>
-      <Button fx:id="addUserButton" layoutX="62.0" layoutY="248.0" mnemonicParsing="false" onAction="#addUserButtonOnAction" text="Add User" />
-      <Button fx:id="cancelButton" cancelButton="true" layoutX="312.0" layoutY="248.0" mnemonicParsing="false" onAction="#cancelButtonOnAction" prefHeight="25.0" prefWidth="65.0" text="Cancel" />
-      <Label fx:id="errorLabel" layoutX="160.0" layoutY="230.0" text="Please fill all the fields!" textFill="#f20404" />
-      <CheckBox fx:id="isAdminCheckBox" layoutX="219.0" layoutY="201.0" mnemonicParsing="false" text="Is Admin" />
-      <Label fx:id="errorLabelDate" layoutX="155.0" layoutY="252.0" text="Start day is in the future!" textFill="#f20404" />
-      <Label fx:id="errorLabelEmail" layoutX="157.0" layoutY="273.0" text="User is already created!" textFill="#f20404" />
+      <Button fx:id="addUserButton" layoutX="153.0" layoutY="260.0" mnemonicParsing="false" onAction="#addUserButtonOnAction" text="Add User" />
+      <Button fx:id="cancelButton" cancelButton="true" layoutX="403.0" layoutY="260.0" mnemonicParsing="false" onAction="#cancelButtonOnAction" prefHeight="25.0" prefWidth="65.0" text="Cancel" />
+      <Label fx:id="errorLabel" layoutX="251.0" layoutY="242.0" text="Please fill all the fields!" textFill="#f20404" />
+      <CheckBox fx:id="isAdminCheckBox" layoutX="310.0" layoutY="213.0" mnemonicParsing="false" text="Is Admin" />
+      <Label fx:id="errorLabelDate" layoutX="246.0" layoutY="264.0" text="Start day is in the future!" textFill="#f20404" />
+      <Label fx:id="errorLabelEmail" layoutX="248.0" layoutY="285.0" text="User is already created!" textFill="#f20404" />
    </children>
 </AnchorPane>

@@ -15,7 +15,7 @@
       <Button fx:id="createButton" layoutX="38.0" layoutY="254.0" mnemonicParsing="false" onAction="#createButtonOnAction" text="Create New User" />
       <Button fx:id="inboxButton" layoutX="38.0" layoutY="296.0" mnemonicParsing="false" onAction="#inboxButtonOnAction" prefHeight="25.0" prefWidth="105.0" text="Inbox" />
       <Button fx:id="userViewButton" layoutX="40.0" layoutY="340.0" mnemonicParsing="false" onAction="#userViewButtonOnAction" prefHeight="25.0" prefWidth="105.0" text="User View" />
-      <AnchorPane fx:id="pane" layoutX="154.0" layoutY="84.0" prefHeight="385.0" prefWidth="591.0" />
+      <AnchorPane fx:id="pane" layoutX="154.0" layoutY="142.0" prefHeight="327.0" prefWidth="591.0" />
       <ImageView fitHeight="114.0" fitWidth="121.0" layoutX="38.0" layoutY="13.0" pickOnBounds="true">
          <image>
             <Image url="@../../../assets/img.png" />

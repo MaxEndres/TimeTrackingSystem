@@ -252,7 +252,7 @@ public class DatabaseService {
         }
 
         PreparedStatement preparedStatement = dbconn.prepareStatement("INSERT INTO onpoint.requests (timestamp_id, new_time_start, new_time_stop, description, status_id, type_id)" +
-                "VALUES(?,?,?,?,(SELECT id FROM status WHERE name = ?),(SELECT id FROM type WHERE name = ?));");
+                "VALUES(?,?,?,?,(SELECT id FROM onpoint.status WHERE name = ?),(SELECT id FROM type WHERE name = ?));");
         preparedStatement.setInt(1, requestEntity.getTimestampId());
         preparedStatement.setTime(2, requestEntity.getNewTimeStart());
         preparedStatement.setTime(3, requestEntity.getNewTimeStop());

@@ -21,7 +21,7 @@ public class ChangePassword extends Application {
     @FXML
     TextField previousPassword, newPassword, confirmNewPassword;
     @FXML
-    Label errorLabel;
+    Label errorLabel, label1, label2, label3;
     @FXML
     AnchorPane pane;
     DatabaseService db = new DatabaseService();
@@ -39,23 +39,35 @@ public class ChangePassword extends Application {
         UserEntity autheticateUser =db.validateData(Login.logInUserEntity.getEmail(), previousPassword.getText());
         if(autheticateUser == null)
         {
+            errorLabel.setVisible(true);
             errorLabel.setText("Enter previous password again!");
 
         }else if(!newPassword.getText().equals(confirmNewPassword.getText()))
         {
-            errorLabel.setText("Passwords do not match!");
             errorLabel.setVisible(true);
+            errorLabel.setText("Passwords do not match!");
+
         }else if(autheticateUser!= null)
         {
-            errorLabel.setText("Password updated!");
+            label1.setVisible(false);
+            label2.setVisible(false);
+            label3.setVisible(false);
+            previousPassword.setVisible(false);
+            newPassword.setVisible(false);
+            confirmNewPassword.setVisible(false);
+            errorLabel.setText("Password succesfully updated!");
+            errorLabel.setVisible(true);
+            changePasswordButton.setVisible(false);
+            cancelButton.setText("Go Back");
             db.updatePassword(Login.logInUserEntity.getId(), newPassword.getText());
             autheticateUser=null;
-            Windows.closePane(pane);
+
+           // Windows.closePane(pane);
         }
     }
     @FXML
     private void cancelButtonOnAction(ActionEvent event) throws IOException {
-        Windows.closePane(pane);
+        Windows.closeWindow(cancelButton);
     }
 
     public static void main(String[] args) {
