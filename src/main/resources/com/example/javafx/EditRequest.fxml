@@ -21,7 +21,7 @@
       </TableView>
       <Button fx:id="changeButton" layoutX="78.0" layoutY="319.0" mnemonicParsing="false" onAction="#changeButtonOnAction" prefHeight="25.0" prefWidth="112.0" text="Change/Delete" />
       <Button fx:id="addNewButton" layoutX="484.0" layoutY="47.0" mnemonicParsing="false" onAction="#addNewButtonOnAction" text="Add new " />
-      <Button fx:id="goBackToProfileButton" layoutX="390.0" layoutY="319.0" mnemonicParsing="false" onAction="#goBackToProfileButtonOnAction" prefHeight="25.0" prefWidth="112.0" text="Go back to profile" />
+      <Button fx:id="goBackToProfileButton" layoutX="390.0" layoutY="319.0" mnemonicParsing="false" onAction="#goBackToProfileButtonOnAction" prefHeight="25.0" prefWidth="112.0" text="back" />
       <Label fx:id="errorLabel" layoutX="213.0" layoutY="283.0" text="Please select a Timestamp" textFill="#f20303" />
       <Label layoutX="240.0" layoutY="24.0" text="Timestamps" textFill="#3481c0">
          <font>
