@@ -230,18 +230,11 @@ public class DatabaseService {
         ResultSet queryOutput = preparedStatement.executeQuery();
         ObservableList<TimestampEntity> timestampList = FXCollections.observableArrayList();
         while (queryOutput.next()) {
-            if(queryOutput.getBoolean("is_deleted"))
-            {
-                continue;
-            }else
-            {
                 timestampList.add(new TimestampEntity(queryOutput.getInt("id"),
                         queryOutput.getInt("user_id"),
                         queryOutput.getTime("start"),
                         queryOutput.getTime("stop"),
                         queryOutput.getDate("date")));
-            }
-
         }
         return timestampList;
     }
@@ -271,22 +264,19 @@ public class DatabaseService {
     public void createRequestForNonExistingTimestamp(RequestEntity requestEntity, TimestampEntity timestampEntity) throws SQLException {
 
         // create the new timestamp
-        PreparedStatement preparedStatement2 = dbconn.prepareStatement("INSERT INTO onpoint.timestamps (user_id, start, stop, date, is_deleted) VALUES(?,?,?,?,?)");
+        PreparedStatement preparedStatement2 = dbconn.prepareStatement("INSERT INTO onpoint.timestamps (user_id, start, stop, date, is_deleted) VALUES(?,?,?,?,?);");
         preparedStatement2.setInt(1, timestampEntity.getUserId());
         preparedStatement2.setTime(2, timestampEntity.getStart());
         preparedStatement2.setTime(3, timestampEntity.getStop());
         preparedStatement2.setDate(4, timestampEntity.getDate());
         preparedStatement2.setBoolean(5, true);
+        preparedStatement2.executeUpdate();
 
         // find out the new timestampId and store it in the timestampEntity Object and the requestEntity Object
         ObservableList<TimestampEntity> timestampsList = listAllTimestamps(timestampEntity.getUserId());
-        for(int i = 0; i < timestampsList.size(); i++) {
-            if (timestampsList.get(i).equals(timestampEntity)) {
-                timestampEntity.setId(timestampsList.get(i).getId());
-                break;
-            }
-        }
+        timestampEntity.setId(timestampsList.get(timestampsList.size() - 1).getId());
         requestEntity.setTimestampId(timestampEntity.getId());
+
         // create the request
         PreparedStatement preparedStatement1 = dbconn.prepareStatement("INSERT INTO onpoint.requests (timestamp_id, new_time_start, new_time_stop, description, status_id, type_id)" +
                 "VALUES(?,?,?,?,(SELECT id FROM onpoint.status WHERE name = ?),(SELECT id FROM type WHERE name = ?));");
@@ -297,6 +287,8 @@ public class DatabaseService {
         preparedStatement1.setString(5, requestEntity.getStatus());
         preparedStatement1.setString(6, requestEntity.getType());
         preparedStatement1.executeUpdate();
+
+        System.out.println("created new timestamp and request successfully!");
     }
 
     // admin can accept a request which then updates the desired timestamp
