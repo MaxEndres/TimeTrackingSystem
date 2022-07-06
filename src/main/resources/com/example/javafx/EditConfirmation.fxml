@@ -20,12 +20,12 @@
       <Button fx:id="sendRequestButton" layoutX="126.0" layoutY="348.0" mnemonicParsing="false" onAction="#sendRequestButtonOnAction" text="Send request" />
       <Label fx:id="punktLabel" layoutX="348.0" layoutY="120.0" text=":" />
       <Label fx:id="timestampLabel" layoutX="271.0" layoutY="55.0" text="Timestamp ID:" />
-      <RadioButton fx:id="deleteRadioButton" layoutX="140.0" layoutY="200.0" mnemonicParsing="false" onAction="#addRequestOnAction" prefHeight="17.0" prefWidth="93.0" text="Delete Entry">
+      <RadioButton fx:id="deleteRadioButton" layoutX="140.0" layoutY="200.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="93.0" text="Delete Entry">
          <toggleGroup>
             <ToggleGroup fx:id="selection" />
          </toggleGroup>
       </RadioButton>
-      <RadioButton fx:id="changeRadioButton" layoutX="339.0" layoutY="200.0" mnemonicParsing="false" onAction="#addRequestOnAction" text="Change Entry" toggleGroup="$selection" />
+      <RadioButton fx:id="changeRadioButton" layoutX="339.0" layoutY="200.0" mnemonicParsing="false" text="Change Entry" toggleGroup="$selection" />
       <Spinner fx:id="hourStartSpinner" editable="true" layoutX="269.0" layoutY="116.0" prefHeight="25.0" prefWidth="63.0" />
       <Spinner fx:id="minuteStartSpinner" editable="true" layoutX="364.0" layoutY="116.0" prefHeight="17.0" prefWidth="63.0" />
       <Label fx:id="timestampLabel1" layoutX="171.0" layoutY="55.0" text="Timestamp ID:" />

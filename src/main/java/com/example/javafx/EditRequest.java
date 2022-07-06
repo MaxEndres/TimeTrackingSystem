@@ -58,16 +58,15 @@ public class EditRequest extends Application {
 @FXML
     protected void changeButtonOnAction(ActionEvent e) throws IOException, SQLException {
         timestamp = timestampsTableView.getSelectionModel().getSelectedItem();
-        if(db.checkRequestTable(timestamp.getId()))
+     if(timestamp==null)
+     {
+        errorLabel.setVisible(true);
+     }else { /*if(db.checkRequestTable(timestamp.getId()))
         {
 
-        }if(timestamp==null)
-        {
-            errorLabel.setVisible(true);
-        }else
-        {
-            Windows.changeWindow(changeButton, "EditConfirmation.fxml");
-        }
+        }*/
+         Windows.changeWindow(changeButton, "EditConfirmation.fxml");
+     }
     }
     @FXML
     protected void addNewButtonOnAction(ActionEvent e) throws IOException {

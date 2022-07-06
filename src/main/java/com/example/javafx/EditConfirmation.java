@@ -84,38 +84,7 @@ public class EditConfirmation extends Application {
 
 
     }
-    @FXML
-    protected void addRequestOnAction(ActionEvent event)
-    {
-        if(changeRadioButton.isSelected())
-        {
-            /*
-            newTimeLabel.setVisible(true);
-            descriptionLabel.setVisible(true);
-            punktLabel.setVisible(true);
-            hourStartSpinner.setVisible(true);
-            minuteStartSpinner.setVisible(true);
-            hourStopSpinner.setVisible(true);
-            minuteStopSpinner.setVisible(true);
-            descriptionTextArea.setVisible(true);
-            *
-             */
 
-        }else if(deleteRadioButton.isSelected())
-        {
-            /*
-            newTimeLabel.setVisible(false);
-            descriptionLabel.setVisible(true);
-            punktLabel.setVisible(false);
-            hourStartSpinner.setVisible(false);
-            minuteStartSpinner.setVisible(false);
-            hourStopSpinner.setVisible(false);
-            minuteStopSpinner.setVisible(false);
-            descriptionTextArea.setVisible(true);
-
-             */
-        }
-    }
     @FXML
     protected void sendRequestButtonOnAction(ActionEvent e) throws SQLException, IOException {
         String hourStart = hourStartSpinner.getValue().toString();
@@ -140,33 +109,27 @@ public class EditConfirmation extends Application {
                 db.createRequestForExistingTimestamp(requestEntity);
                 requestEntity = null;
 
-                //Windows.changeWindow(sendRequestButton,"User.fxml");
-                Windows.closeWindow(cancelButton);
             }
         }else if(deleteRadioButton.isSelected())
         {
-            if(stop.before(start)){
+            if(stop.before(start)) {
                 a.setContentText("Stopp time is before start time!");
                 a.show();
+            }else {
 
-        }else {
-                //as Request table does not have either is delete or change timestamps,
-                // so I added as automatically description
-                //TODO: Leon noch ein Field hinzufugen
-                //System.out.println("HOUR: " + EditRequest.timestamp.getTime());
                 RequestEntity requestEntity = new RequestEntity(EditRequest.timestamp.getId(),
                         java.sql.Time.valueOf(hourStart + ":" + minuteStart + ":00"),
                         java.sql.Time.valueOf(hourStop + ":" + minuteStop + ":00"),
                         descriptionTextArea.getText(), "PENDING", "DELETE");
                 db.createRequestForExistingTimestamp(requestEntity);
                 requestEntity = null;
-                Windows.changeWindow(sendRequestButton,"User.fxml");
-               // Windows.closeWindow(cancelButton);
             }
+            }
+        Windows.closeWindow(sendRequestButton);
         }
 
 
-    }
+
     @FXML
     protected void cancelButtonOnAction(ActionEvent e) throws SQLException, IOException {
         EditRequest.timestamp= null;

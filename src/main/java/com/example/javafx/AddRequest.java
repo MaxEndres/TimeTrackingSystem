@@ -78,12 +78,13 @@ public class AddRequest extends Application {
 
             TimestampEntity timestamp = new TimestampEntity(Login.logInUserEntity.getId(),
                     start, stop, sqlDate);
-            RequestEntity requestEntity = new RequestEntity(EditRequest.timestamp.getId(),
+            RequestEntity requestEntity = new RequestEntity(
                     start,
                     stop,
                     descriptionTextArea.getText(), "PENDING", "ADD_NEW");
-            db.createRequestForExistingTimestamp(requestEntity);
-            Windows.changeWindow(sendRequestButton, "User.fxml");
+            db.createRequestForNonExistingTimestamp(requestEntity,timestamp);
+            //db.createRequestForExistingTimestamp(requestEntity);
+            Windows.closeWindow(sendRequestButton);
         }
 
         /*
