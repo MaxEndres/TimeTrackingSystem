@@ -5,7 +5,7 @@ import java.sql.Time;
 
 public class RequestEntity {
 
-    private final int timestampId;
+    private int timestampId;
     private final Time newTimeStart;
     private final Time newTimeStop;
     private final String description;
@@ -59,5 +59,8 @@ public class RequestEntity {
     public Time getNewTimeStop() {
         return newTimeStop;
     }
-    
+
+    public void setTimestampId(int timestampId) {
+        this.timestampId = timestampId;
+    }
 }

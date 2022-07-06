@@ -1,5 +1,6 @@
 package entities;
 import java.sql.*;
+import java.util.Objects;
 
 public class TimestampEntity {
 
@@ -46,4 +47,21 @@ public class TimestampEntity {
     }
 
     public Date getDate() { return date; }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TimestampEntity that = (TimestampEntity) o;
+        return userId == that.userId && start.equals(that.start) && stop.equals(that.stop) && date.equals(that.date);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId, start, stop, date);
+    }
 }
