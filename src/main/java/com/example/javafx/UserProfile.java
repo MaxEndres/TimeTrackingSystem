@@ -5,15 +5,20 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
+import javafx.application.HostServices;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import utility.DatabaseService;
+import utility.Export;
 import utility.Windows;
 
 import java.io.IOException;
@@ -32,11 +37,15 @@ public class UserProfile extends Application  {
     @FXML
     Label timeLabel, workedTimeLabel, loggedInAs;
     @FXML
-    Button startButton, stopButton, editTimeButton, pendingRequestButton;
+    Button startButton, stopButton, editTimeButton, pendingRequestButton, viewTimeButton;
     @FXML
     AnchorPane pane;
     @FXML
     MenuButton nameMenuButton;
+    @FXML
+    ComboBox<String> monthComboBox;
+    @FXML
+    ComboBox<Integer> yearComboBox;
     Timeline timeline;
     LocalTime time= LocalTime.parse("00:00:00");
     DateTimeFormatter dtf= DateTimeFormatter.ofPattern("HH:mm:ss");
@@ -55,6 +64,13 @@ public class UserProfile extends Application  {
         timeline = new Timeline(new KeyFrame(Duration.millis(1000), actionEvent -> incrementTime()));
         timeline.setCycleCount(Animation.INDEFINITE);
         stopButton.setVisible(false);
+        monthComboBox.setItems(getMonths());
+        yearComboBox.setItems(getYears());
+
+        monthComboBox.getSelectionModel().select("July");
+        yearComboBox.getSelectionModel().select(2022);
+
+
         nameMenuButton.setText(Login.logInUserEntity.getForename() +" "+ Login.logInUserEntity.getSurname());
         if(Login.logInUserEntity.getIsAdmin())
         {
@@ -97,7 +113,13 @@ public class UserProfile extends Application  {
     }
     @FXML
     public void viewTimeButtonOnAction(ActionEvent event) throws SQLException, IOException {
+
         exportAllTimeStamps(Login.logInUserEntity.getId());
+        HostServices doc = getHostServices();
+        LocalDate today = LocalDate.now();
+        // file name
+        doc.showDocument("C:\\Users\\Public\\Downloads\\timestamp"+ today + ".csv");
+
     }
 
     @FXML
@@ -132,6 +154,7 @@ public class UserProfile extends Application  {
         Login.logInUserEntity = null;
         Windows.changeWindow(stopButton, "hello-view.fxml");
     }
+
     @FXML
     protected void pendingRequestButtonOnAction(ActionEvent e) throws IOException {
         Windows.openWindow("PendingRequests.fxml");
@@ -144,6 +167,22 @@ public class UserProfile extends Application  {
     protected void changePasswordOnAction(ActionEvent event) throws IOException {
         //Windows.loadWindow("ChangePassword.fxml", pane);
         Windows.openWindow("ChangePassword.fxml");
+    }
+
+    public static ObservableList<String> getMonths()
+    {
+        ObservableList<String> months = FXCollections.observableArrayList();
+        months.addAll("January", "February","March","April","May", "June", "July", "August", "September", "October", "November", "December" );
+        return months;
+    }
+    public static ObservableList<Integer> getYears()
+    {
+        ObservableList<Integer> years = FXCollections.observableArrayList();
+        for(int i=2000; i<=LocalDate.now().getYear(); i++)
+        {
+            years.add(i);
+        }
+        return years;
     }
     public static void main(String[] args) {
         launch(args);

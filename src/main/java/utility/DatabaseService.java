@@ -80,7 +80,7 @@ public class DatabaseService {
 
 
                 workedHours= getWorkedHours(queryUser, LocalDate.now().getMonthValue()); //TODO: fixMe
-                queryUser.setTargetHours(workedHours);
+                queryUser.setWorkedHours(workedHours);
                 userEntityList.add(queryUser);
             }
 
@@ -264,22 +264,42 @@ public class DatabaseService {
 
         preparedStatement.executeUpdate();
     }
+    public void createRequest(RequestEntity requestEntity, TimestampEntity timestamp) throws SQLException {
+
+        if(checkRequestTable(requestEntity.getTimestampId()))
+        {
+            //denyRequest(requestEntity);
+            PreparedStatement preparedStatement = dbconn.prepareStatement("DELETE FROM onpoint.requests WHERE timestamp_id = ?");
+            preparedStatement.setInt(1, requestEntity.getTimestampId());
+            preparedStatement.executeUpdate();
+        }
+
+        PreparedStatement preparedStatement = dbconn.prepareStatement("INSERT INTO onpoint.requests (timestamp_id, new_time_start, new_time_stop, description, status_id, type_id)" +
+                "VALUES(?,?,?,?,(SELECT id FROM status WHERE name = ?),(SELECT id FROM type WHERE name = ?));");
+        preparedStatement.setInt(1, requestEntity.getTimestampId());
+        preparedStatement.setTime(2, requestEntity.getNewTimeStart());
+        preparedStatement.setTime(3, requestEntity.getNewTimeStop());
+        preparedStatement.setString(4, requestEntity.getDescription());
+        preparedStatement.setString(5, requestEntity.getStatus());
+        preparedStatement.setString(6, requestEntity.getType());
+
+
+
+        preparedStatement.executeUpdate();
+    }
 
     // admin can accept a request which then updates the desired timestamp
     public void acceptRequest(RequestEntity requestEntity) throws SQLException {
-        if (requestEntity.getType().equals("UPDATE_START")) {
+        if (requestEntity.getType().equals("UPDATE")) {
             PreparedStatement preparedStatement = dbconn.prepareStatement("UPDATE onpoint.timestamps SET start = ?, stop = ? WHERE id = ?");
             preparedStatement.setTime(1, requestEntity.getNewTimeStart());
             preparedStatement.setTime(2, requestEntity.getNewTimeStop());
             preparedStatement.setInt(3, requestEntity.getTimestampId());
             preparedStatement.executeUpdate();
-       /* } else if (requestEntity.getType().equals("UPDATE_STOP")) {
-            PreparedStatement preparedStatement = dbconn.prepareStatement("UPDATE timestamps SET stop = ? WHERE id = ?");
-            preparedStatement.setTime(1, requestEntity.getNewTime());
-            preparedStatement.setInt(2, requestEntity.getTimestampId());
-            preparedStatement.executeUpdate();
-            */
-        } else if(requestEntity.getType().equals("DELETE")) {
+        }/* else if (requestEntity.getType().equals("ADD_NEW")) {
+            insertTimestamp(timestamp);
+
+        }*/ else if(requestEntity.getType().equals("DELETE")) {
             PreparedStatement preparedStatement = dbconn.prepareStatement("UPDATE timestamps SET is_deleted = true WHERE id = ?");
             preparedStatement.setInt(1, requestEntity.getTimestampId());
             preparedStatement.executeUpdate();
@@ -294,6 +314,19 @@ public class DatabaseService {
         PreparedStatement preparedStatement = dbconn.prepareStatement("UPDATE onpoint.requests SET status_id = 3 set is_deleted = true WHERE timestamp_id = ?");
         preparedStatement.setInt(1, requestEntity.getTimestampId());
         preparedStatement.executeUpdate();
+    }
+
+    public void acceptAddNewTimestamp(RequestEntity requestEntity, TimestampEntity timestamp) throws SQLException {
+        insertTimestamp(timestamp );
+        PreparedStatement preparedStatement = dbconn.prepareStatement("UPDATE timestamps SET start = ?, stop = ? WHERE id = ?");
+        preparedStatement.setTime(1, requestEntity.getNewTimeStart());
+        preparedStatement.setTime(2, requestEntity.getNewTimeStop());
+        preparedStatement.setInt(3, requestEntity.getTimestampId());
+        preparedStatement.executeUpdate();
+
+        PreparedStatement preparedStatement2 = dbconn.prepareStatement("UPDATE onpoint.requests SET status_id = 2 WHERE timestamp_id = ?");
+        preparedStatement2.setInt(1, requestEntity.getTimestampId());
+        preparedStatement2.executeUpdate();
     }
 
     // user wants to see how much hours they worked in a certain month (month is a number between 1 and 12)

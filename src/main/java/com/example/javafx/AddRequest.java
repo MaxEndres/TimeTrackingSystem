@@ -1,5 +1,6 @@
 package com.example.javafx;
 
+import entities.RequestEntity;
 import entities.TimestampEntity;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -11,7 +12,10 @@ import utility.Windows;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 
 public class AddRequest extends Application {
 
@@ -20,9 +24,10 @@ public class AddRequest extends Application {
     public DatePicker dayDatePicker;
     public ComboBox chooseComboBox;
     @FXML
-    public Spinner<Integer> hourSpinner, minuteSpinner;
+    public Spinner hourStartSpinner, minuteStartSpinner, hourStopSpinner, minuteStopSpinner;
     @FXML
     Button sendRequestButton, cancelButton;
+    Alert a = new Alert(Alert.AlertType.ERROR);
     DatabaseService db= new DatabaseService();
 
     public AddRequest() throws SQLException {
@@ -31,22 +36,57 @@ public class AddRequest extends Application {
     @FXML
     public void initialize()
     {
-        chooseComboBox.getItems().addAll("Stop", "Start");
+
         dayDatePicker.setValue(LocalDate.now());
-        SpinnerValueFactory<Integer> valueFactoryHour= new SpinnerValueFactory.IntegerSpinnerValueFactory(00,60,00);
-        SpinnerValueFactory<Integer> valueFactoryMinute= new SpinnerValueFactory.IntegerSpinnerValueFactory(00,60,00);
-
-        valueFactoryHour.setValue(00);
-        valueFactoryMinute.setValue(00);
-        hourSpinner.setValueFactory(valueFactoryHour);
-        minuteSpinner.setValueFactory(valueFactoryMinute);
 
 
+        SpinnerValueFactory<Integer> valueFactoryHourStart= new SpinnerValueFactory.IntegerSpinnerValueFactory(00,60,00);
+        SpinnerValueFactory<Integer> valueFactoryMinuteStart= new SpinnerValueFactory.IntegerSpinnerValueFactory(00,60,00);
+
+        SpinnerValueFactory<Integer> valueFactoryHourStop= new SpinnerValueFactory.IntegerSpinnerValueFactory(00,60,00);
+        SpinnerValueFactory<Integer> valueFactoryMinuteStop= new SpinnerValueFactory.IntegerSpinnerValueFactory(00,60,00);
+
+        valueFactoryHourStart.setValue(Integer.valueOf(00));
+        valueFactoryMinuteStart.setValue(Integer.valueOf(00));
+
+        hourStartSpinner.setValueFactory(valueFactoryHourStart);
+        minuteStartSpinner.setValueFactory(valueFactoryMinuteStart);
+
+        valueFactoryHourStop.setValue(Integer.valueOf(00));
+        valueFactoryMinuteStop.setValue(Integer.valueOf(00));
+
+        hourStopSpinner.setValueFactory(valueFactoryHourStop);
+        minuteStopSpinner.setValueFactory(valueFactoryMinuteStop);
     }
 
     @FXML
     private void sendRequestButtonOnAction(ActionEvent e) throws SQLException, IOException {
-        boolean is_start= chooseComboBox.getSelectionModel().getSelectedItem() != "Stop";
+        String hourStart = hourStartSpinner.getValue().toString();
+        String minuteStart = minuteStartSpinner.getValue().toString();
+        String hourStop = hourStopSpinner.getValue().toString();
+        String minuteStop = minuteStopSpinner.getValue().toString();
+        Time start = java.sql.Time.valueOf(hourStart + ":" + minuteStart + ":00");
+        Time stop = java.sql.Time.valueOf(hourStop + ":" + minuteStop + ":00");
+
+        if(stop.before(start)){
+            a.setContentText("Stopp time is before start time!");
+            a.show();
+        }
+        else {
+            Date date= Date.from(dayDatePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant());
+            java.sql.Date sqlDate = new java.sql.Date(date.getTime());
+
+            TimestampEntity timestamp = new TimestampEntity(Login.logInUserEntity.getId(),
+                    start, stop, sqlDate);
+            RequestEntity requestEntity = new RequestEntity(EditRequest.timestamp.getId(),
+                    start,
+                    stop,
+                    descriptionTextArea.getText(), "PENDING", "ADD_NEW");
+            db.createRequest(requestEntity);
+            requestEntity = null;
+            Windows.changeWindow(sendRequestButton, "User.fxml");
+        }
+
         /*
         TimestampEntity timestamp = new TimestampEntity(Login.logInUserEntity.getId(), java.sql.Date.valueOf(dayDatePicker.getValue()),
                 java.sql.Time.valueOf(hourSpinner.getValue().toString()+":"
@@ -54,7 +94,7 @@ public class AddRequest extends Application {
                 descriptionTextArea.getText());
         db.createTimestamp(timestamp);
         //change Window
-        Windows.changeWindow(sendRequestButton, "User.fxml");
+
         //Todo: actually it should send a request. Ask Leon.
 
          */

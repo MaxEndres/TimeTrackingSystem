@@ -13,6 +13,7 @@ public class UserEntity {
     private String password;
     private String salt;
     private int targetHours;
+    private int workedHours;
     private boolean isAdmin;
     private boolean isFirstLogin;
 
@@ -91,6 +92,9 @@ public class UserEntity {
     public int getTargetHours() {
         return targetHours;
     }
+    public int getWorkedHours() {
+        return workedHours;
+    }
 
     public boolean getIsAdmin() {
         return isAdmin;
@@ -102,5 +106,8 @@ public class UserEntity {
 
     public void setTargetHours(int _targetHours) {
         targetHours = _targetHours;
+    }
+
+    public void setWorkedHours(int workedHours) { this.workedHours = workedHours;
     }
 }

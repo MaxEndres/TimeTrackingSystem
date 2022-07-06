@@ -70,6 +70,10 @@ public class Requests extends Application {
     @FXML
     public void acceptButtonOnAction(ActionEvent e) throws SQLException {
         RequestEntity requestEntity = requestTableView.getSelectionModel().getSelectedItem();
+        if(requestEntity.getType().equals("ADD"))
+        {
+            //db.insertTimestamp();
+        }
         db.acceptRequest(requestEntity);
         initialize();
         requestEntity= null;

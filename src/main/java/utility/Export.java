@@ -71,6 +71,7 @@ public class Export {
 
         fw.close();
         printer.close();
+
     }
 
 }
