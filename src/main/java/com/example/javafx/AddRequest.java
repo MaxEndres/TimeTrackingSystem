@@ -82,8 +82,7 @@ public class AddRequest extends Application {
                     start,
                     stop,
                     descriptionTextArea.getText(), "PENDING", "ADD_NEW");
-            db.createRequest(requestEntity);
-            requestEntity = null;
+            db.createRequestForExistingTimestamp(requestEntity);
             Windows.changeWindow(sendRequestButton, "User.fxml");
         }
 

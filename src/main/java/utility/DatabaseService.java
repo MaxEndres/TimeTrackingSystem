@@ -247,7 +247,7 @@ public class DatabaseService {
     }
 
     // create a request when a user wants to change a timestamp they created
-    public void createRequest(RequestEntity requestEntity) throws SQLException {
+    public void createRequestForExistingTimestamp(RequestEntity requestEntity) throws SQLException {
         if(checkRequestTable(requestEntity.getTimestampId()))
         {
             //denyRequest(requestEntity);
@@ -264,6 +264,31 @@ public class DatabaseService {
         preparedStatement.setString(5, requestEntity.getStatus());
         preparedStatement.setString(6, requestEntity.getType());
         preparedStatement.executeUpdate();
+    }
+
+    // create a request when a user wants to change a timestamp they created
+    // Idea: create a new timestamp from scratch which has "is_deleted = 1" --> If the Request is accepted, make sure to change "is_deleted = 0" in the acceptRequest() function!
+    public void createRequestForNonExistingTimestamp(RequestEntity requestEntity, TimestampEntity timestampEntity) throws SQLException {
+        // create the new timestamp
+        PreparedStatement preparedStatement2 = dbconn.prepareStatement("INSERT INTO onpoint.timestamps (user_id, start, stop, date, is_deleted) VALUES(?,?,?,?,?)");
+        preparedStatement2.setInt(1, timestampEntity.getUserId());
+        preparedStatement2.setTime(2, timestampEntity.getStart());
+        preparedStatement2.setTime(3, timestampEntity.getStop());
+        preparedStatement2.setDate(4, timestampEntity.getDate());
+        preparedStatement2.setBoolean(5, true);
+
+        //TODO: get the new timestampId somehow
+
+        // create the request
+        PreparedStatement preparedStatement1 = dbconn.prepareStatement("INSERT INTO onpoint.requests (timestamp_id, new_time_start, new_time_stop, description, status_id, type_id)" +
+                "VALUES(?,?,?,?,(SELECT id FROM onpoint.status WHERE name = ?),(SELECT id FROM type WHERE name = ?));");
+        preparedStatement1.setInt(1, requestEntity.getTimestampId());
+        preparedStatement1.setTime(2, requestEntity.getNewTimeStart());
+        preparedStatement1.setTime(3, requestEntity.getNewTimeStop());
+        preparedStatement1.setString(4, requestEntity.getDescription());
+        preparedStatement1.setString(5, requestEntity.getStatus());
+        preparedStatement1.setString(6, requestEntity.getType());
+        preparedStatement1.executeUpdate();
     }
 
     // admin can accept a request which then updates the desired timestamp
