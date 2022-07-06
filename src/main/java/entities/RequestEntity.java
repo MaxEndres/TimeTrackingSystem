@@ -1,5 +1,6 @@
 package entities;
 
+import java.sql.Date;
 import java.sql.Time;
 
 public class RequestEntity {
@@ -14,15 +15,12 @@ public class RequestEntity {
 
     public RequestEntity(int timestampId, Time _newTimeStart, Time _newTimeStop, String description, String status, String type) {
         assert _newTimeStart.before(_newTimeStop) : "Stopp is before Start Time!";
-
         this.timestampId = timestampId;
         this.newTimeStart = _newTimeStart;
         this.newTimeStop = _newTimeStop;
         this.description = description;
         this.status = status;
         this.type = type;
-
-
     }
 
     public RequestEntity(int timestampId, Time _newTimeStart, Time _newTimeStop, String description, String status, String type, int userId) {
@@ -61,4 +59,5 @@ public class RequestEntity {
     public Time getNewTimeStop() {
         return newTimeStop;
     }
+    
 }

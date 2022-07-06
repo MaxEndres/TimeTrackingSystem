@@ -10,7 +10,6 @@ import utility.DatabaseService;
 import utility.Windows;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.sql.SQLException;
 import java.sql.Time;
 
@@ -138,7 +137,7 @@ public class EditConfirmation extends Application {
                         start,
                         stop,
                         descriptionTextArea.getText(), "PENDING", "UPDATE");
-                db.createRequest(requestEntity);
+                db.createRequestForExistingTimestamp(requestEntity);
                 requestEntity = null;
 
                 //Windows.changeWindow(sendRequestButton,"User.fxml");
@@ -159,7 +158,7 @@ public class EditConfirmation extends Application {
                         java.sql.Time.valueOf(hourStart + ":" + minuteStart + ":00"),
                         java.sql.Time.valueOf(hourStop + ":" + minuteStop + ":00"),
                         descriptionTextArea.getText(), "PENDING", "DELETE");
-                db.createRequest(requestEntity);
+                db.createRequestForExistingTimestamp(requestEntity);
                 requestEntity = null;
                 Windows.changeWindow(sendRequestButton,"User.fxml");
                // Windows.closeWindow(cancelButton);
