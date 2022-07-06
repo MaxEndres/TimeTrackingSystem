@@ -269,6 +269,7 @@ public class DatabaseService {
     // create a request when a user wants to change a timestamp they created
     // Idea: create a new timestamp from scratch which has "is_deleted = 1" --> If the Request is accepted, make sure to change "is_deleted = 0" in the acceptRequest() function!
     public void createRequestForNonExistingTimestamp(RequestEntity requestEntity, TimestampEntity timestampEntity) throws SQLException {
+
         // create the new timestamp
         PreparedStatement preparedStatement2 = dbconn.prepareStatement("INSERT INTO onpoint.timestamps (user_id, start, stop, date, is_deleted) VALUES(?,?,?,?,?)");
         preparedStatement2.setInt(1, timestampEntity.getUserId());
@@ -277,8 +278,15 @@ public class DatabaseService {
         preparedStatement2.setDate(4, timestampEntity.getDate());
         preparedStatement2.setBoolean(5, true);
 
-        //TODO: get the new timestampId somehow
-
+        // find out the new timestampId and store it in the timestampEntity Object and the requestEntity Object
+        ObservableList<TimestampEntity> timestampsList = listAllTimestamps(timestampEntity.getUserId());
+        for(int i = 0; i < timestampsList.size(); i++) {
+            if (timestampsList.get(i).equals(timestampEntity)) {
+                timestampEntity.setId(timestampsList.get(i).getId());
+                break;
+            }
+        }
+        requestEntity.setTimestampId(timestampEntity.getId());
         // create the request
         PreparedStatement preparedStatement1 = dbconn.prepareStatement("INSERT INTO onpoint.requests (timestamp_id, new_time_start, new_time_stop, description, status_id, type_id)" +
                 "VALUES(?,?,?,?,(SELECT id FROM onpoint.status WHERE name = ?),(SELECT id FROM type WHERE name = ?));");
@@ -299,10 +307,11 @@ public class DatabaseService {
             preparedStatement.setTime(2, requestEntity.getNewTimeStop());
             preparedStatement.setInt(3, requestEntity.getTimestampId());
             preparedStatement.executeUpdate();
-        }/* else if (requestEntity.getType().equals("ADD_NEW")) {
-            insertTimestamp(timestamp);
-
-        }*/ else if(requestEntity.getType().equals("DELETE")) {
+        } else if (requestEntity.getType().equals("ADD_NEW")) {
+            PreparedStatement preparedStatement = dbconn.prepareStatement("UPDATE timestamps SET is_deleted = false WHERE id = ?");
+            preparedStatement.setInt(1, requestEntity.getTimestampId());
+            preparedStatement.executeUpdate();
+        } else if(requestEntity.getType().equals("DELETE")) {
             PreparedStatement preparedStatement = dbconn.prepareStatement("UPDATE timestamps SET is_deleted = true WHERE id = ?");
             preparedStatement.setInt(1, requestEntity.getTimestampId());
             preparedStatement.executeUpdate();
