@@ -2,6 +2,7 @@ package com.example.javafx;
 
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
+import utility.DatabaseService;
 import utility.Windows;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
@@ -11,6 +12,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.sql.SQLException;
+import java.sql.Time;
 
 public class Admin extends Application {
     public MenuButton nameMenuButton;
@@ -20,6 +23,11 @@ public class Admin extends Application {
     Button createButton, searchUserButton, inboxButton;
     @FXML
     AnchorPane pane;
+    DatabaseService db = new DatabaseService();
+
+    public Admin() throws SQLException {
+    }
+
     @FXML
     public void initialize()
     {
@@ -42,9 +50,22 @@ public class Admin extends Application {
         Windows.openWindow("Requests.fxml");
     }
     @FXML
-    protected void userViewButtonOnAction(ActionEvent event) throws IOException {
-        Windows.openWindow("User.fxml");
+    protected void userViewButtonOnAction(ActionEvent event) throws IOException, SQLException {
+        if(db.checkTimestamp(Login.logInUserEntity.getId()) != null)
+        {
+            Time stopTime = java.sql.Time.valueOf("18:00:00");
+            //db.updateTimestamp(stopTime);
+            EditRequest.timestamp = db.checkTimestamp(Login.logInUserEntity.getId());
+            db.updateTimestamp(stopTime);
+            System.out.println("ID: " + EditRequest.timestamp.getId());
+            Windows.openWindow("EditConfirmation.fxml");
+
+        }else
+        {
+            Windows.openWindow("User.fxml");
+        }
     }
+
     @FXML
     protected void changePasswordOnAction(ActionEvent event) throws IOException {
         Windows.loadWindow("ChangePassword.fxml", pane);

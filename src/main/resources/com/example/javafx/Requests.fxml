@@ -22,7 +22,7 @@
          </children></AnchorPane>
       <AnchorPane fx:id="message" layoutX="284.0" layoutY="54.0" prefHeight="269.0" prefWidth="273.0" style="-fx-background-color: #ffff;">
          <children>
-            <Label fx:id="requestIdLabel" layoutX="110.0" layoutY="9.0" prefHeight="25.0" prefWidth="117.0" text="Request ID: ">
+            <Label fx:id="requestIdLabel" layoutX="131.0" layoutY="23.0" prefHeight="25.0" prefWidth="117.0" text="Request ID: ">
                <font>
                   <Font name="Arial Rounded MT Bold" size="14.0" />
                </font>
@@ -39,7 +39,7 @@
                   <Font name="Arial Rounded MT Bold" size="14.0" />
                </font>
             </Label>
-            <Label fx:id="requestIdLabel1" layoutX="21.0" layoutY="12.0" prefHeight="20.0" prefWidth="81.0" text="Request ID: " textFill="#347aeb">
+            <Label fx:id="requestIdLabel1" layoutX="20.0" layoutY="26.0" prefHeight="20.0" prefWidth="101.0" text="Request Type: " textFill="#347aeb">
                <font>
                   <Font name="Arial Rounded MT Bold" size="14.0" />
                </font>
@@ -54,7 +54,7 @@
                   <Font name="Arial Rounded MT Bold" size="14.0" />
                </font>
             </Label>
-            <Label fx:id="userLabel" layoutX="107.0" layoutY="49.0" prefHeight="25.0" prefWidth="146.0" text="User">
+            <Label fx:id="userLabel" layoutX="64.0" layoutY="49.0" prefHeight="25.0" prefWidth="226.0" text="User">
                <font>
                   <Font name="Arial Rounded MT Bold" size="14.0" />
                </font>

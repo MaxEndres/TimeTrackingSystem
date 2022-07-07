@@ -42,6 +42,15 @@ public class RequestEntity {
         this.type = type;
         this.userId = userId;
     }
+    public RequestEntity(Time newTimeStart, Time newTimeStop, String description, String status, String type) {
+        this.newTimeStart = newTimeStart;
+        this.newTimeStop = newTimeStop;
+        this.description = description;
+        this.status = status;
+        this.type = type;
+
+    }
+
 
     public int getTimestampId() {
         return timestampId;

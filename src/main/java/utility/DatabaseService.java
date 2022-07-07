@@ -118,20 +118,17 @@ public class DatabaseService {
         ObservableList<RequestEntity> requestEntityList = FXCollections.observableArrayList();
         ResultSet queryOutput = preparedStatement.executeQuery();
         while (queryOutput.next()) {
-            if(queryOutput.getBoolean("is_deleted"))
-            {
-                continue;
-            }else
-            {
+
                 requestEntityList.add(new RequestEntity(queryOutput.getInt("timestamp_id"),
-                        queryOutput.getTime("new_time_start"),
-                        queryOutput.getTime("new_time_stop"),
-                        queryOutput.getString("description"),
-                        queryOutput.getString("status"),
-                        queryOutput.getString("type"),
-                        queryOutput.getInt("user_id")));
+                    queryOutput.getTime("new_time_start"),
+                    queryOutput.getTime("new_time_stop"),
+                    queryOutput.getString("description"),
+                    queryOutput.getString("status"),
+                    queryOutput.getString("type"),
+                    queryOutput.getInt("user_id")));
+
             }
-        }
+
         return requestEntityList;
     }
 
@@ -230,11 +227,18 @@ public class DatabaseService {
         ResultSet queryOutput = preparedStatement.executeQuery();
         ObservableList<TimestampEntity> timestampList = FXCollections.observableArrayList();
         while (queryOutput.next()) {
+            if(queryOutput.getBoolean("is_deleted"))
+            {
+                continue;
+            }else
+            {
                 timestampList.add(new TimestampEntity(queryOutput.getInt("id"),
                         queryOutput.getInt("user_id"),
                         queryOutput.getTime("start"),
                         queryOutput.getTime("stop"),
                         queryOutput.getDate("date")));
+            }
+
         }
         return timestampList;
     }
@@ -248,14 +252,15 @@ public class DatabaseService {
             preparedStatement.setInt(1, requestEntity.getTimestampId());
             preparedStatement.executeUpdate();
         }
-        PreparedStatement preparedStatement = dbconn.prepareStatement("INSERT INTO onpoint.requests (timestamp_id, new_time_start, new_time_stop, description, status_id, type_id)" +
-                "VALUES(?,?,?,?,(SELECT id FROM onpoint.status WHERE name = ?),(SELECT id FROM type WHERE name = ?));");
+        PreparedStatement preparedStatement = dbconn.prepareStatement("INSERT INTO onpoint.requests (timestamp_id, new_time_start, new_time_stop, description, status_id, type_id, is_deleted)" +
+                "VALUES(?,?,?,?,(SELECT id FROM onpoint.status WHERE name = ?),(SELECT id FROM type WHERE name = ?), ?);");
         preparedStatement.setInt(1, requestEntity.getTimestampId());
         preparedStatement.setTime(2, requestEntity.getNewTimeStart());
         preparedStatement.setTime(3, requestEntity.getNewTimeStop());
         preparedStatement.setString(4, requestEntity.getDescription());
         preparedStatement.setString(5, requestEntity.getStatus());
         preparedStatement.setString(6, requestEntity.getType());
+        preparedStatement.setBoolean(7, true);
         preparedStatement.executeUpdate();
     }
 
@@ -278,14 +283,15 @@ public class DatabaseService {
         requestEntity.setTimestampId(timestampEntity.getId());
 
         // create the request
-        PreparedStatement preparedStatement1 = dbconn.prepareStatement("INSERT INTO onpoint.requests (timestamp_id, new_time_start, new_time_stop, description, status_id, type_id)" +
-                "VALUES(?,?,?,?,(SELECT id FROM onpoint.status WHERE name = ?),(SELECT id FROM type WHERE name = ?));");
+        PreparedStatement preparedStatement1 = dbconn.prepareStatement("INSERT INTO onpoint.requests (timestamp_id, new_time_start, new_time_stop, description, status_id, type_id, is_deleted)" +
+                "VALUES(?,?,?,?,(SELECT id FROM onpoint.status WHERE name = ?),(SELECT id FROM type WHERE name = ?), ?);");
         preparedStatement1.setInt(1, requestEntity.getTimestampId());
         preparedStatement1.setTime(2, requestEntity.getNewTimeStart());
         preparedStatement1.setTime(3, requestEntity.getNewTimeStop());
         preparedStatement1.setString(4, requestEntity.getDescription());
         preparedStatement1.setString(5, requestEntity.getStatus());
         preparedStatement1.setString(6, requestEntity.getType());
+        preparedStatement1.setBoolean(7, true);
         preparedStatement1.executeUpdate();
 
         System.out.println("created new timestamp and request successfully!");
@@ -294,17 +300,17 @@ public class DatabaseService {
     // admin can accept a request which then updates the desired timestamp
     public void acceptRequest(RequestEntity requestEntity) throws SQLException {
         if (requestEntity.getType().equals("UPDATE")) {
-            PreparedStatement preparedStatement = dbconn.prepareStatement("UPDATE onpoint.timestamps SET start = ?, stop = ? WHERE id = ?");
+            PreparedStatement preparedStatement = dbconn.prepareStatement("UPDATE onpoint.timestamps SET is_deleted = 0, start = ?, stop = ? WHERE id = ?");
             preparedStatement.setTime(1, requestEntity.getNewTimeStart());
             preparedStatement.setTime(2, requestEntity.getNewTimeStop());
             preparedStatement.setInt(3, requestEntity.getTimestampId());
             preparedStatement.executeUpdate();
         } else if (requestEntity.getType().equals("ADD_NEW")) {
-            PreparedStatement preparedStatement = dbconn.prepareStatement("UPDATE timestamps SET is_deleted = false WHERE id = ?");
+            PreparedStatement preparedStatement = dbconn.prepareStatement("UPDATE onpoint.timestamps SET is_deleted = 0 WHERE id = ?");
             preparedStatement.setInt(1, requestEntity.getTimestampId());
             preparedStatement.executeUpdate();
         } else if(requestEntity.getType().equals("DELETE")) {
-            PreparedStatement preparedStatement = dbconn.prepareStatement("UPDATE timestamps SET is_deleted = true WHERE id = ?");
+            PreparedStatement preparedStatement = dbconn.prepareStatement("UPDATE onpoint.timestamps SET is_deleted = 1 WHERE id = ?");
             preparedStatement.setInt(1, requestEntity.getTimestampId());
             preparedStatement.executeUpdate();
         }

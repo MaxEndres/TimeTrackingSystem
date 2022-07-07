@@ -36,6 +36,7 @@ public class EditConfirmation extends Application {
         errorLabel.setVisible(false);
         timestampLabel.setText("" + EditRequest.timestamp.getId());
         currentEntryLabel.setText(" Date " +EditRequest.timestamp.getDate());
+
         /*
         newTimeLabel.setVisible(false);
         descriptionLabel.setVisible(false);
@@ -95,9 +96,16 @@ public class EditConfirmation extends Application {
         Time stop = java.sql.Time.valueOf(hourStop + ":" + minuteStop + ":00");
 
 
-
-        if(changeRadioButton.isSelected()) {
-            if(stop.before(start)){
+        if(!changeRadioButton.isSelected()  || !changeRadioButton.isSelected())
+        {
+            errorLabel.setText("Please select an option!");
+            errorLabel.setVisible(true);
+        }
+        if(changeRadioButton.isSelected())
+        {
+            errorLabel.setVisible(false);
+            if(stop.before(start))
+            {
                 a.setContentText("Stopp time is before start time!");
                 a.show();
             }
@@ -108,25 +116,29 @@ public class EditConfirmation extends Application {
                         descriptionTextArea.getText(), "PENDING", "UPDATE");
                 db.createRequestForExistingTimestamp(requestEntity);
                 requestEntity = null;
+                Windows.closeWindow(sendRequestButton);
 
             }
         }else if(deleteRadioButton.isSelected())
         {
-            if(stop.before(start)) {
+            /*
+            if(stop.before(start))
+            {
+                errorLabel.setVisible(false);
                 a.setContentText("Stopp time is before start time!");
                 a.show();
-            }else {
-
+                *
+             */
+            errorLabel.setVisible(false);
                 RequestEntity requestEntity = new RequestEntity(EditRequest.timestamp.getId(),
                         java.sql.Time.valueOf(hourStart + ":" + minuteStart + ":00"),
                         java.sql.Time.valueOf(hourStop + ":" + minuteStop + ":00"),
                         descriptionTextArea.getText(), "PENDING", "DELETE");
                 db.createRequestForExistingTimestamp(requestEntity);
                 requestEntity = null;
+                Windows.closeWindow(sendRequestButton);
             }
             }
-        Windows.closeWindow(sendRequestButton);
-        }
 
 
 
