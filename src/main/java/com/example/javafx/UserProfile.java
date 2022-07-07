@@ -42,10 +42,6 @@ public class UserProfile extends Application  {
     AnchorPane pane;
     @FXML
     MenuButton nameMenuButton;
-    @FXML
-    ComboBox<String> monthComboBox;
-    @FXML
-    ComboBox<Integer> yearComboBox;
     Timeline timeline;
     LocalTime time= LocalTime.parse("00:00:00");
     DateTimeFormatter dtf= DateTimeFormatter.ofPattern("HH:mm:ss");
@@ -64,12 +60,6 @@ public class UserProfile extends Application  {
         timeline = new Timeline(new KeyFrame(Duration.millis(1000), actionEvent -> incrementTime()));
         timeline.setCycleCount(Animation.INDEFINITE);
         stopButton.setVisible(false);
-        monthComboBox.setItems(getMonths());
-        yearComboBox.setItems(getYears());
-
-        monthComboBox.getSelectionModel().select("July");
-        yearComboBox.getSelectionModel().select(2022);
-
 
         nameMenuButton.setText(Login.logInUserEntity.getForename() +" "+ Login.logInUserEntity.getSurname());
         if(Login.logInUserEntity.getIsAdmin())
@@ -112,13 +102,10 @@ public class UserProfile extends Application  {
         db.insertTimestamp(timestamp);
     }
     @FXML
-    public void viewTimeButtonOnAction(ActionEvent event) throws SQLException, IOException {
+    public void viewTimeButtonOnAction(ActionEvent event) throws SQLException, IOException
+    {
+        Windows.openWindow("Empty.fxml");
 
-        exportAllTimeStamps(Login.logInUserEntity.getId());
-        HostServices doc = getHostServices();
-        LocalDate today = LocalDate.now();
-        // file name
-        doc.showDocument("C:\\Users\\Public\\Downloads\\timestamp"+ today + ".csv");
 
     }
 
@@ -169,21 +156,7 @@ public class UserProfile extends Application  {
         Windows.openWindow("ChangePassword.fxml");
     }
 
-    public static ObservableList<String> getMonths()
-    {
-        ObservableList<String> months = FXCollections.observableArrayList();
-        months.addAll("January", "February","March","April","May", "June", "July", "August", "September", "October", "November", "December" );
-        return months;
-    }
-    public static ObservableList<Integer> getYears()
-    {
-        ObservableList<Integer> years = FXCollections.observableArrayList();
-        for(int i=2000; i<=LocalDate.now().getYear(); i++)
-        {
-            years.add(i);
-        }
-        return years;
-    }
+
     public static void main(String[] args) {
         launch(args);
     }
