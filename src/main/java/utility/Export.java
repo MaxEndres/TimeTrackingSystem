@@ -47,10 +47,10 @@ public class Export {
 
     }
 
-    public static void exportAllTimeStamps(int userID) throws IOException, SQLException {
+    public static void exportAllTimeStamps(int userID, String _month, String year) throws IOException, SQLException {
 
         DatabaseService databaseService = new DatabaseService();
-        ResultSet queryOutput = databaseService.timeStampsForCSV(userID);
+        ResultSet queryOutput = databaseService.timeStampsForCSV(userID, _month, year);
         CSVFormat format = CSVFormat.DEFAULT.withRecordSeparator("\n").withHeader(queryOutput);
         LocalDate today = LocalDate.now();
         // file name
