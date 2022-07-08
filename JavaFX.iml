@@ -19,17 +19,17 @@
     <orderEntry type="library" name="Maven: commons-collections:commons-collections:3.2.2" level="project" />
     <orderEntry type="library" name="Maven: org.apache.commons:commons-collections4:4.4" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-controls:18-ea+4" level="project" />
-    <orderEntry type="library" name="Maven: org.openjfx:javafx-controls:mac:18-ea+4" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-controls:linux-aarch64:18-ea+4" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-graphics:18-ea+4" level="project" />
-    <orderEntry type="library" name="Maven: org.openjfx:javafx-graphics:mac:18-ea+4" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-graphics:linux-aarch64:18-ea+4" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-base:18-ea+4" level="project" />
-    <orderEntry type="library" name="Maven: org.openjfx:javafx-base:mac:18-ea+4" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-base:linux-aarch64:18-ea+4" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-fxml:18-ea+4" level="project" />
-    <orderEntry type="library" name="Maven: org.openjfx:javafx-fxml:mac:18-ea+4" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-fxml:linux-aarch64:18-ea+4" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-web:18-ea+4" level="project" />
-    <orderEntry type="library" name="Maven: org.openjfx:javafx-web:mac:18-ea+4" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-web:linux-aarch64:18-ea+4" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-media:18-ea+4" level="project" />
-    <orderEntry type="library" name="Maven: org.openjfx:javafx-media:mac:18-ea+4" level="project" />
+    <orderEntry type="library" name="Maven: org.openjfx:javafx-media:linux-aarch64:18-ea+4" level="project" />
     <orderEntry type="library" name="Maven: org.controlsfx:controlsfx:11.1.0" level="project" />
     <orderEntry type="library" name="Maven: com.dlsc.formsfx:formsfx-core:11.3.2" level="project" />
     <orderEntry type="library" name="Maven: net.synedra:validatorfx:0.1.13" level="project" />
