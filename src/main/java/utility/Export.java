@@ -9,9 +9,7 @@ import entities.UserEntity;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVPrinter;
 import java.io.*;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.time.LocalDate;
 
@@ -19,12 +17,13 @@ import utility.DatabaseService;
 
 public class Export {
 
-    public static void exportPWasPDF(UserEntity userEntity, String password) throws IOException, DocumentException {
+    public static void exportPWasPDF(UserEntity userEntity, String password) throws IOException, DocumentException, SQLException {
 
+        DatabaseService databaseService = new DatabaseService();
         String text = "\n\n\n\n\n\n Hello " + userEntity.getForename() + " "+ userEntity.getSurname() + ",\n Welcome to your first day at /Company_Name/. \n " +
                 "Our time-tracking solution is provided by onPoint. \n" +
                 "The credentials for your first login will be following: \n" +
-                "email: " + userEntity.getEmail() +
+                "ID: " + databaseService.getMaxID() +
                 "\npassword: " + password;
 
         Document doc = new Document();
@@ -36,7 +35,7 @@ public class Export {
 
         PdfWriter writer = PdfWriter.getInstance(doc, new FileOutputStream(
                 "C:\\Users\\Public\\Downloads\\" +
-                userEntity.getEmail() + "credentials" + ".pdf"));
+                        databaseService.getMaxID() + "credentials" + ".pdf"));
 
         doc.open();
         doc.add(img_onPoint);
