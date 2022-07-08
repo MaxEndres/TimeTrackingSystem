@@ -53,7 +53,7 @@ public class DatabaseService {
     // listing all available users
     public ObservableList<UserEntity> listAllUsers() throws SQLException {
         PreparedStatement preparedStatement = dbconn.prepareStatement("SELECT users.id,users.is_deleted, departments.name AS department, start_day, forename, surname, email, password, salt, target_hours, is_admin, is_first_login \n" +
-                " FROM onpoint.users\n" +
+                " FROM onpoint.users\n " +
                 " JOIN onpoint.departments ON users.department_id = departments.id;");
         ObservableList<UserEntity> userEntityList = FXCollections.observableArrayList();
         ResultSet queryOutput = preparedStatement.executeQuery();
@@ -334,7 +334,7 @@ public class DatabaseService {
     {
         int workedHours =0;
         PreparedStatement preparedStatement = dbconn.prepareStatement("SELECT onpoint.timestamps.start, onpoint.timestamps.stop FROM onpoint.timestamps" +
-                " WHERE user_id = ? AND MONTH(date)= ?;");
+                " WHERE user_id = ? AND stop IS NOT NULL AND MONTH(date)= ?;");
         preparedStatement.setInt(1, userEntity.getId());
         preparedStatement.setInt(2, month);
         ResultSet queryOutput = preparedStatement.executeQuery();
