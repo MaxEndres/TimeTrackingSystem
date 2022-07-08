@@ -19,8 +19,8 @@ import java.time.LocalDate;
 import static utility.Export.exportAllTimeStamps;
 
 public class ExportCSVUser extends Application {
-    public ComboBox monthComboBox;
-    public ComboBox yearComboBox;
+    public ComboBox<String> monthComboBox;
+    public ComboBox<String> yearComboBox;
     public Button exportButton;
     public Button goBackButton;
     @FXML
@@ -51,9 +51,11 @@ public class ExportCSVUser extends Application {
 
     public void exportButtonOnAction(ActionEvent actionEvent) throws SQLException, IOException {
         String month = (String) monthComboBox.getSelectionModel().getSelectedItem();
-        exportAllTimeStamps(Login.logInUserEntity.getId(), month, String.valueOf(yearComboBox.getSelectionModel().getSelectedItem()));
-
         System.out.println("Selected month: " + month);
+        System.out.println("Selected year: " + yearComboBox.getSelectionModel().getSelectedItem());
+        exportAllTimeStamps(Login.logInUserEntity.getId(), month, yearComboBox.getSelectionModel().getSelectedItem());
+
+
       //  System.out.println("Selected year: " + year);
         HostServices doc = getHostServices();
         LocalDate today = LocalDate.now();
