@@ -21,8 +21,8 @@
             <Image url="@../../../assets/img.png" />
          </image>
       </ImageView>
-      <Label layoutX="327.0" layoutY="36.0" text="Logged in as:" />
-      <MenuButton fx:id="nameMenuButton" layoutX="421.0" layoutY="40.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="151.0" text="User">
+      <Label layoutX="327.0" layoutY="40.0" text="Logged in as:" />
+      <MenuButton fx:id="nameMenuButton" layoutX="421.0" layoutY="35.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="151.0" text="User">
          <items>
             <MenuItem fx:id="changePassword" mnemonicParsing="false" onAction="#changePasswordOnAction" text="Change Password" />
             <MenuItem fx:id="logOut" mnemonicParsing="false" onAction="#logOutOnAction" text="Log out" />

@@ -104,7 +104,7 @@ public class UserProfile extends Application  {
     @FXML
     public void viewTimeButtonOnAction(ActionEvent event) throws SQLException, IOException
     {
-        Windows.openWindow("Empty.fxml");
+        Windows.openWindow("ExportCSVUser.fxml");
 
 
     }
