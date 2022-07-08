@@ -246,6 +246,23 @@ public class DatabaseService {
         return timestampList;
     }
 
+    // get the latest timestamp from specific user
+    public TimestampEntity getLatestTimestamp(int userId) throws SQLException {
+        PreparedStatement preparedStatement = dbconn.prepareStatement("SELECT * FROM onpoint.timestamps WHERE timestamps.user_id = ?;");
+        preparedStatement.setInt(1, userId);
+        ResultSet queryOutput = preparedStatement.executeQuery();
+        ObservableList<TimestampEntity> timestampList = FXCollections.observableArrayList();
+
+        while (queryOutput.next()) {
+            timestampList.add(new TimestampEntity(queryOutput.getInt("id"),
+                    queryOutput.getInt("user_id"),
+                    queryOutput.getTime("start"),
+                    queryOutput.getTime("stop"),
+                    queryOutput.getDate("date")));
+        }
+        return timestampList.get(timestampList.size() - 1);
+    }
+
     // create a request when a user wants to change a timestamp they created
     public void createRequestForExistingTimestamp(RequestEntity requestEntity) throws SQLException {
         if(checkRequestTable(requestEntity.getTimestampId()))
@@ -281,8 +298,8 @@ public class DatabaseService {
         preparedStatement2.executeUpdate();
 
         // find out the new timestampId and store it in the timestampEntity Object and the requestEntity Object
-        ObservableList<TimestampEntity> timestampsList = listAllTimestamps(timestampEntity.getUserId());
-        timestampEntity.setId(timestampsList.get(timestampsList.size() - 1).getId());
+        TimestampEntity latestTimestamp = getLatestTimestamp(timestampEntity.getUserId());
+        timestampEntity.setId(latestTimestamp.getId());
         requestEntity.setTimestampId(timestampEntity.getId());
 
         // create the request
@@ -296,8 +313,6 @@ public class DatabaseService {
         preparedStatement1.setString(6, requestEntity.getType());
         preparedStatement1.setBoolean(7, true);
         preparedStatement1.executeUpdate();
-
-        System.out.println("created new timestamp and request successfully!");
     }
 
     // admin can accept a request which then updates the desired timestamp
