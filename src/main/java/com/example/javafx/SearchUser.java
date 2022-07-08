@@ -6,10 +6,7 @@ import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import utility.DatabaseService;
@@ -27,6 +24,7 @@ public class SearchUser extends Application {
     public TableColumn<UserEntity, Boolean> isAdminColumn;
     @FXML
     public TableColumn workedHoursColumn;
+    public Button viewTimeButton;
     @FXML
     TableView<UserEntity> userTableView;
     @FXML
@@ -34,6 +32,8 @@ public class SearchUser extends Application {
     @FXML
     Button cancelButton, editUserButton;
     static UserEntity editUser = null;
+    @FXML
+    Label errorLabel;
     DatabaseService db = new DatabaseService();
 
     public SearchUser() throws SQLException {
@@ -48,7 +48,7 @@ public class SearchUser extends Application {
         emailColumn.setCellValueFactory(new PropertyValueFactory<>("Email"));
         isAdminColumn.setCellValueFactory(new PropertyValueFactory<>("IsAdmin"));
         workedHoursColumn.setCellValueFactory(new PropertyValueFactory<>("WorkedHours"));
-
+        errorLabel.setVisible(false);
 
         FilteredList<UserEntity> userEntityFilteredList = new FilteredList<>(db.listAllUsers(), b -> true);
         searchUserTextField.textProperty().addListener((observableValue, s, t1)  ->
@@ -83,8 +83,15 @@ public class SearchUser extends Application {
     @FXML
     private void editUserButtonOnAction(ActionEvent e) throws IOException {
         editUser = userTableView.getSelectionModel().getSelectedItem();
-        System.out.println(editUser.getDepartment());
-        Windows.changeWindow(editUserButton, "EditUser.fxml");
+        if(editUser==null)
+        {
+            errorLabel.setVisible(true);
+        }else {
+            errorLabel.setVisible(false);
+            System.out.println(editUser.getDepartment());
+            Windows.changeWindow(editUserButton, "EditUser.fxml");
+        }
+
     }
     @FXML
     private void cancelButtonOnAction(ActionEvent e) throws IOException {
@@ -97,6 +104,17 @@ public class SearchUser extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+
+    }
+
+    public void viewTimeButtonOnAction(ActionEvent actionEvent) throws IOException {
+        editUser = userTableView.getSelectionModel().getSelectedItem();
+        if(editUser==null)
+        {
+            errorLabel.setVisible(true);
+        }else {
+            Windows.openWindow("ExportCSVUser.fxml");
+        }
 
     }
 }

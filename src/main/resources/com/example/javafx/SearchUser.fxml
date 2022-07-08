@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -19,7 +20,9 @@
         </columns>
       </TableView>
       <Button fx:id="editUserButton" layoutX="57.0" layoutY="264.0" mnemonicParsing="false" onAction="#editUserButtonOnAction" text="Edit User" />
-      <TextField fx:id="searchUserTextField" layoutX="95.0" layoutY="14.0" prefHeight="25.0" prefWidth="240.0" promptText="Search user" />
-      <Button fx:id="cancelButton" cancelButton="true" layoutX="293.0" layoutY="264.0" mnemonicParsing="false" onAction="#cancelButtonOnAction" prefHeight="25.0" prefWidth="63.0" text="Cancel" />
+      <TextField fx:id="searchUserTextField" layoutX="170.0" layoutY="14.0" prefHeight="25.0" prefWidth="240.0" promptText="Search user" />
+      <Button fx:id="cancelButton" cancelButton="true" layoutX="451.0" layoutY="264.0" mnemonicParsing="false" onAction="#cancelButtonOnAction" prefHeight="25.0" prefWidth="63.0" text="Cancel" />
+      <Button fx:id="viewTimeButton" layoutX="221.0" layoutY="264.0" mnemonicParsing="false" onAction="#viewTimeButtonOnAction" text="View Time of User" />
+      <Label fx:id="errorLabel" layoutX="220.0" layoutY="299.0" text="Please select an user!" textFill="RED" />
    </children>
 </AnchorPane>
