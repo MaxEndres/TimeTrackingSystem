@@ -26,20 +26,20 @@ public class DatabaseService {
     public Boolean checkTimeStampCollission(int userId, Date requestDate, Time newStart, Time newStopp) throws SQLException {
 
         ResultSet queryOutput;
-        PreparedStatement preparedStatement = dbconn.prepareStatement("SELECT id,date,start,stop,FROM onpoint.timestamps WHERE timestamps.user_id = ? AND is_deleted != 1");
+        PreparedStatement preparedStatement = dbconn.prepareStatement("SELECT id,date,start,stop FROM onpoint.timestamps WHERE timestamps.user_id = ? AND timestamps.is_deleted != 1;");
         preparedStatement.setInt(1, userId);
         queryOutput = preparedStatement.executeQuery();
-
+        boolean noCollission = false;
         while(queryOutput.next()){
             if(requestDate == queryOutput.getDate("date")){
-                if(((newStart.before(queryOutput.getTime("start"))) && (newStopp.before(queryOutput.getTime("start")))) || ((newStart.after(queryOutput.getTime("stop"))) && (newStopp.after(queryOutput.getTime("stop"))))){
-                    continue;
+                if(!(((newStart.before(queryOutput.getTime("start"))) && (newStopp.before(queryOutput.getTime("start")))) || ((newStart.after(queryOutput.getTime("stop"))) && (newStopp.after(queryOutput.getTime("stop")))))){
+                    noCollission = false;
                 }else {
-                    return false;
+                    noCollission = true;
                 }
             }
         }
-        return true;
+        return noCollission;
     }
     public ResultSet timeStampsForCSV(int userId, String monthName, String year) throws SQLException {
 
@@ -358,7 +358,7 @@ public class DatabaseService {
 
     // admin can deny a request
     public void denyRequest(RequestEntity requestEntity) throws SQLException {
-        PreparedStatement preparedStatement = dbconn.prepareStatement("UPDATE onpoint.requests SET status_id = 3 set is_deleted = true WHERE timestamp_id = ?");
+        PreparedStatement preparedStatement = dbconn.prepareStatement("UPDATE onpoint.requests SET status_id = 3, is_deleted = true WHERE timestamp_id = ?");
         preparedStatement.setInt(1, requestEntity.getTimestampId());
         preparedStatement.executeUpdate();
     }

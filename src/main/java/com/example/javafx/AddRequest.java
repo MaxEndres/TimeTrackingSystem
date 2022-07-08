@@ -86,6 +86,10 @@ public class AddRequest extends Application {
             if(db.checkTimeStampCollission(Login.logInUserEntity.getId(), sqlDate, start, stop)) {
                 db.createRequestForNonExistingTimestamp(requestEntity, timestamp);
             }
+            else{
+                a.setContentText("Timestamp collission! \nThere already exists a timestamp for this date with the same time/collission time!");
+                a.show();
+            }
             //db.createRequestForExistingTimestamp(requestEntity);
             Windows.closeWindow(sendRequestButton);
         }
