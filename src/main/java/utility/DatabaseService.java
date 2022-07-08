@@ -22,6 +22,25 @@ public class DatabaseService {
     public DatabaseService() throws SQLException {
     }
 
+
+    public Boolean checkTimeStampCollission(int userId, Date requestDate, Time newStart, Time newStopp) throws SQLException {
+
+        ResultSet queryOutput;
+        PreparedStatement preparedStatement = dbconn.prepareStatement("SELECT id,date,start,stop,FROM onpoint.timestamps WHERE timestamps.user_id = ? AND is_deleted != 1");
+        preparedStatement.setInt(1, userId);
+        queryOutput = preparedStatement.executeQuery();
+
+        while(queryOutput.next()){
+            if(requestDate == queryOutput.getDate("date")){
+                if(((newStart.before(queryOutput.getTime("start"))) && (newStopp.before(queryOutput.getTime("start")))) || ((newStart.after(queryOutput.getTime("stop"))) && (newStopp.after(queryOutput.getTime("stop"))))){
+                    continue;
+                }else {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
     public ResultSet timeStampsForCSV(int userId, String monthName, String year) throws SQLException {
 
         PreparedStatement preparedStatement = dbconn.prepareStatement("SELECT id,date,start,stop,CAST(TIMEDIFF(stop,start) AS CHAR) AS 'worked Time' FROM onpoint.timestamps WHERE timestamps.user_id = ? AND is_deleted != 1 AND  monthname(date)=? AND year(date)=?;");

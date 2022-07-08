@@ -82,7 +82,10 @@ public class AddRequest extends Application {
                     start,
                     stop,
                     descriptionTextArea.getText(), "PENDING", "ADD_NEW");
-            db.createRequestForNonExistingTimestamp(requestEntity,timestamp);
+
+            if(db.checkTimeStampCollission(Login.logInUserEntity.getId(), sqlDate, start, stop)) {
+                db.createRequestForNonExistingTimestamp(requestEntity, timestamp);
+            }
             //db.createRequestForExistingTimestamp(requestEntity);
             Windows.closeWindow(sendRequestButton);
         }
