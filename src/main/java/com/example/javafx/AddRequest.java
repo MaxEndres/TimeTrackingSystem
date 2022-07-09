@@ -83,7 +83,12 @@ public class AddRequest extends Application {
                     stop,
                     descriptionTextArea.getText(), "PENDING", "ADD_NEW");
 
+            System.out.println("sql Date: " + sqlDate);
+            System.out.println("start: " + start);
+            System.out.println("stop: " + stop);
+            System.out.println("UserID: " + Login.logInUserEntity.getId());
             if(db.checkTimeStampCollission(Login.logInUserEntity.getId(), sqlDate, start, stop)) {
+
                 db.createRequestForNonExistingTimestamp(requestEntity, timestamp);
             }
             else{

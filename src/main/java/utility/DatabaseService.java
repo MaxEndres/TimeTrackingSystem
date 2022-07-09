@@ -29,11 +29,13 @@ public class DatabaseService {
         PreparedStatement preparedStatement = dbconn.prepareStatement("SELECT id,date,start,stop FROM onpoint.timestamps WHERE timestamps.user_id = ? AND timestamps.is_deleted != 1;");
         preparedStatement.setInt(1, userId);
         queryOutput = preparedStatement.executeQuery();
-        boolean noCollission = false;
+        boolean noCollission = true;
         while(queryOutput.next()){
-            if(requestDate == queryOutput.getDate("date")){
-                if(!(((newStart.before(queryOutput.getTime("start"))) && (newStopp.before(queryOutput.getTime("start")))) || ((newStart.after(queryOutput.getTime("stop"))) && (newStopp.after(queryOutput.getTime("stop")))))){
+            System.out.println("Date: "+ queryOutput.getDate("date")+", start: " + queryOutput.getTime("start") + ", stop: " + queryOutput.getTime("stop"));
+            if(requestDate.equals(queryOutput.getDate("date"))){
+                if(((newStart.before(queryOutput.getTime("start")) && newStopp.after(queryOutput.getTime("start")))  || (newStart.after(queryOutput.getTime("start")) && newStopp.before(queryOutput.getTime("stop"))) || (newStart.before(queryOutput.getTime("stop")) && newStopp.after(queryOutput.getTime("stop"))) || newStart.equals(queryOutput.getTime("start")) || newStopp.equals(queryOutput.getTime("stop")))){
                     noCollission = false;
+                    break;
                 }else {
                     noCollission = true;
                 }
