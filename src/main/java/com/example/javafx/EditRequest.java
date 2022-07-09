@@ -61,6 +61,11 @@ public class EditRequest extends Application {
      if(timestamp==null)
      {
         errorLabel.setVisible(true);
+     }else if(timestamp.getStop() == null)
+     {
+         errorLabel.setText("You may not edit this timestamp, you must stop the timer!");
+         errorLabel.setVisible(true);
+
      }else { /*if(db.checkRequestTable(timestamp.getId()))
         {
 
