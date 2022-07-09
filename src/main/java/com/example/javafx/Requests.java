@@ -29,7 +29,7 @@ public class Requests extends Application {
     @FXML
     TableColumn<RequestEntity, String> typeTableColumn;
     @FXML
-    Label requestIdLabel, timeLabel, descriptionLabel, label, dateLabel, userLabel;
+    Label requestIdLabel,errorLabel, timeLabel, descriptionLabel, label, dateLabel,datumLabel, userLabel;
     @FXML
     Button requestButton, backButton;
     @FXML
@@ -38,6 +38,7 @@ public class Requests extends Application {
     @FXML
     public void initialize() throws SQLException {
         message.setVisible(false);
+        errorLabel.setVisible(false);
         ObservableList<RequestEntity> requestEntityList = db.listAllRequests("PENDING");
         requestTableView.setItems(requestEntityList);
         timestampIdTableColumn.setCellValueFactory(new PropertyValueFactory<>("timestampId"));
@@ -50,14 +51,21 @@ public class Requests extends Application {
 
     @FXML
     public void requestButtonOnAction(ActionEvent e) throws SQLException {
-        message.setVisible(true);
-        label.setVisible(false);
         RequestEntity requestEntity = requestTableView.getSelectionModel().getSelectedItem();
-        requestIdLabel.setText("" +requestEntity.getType());
-        userLabel.setText(db.nameOfUser(requestEntity.getUserId())+ " (ID: "+ requestEntity.getUserId()+")");
+        if(requestEntity== null)
+        {
+            errorLabel.setVisible(true);
+        }else
+        {
+            message.setVisible(true);
+            label.setVisible(false);
 
-        timeLabel.setText("FROM "+ requestEntity.getNewTimeStart()+ " TO "+ requestEntity.getNewTimeStop());
-        descriptionLabel.setText(""+ requestEntity.getDescription());
+            requestIdLabel.setText("" +requestEntity.getType());
+            userLabel.setText(db.nameOfUser(requestEntity.getUserId())+ " (ID: "+ requestEntity.getUserId()+")");
+            datumLabel.setText(db.getTimestamp(requestEntity.getTimestampId()).getDate().toString());
+            timeLabel.setText("FROM "+ requestEntity.getNewTimeStart()+ " TO "+ requestEntity.getNewTimeStop());
+            descriptionLabel.setText(""+ requestEntity.getDescription());
+        }
     }
     @FXML
     public void denyButtonOnAction(ActionEvent e) throws SQLException {

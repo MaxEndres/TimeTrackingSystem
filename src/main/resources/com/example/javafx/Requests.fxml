@@ -11,7 +11,7 @@
    <children>
       <AnchorPane prefHeight="400.0" prefWidth="229.0">
          <children>
-            <TableView fx:id="requestTableView" layoutX="15.0" layoutY="51.0" prefHeight="324.0" prefWidth="257.0">
+            <TableView fx:id="requestTableView" layoutX="15.0" layoutY="51.0" prefHeight="277.0" prefWidth="257.0">
               <columns>
                 <TableColumn fx:id="timestampIdTableColumn" prefWidth="43.33331298828125" text="ID" />
                   <TableColumn fx:id="typeTableColumn" prefWidth="100.0" text="Type" />
@@ -19,10 +19,11 @@
               </columns>
             </TableView>
             <Button fx:id="requestButton" layoutX="103.0" layoutY="14.0" mnemonicParsing="false" onAction="#requestButtonOnAction" text="See Request" />
+            <Label fx:id="errorLabel" layoutX="76.0" layoutY="335.0" text="Please select a request" textFill="RED" />
          </children></AnchorPane>
       <AnchorPane fx:id="message" layoutX="284.0" layoutY="54.0" prefHeight="269.0" prefWidth="273.0" style="-fx-background-color: #ffff;">
          <children>
-            <Label fx:id="requestIdLabel" layoutX="131.0" layoutY="23.0" prefHeight="25.0" prefWidth="117.0" text="Request ID: ">
+            <Label fx:id="requestIdLabel" layoutX="131.0" layoutY="8.0" prefHeight="25.0" prefWidth="117.0" text="Request ID: ">
                <font>
                   <Font name="Arial Rounded MT Bold" size="14.0" />
                </font>
@@ -39,7 +40,7 @@
                   <Font name="Arial Rounded MT Bold" size="14.0" />
                </font>
             </Label>
-            <Label fx:id="requestIdLabel1" layoutX="20.0" layoutY="26.0" prefHeight="20.0" prefWidth="101.0" text="Request Type: " textFill="#347aeb">
+            <Label fx:id="requestIdLabel1" layoutX="18.0" layoutY="11.0" prefHeight="20.0" prefWidth="101.0" text="Request Type: " textFill="#347aeb">
                <font>
                   <Font name="Arial Rounded MT Bold" size="14.0" />
                </font>
@@ -49,17 +50,27 @@
                   <Font name="Arial Rounded MT Bold" size="14.0" />
                </font>
             </Label>
-            <Label fx:id="newTimeLabel21" layoutX="20.0" layoutY="84.0" text="New Time:" textFill="#347aeb">
+            <Label fx:id="newTimeLabel21" layoutX="18.0" layoutY="97.0" text="New Time:" textFill="#347aeb">
                <font>
                   <Font name="Arial Rounded MT Bold" size="14.0" />
                </font>
             </Label>
-            <Label fx:id="userLabel" layoutX="64.0" layoutY="49.0" prefHeight="25.0" prefWidth="226.0" text="User">
+            <Label fx:id="userLabel" layoutX="63.0" layoutY="34.0" prefHeight="25.0" prefWidth="226.0" text="User">
                <font>
                   <Font name="Arial Rounded MT Bold" size="14.0" />
                </font>
             </Label>
-            <Label fx:id="requestIdLabel11" layoutX="21.0" layoutY="52.0" prefHeight="20.0" prefWidth="81.0" text="From:" textFill="#347aeb">
+            <Label fx:id="requestIdLabel11" layoutX="19.0" layoutY="37.0" prefHeight="20.0" prefWidth="81.0" text="From:" textFill="#347aeb">
+               <font>
+                  <Font name="Arial Rounded MT Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="datumLabel" layoutX="63.0" layoutY="64.0" prefHeight="20.0" prefWidth="199.0" text="New Time: ">
+               <font>
+                  <Font name="Arial Rounded MT Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="newTimeLabel211" layoutX="17.0" layoutY="65.0" text="Date:" textFill="#347aeb">
                <font>
                   <Font name="Arial Rounded MT Bold" size="14.0" />
                </font>
