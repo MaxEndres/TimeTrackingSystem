@@ -113,7 +113,7 @@ public class SearchUser extends Application {
         {
             errorLabel.setVisible(true);
         }else {
-            Windows.openWindow("ExportCSVUser.fxml");
+            Windows.openWindow("ExportCSVAdmin.fxml");
         }
 
     }
