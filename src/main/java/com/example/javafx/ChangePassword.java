@@ -10,6 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import utility.DatabaseService;
+import utility.Hashing;
 import utility.Windows;
 
 import java.io.IOException;
@@ -47,7 +48,15 @@ public class ChangePassword extends Application {
             errorLabel.setVisible(true);
             errorLabel.setText("Passwords do not match!");
 
-        }else if(autheticateUser!= null)
+        }else if(Hashing.pwInvalid(confirmNewPassword.getText())){
+            errorLabel.setVisible(true);
+            errorLabel.setText("Password has to match following criterea: " +
+                    "\nA digit must occur at least once" +
+                    "\nA lower case letter must occur at least once" +
+                    "\nAn upper cast letter must occur at least once" +
+                    "\nIts length is between 8-20 characters");
+        }
+        else if(autheticateUser!= null)
         {
             label1.setVisible(false);
             label2.setVisible(false);
