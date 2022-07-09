@@ -4,6 +4,7 @@ import entities.UserEntity;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -25,6 +26,7 @@ public class ChangePassword extends Application {
     Label errorLabel, label1, label2, label3;
     @FXML
     AnchorPane pane;
+    Alert a = new Alert(Alert.AlertType.ERROR);
     DatabaseService db = new DatabaseService();
 
     public ChangePassword() throws SQLException {
@@ -37,7 +39,7 @@ public class ChangePassword extends Application {
     }
     @FXML
     private void changePasswordButtonOnAction(ActionEvent event) throws SQLException, IOException {
-        UserEntity autheticateUser =db.validateData(Login.logInUserEntity.getEmail(), previousPassword.getText());
+        UserEntity autheticateUser =db.validateData(String.valueOf(Login.logInUserEntity.getId()), previousPassword.getText());
         if(autheticateUser == null)
         {
             errorLabel.setVisible(true);
@@ -49,12 +51,12 @@ public class ChangePassword extends Application {
             errorLabel.setText("Passwords do not match!");
 
         }else if(Hashing.pwInvalid(confirmNewPassword.getText())){
-            errorLabel.setVisible(true);
-            errorLabel.setText("Password has to match following criterea: " +
+            a.setContentText("Password has to match following criterea: " +
                     "\nA digit must occur at least once" +
                     "\nA lower case letter must occur at least once" +
                     "\nAn upper cast letter must occur at least once" +
                     "\nIts length is between 8-20 characters");
+            a.show();
         }
         else if(autheticateUser!= null)
         {

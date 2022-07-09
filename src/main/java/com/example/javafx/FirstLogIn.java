@@ -3,6 +3,7 @@ package com.example.javafx;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -23,6 +24,7 @@ public class FirstLogIn extends Application {
     public Button changePasswordButton;
     public Button cancelButton;
     public Label errorLabel;
+    Alert a = new Alert(Alert.AlertType.ERROR);
     DatabaseService db = new DatabaseService();
 
     public FirstLogIn() throws SQLException {
@@ -38,7 +40,16 @@ public class FirstLogIn extends Application {
         if(newPassword.getText().isBlank() || confirmNewPassword.getText().isBlank())
         {
             errorLabel.setVisible(true);
-        }else if(newPassword.getText().equals(confirmNewPassword.getText()))
+        }else if(Hashing.pwInvalid(confirmNewPassword.getText())){
+
+            a.setContentText("Password has to match following criterea: " +
+                    "\nA digit must occur at least once" +
+                    "\nA lower case letter must occur at least once" +
+                    "\nAn upper cast letter must occur at least once" +
+                    "\nIts length is between 8-20 characters");
+            a.show();
+        }
+        else if(newPassword.getText().equals(confirmNewPassword.getText()))
         {
             db.updatePassword(Login.logInUserEntity.getId(),newPassword.getText());
             db.updateFirstLogIn(Login.logInUserEntity.getId());
