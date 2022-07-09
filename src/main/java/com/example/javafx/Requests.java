@@ -1,6 +1,7 @@
 package com.example.javafx;
 
 import entities.RequestEntity;
+import entities.TimestampEntity;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,6 +19,11 @@ import java.sql.Time;
 public class Requests extends Application {
     @FXML
     public Button acceptButton, denyButton;
+    public Label oldTimeLabel;
+    public Label newDateLabel1;
+    public Label newDateLabel;
+    public Label oldTimeLabelOut;
+    public Label oldDate;
     DatabaseService db = new DatabaseService();
 
     @FXML
@@ -29,7 +35,7 @@ public class Requests extends Application {
     @FXML
     TableColumn<RequestEntity, String> typeTableColumn;
     @FXML
-    Label requestIdLabel,errorLabel, timeLabel, descriptionLabel, label, dateLabel,datumLabel, userLabel;
+    Label requestIdLabel,newTimeLabel1,errorLabel, timeLabel, descriptionLabel, label, dateLabel, userLabel;
     @FXML
     Button requestButton, backButton;
     @FXML
@@ -59,11 +65,40 @@ public class Requests extends Application {
         {
             message.setVisible(true);
             label.setVisible(false);
-
+            errorLabel.setVisible(false);
             requestIdLabel.setText("" +requestEntity.getType());
+            TimestampEntity timestampRequest = db.getTimestamp(requestEntity.getTimestampId());
+
+            if(requestEntity.getType().equals("ADD_NEW"))
+            {
+                dateLabel.setVisible(false);
+                oldDate.setVisible(false);
+                oldTimeLabelOut.setVisible(false);
+                oldTimeLabel.setVisible(false);
+
+                newDateLabel.setText(timestampRequest.getDate().toString());
+                timeLabel.setText("FROM "+ requestEntity.getNewTimeStart()+ " TO "+ requestEntity.getNewTimeStop());
+
+            }else if(requestEntity.getType().equals("UPDATE"))
+            {
+                oldDate.setText(timestampRequest.getDate().toString());
+                oldTimeLabel.setText("FROM "+ timestampRequest.getStart()+ " TO "+timestampRequest.getStop());
+
+                newDateLabel.setVisible(false);
+                newDateLabel1.setVisible(false);
+                timeLabel.setText("FROM "+ requestEntity.getNewTimeStart()+ " TO "+ requestEntity.getNewTimeStop());
+
+            }else if(requestEntity.getType().equals("DELETE"))
+            {
+                newDateLabel.setVisible(false);
+                newDateLabel1.setVisible(false);
+                newTimeLabel1.setVisible(false);
+                timeLabel.setVisible(false);
+                oldDate.setText(timestampRequest.getDate().toString());
+                oldTimeLabel.setText("FROM "+ timestampRequest.getStart()+ " TO "+timestampRequest.getStop() );
+
+            }
             userLabel.setText(db.nameOfUser(requestEntity.getUserId())+ " (ID: "+ requestEntity.getUserId()+")");
-            datumLabel.setText(db.getTimestamp(requestEntity.getTimestampId()).getDate().toString());
-            timeLabel.setText("FROM "+ requestEntity.getNewTimeStart()+ " TO "+ requestEntity.getNewTimeStop());
             descriptionLabel.setText(""+ requestEntity.getDescription());
         }
     }
