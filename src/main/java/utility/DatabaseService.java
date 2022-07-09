@@ -282,6 +282,23 @@ public class DatabaseService {
         return timestampList.get(timestampList.size() - 1);
     }
 
+    // get a timestamp with a specific id
+    public TimestampEntity getTimestamp(int timestampId) throws SQLException {
+        PreparedStatement preparedStatement = dbconn.prepareStatement("SELECT * FROM onpoint.timestamps WHERE timestamps.id = ?;");
+        preparedStatement.setInt(1, timestampId);
+        ResultSet queryOutput = preparedStatement.executeQuery();
+        ObservableList<TimestampEntity> timestampList = FXCollections.observableArrayList();
+
+        while (queryOutput.next()) {
+            timestampList.add(new TimestampEntity(queryOutput.getInt("id"),
+                    queryOutput.getInt("user_id"),
+                    queryOutput.getTime("start"),
+                    queryOutput.getTime("stop"),
+                    queryOutput.getDate("date")));
+        }
+        return timestampList.get(0);
+    }
+
     // create a request when a user wants to change a timestamp they created
     public void createRequestForExistingTimestamp(RequestEntity requestEntity) throws SQLException {
         if(checkRequestTable(requestEntity.getTimestampId()))
