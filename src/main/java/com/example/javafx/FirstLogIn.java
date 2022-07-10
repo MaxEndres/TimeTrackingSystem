@@ -49,6 +49,11 @@ public class FirstLogIn extends Application {
                     "\nIts length is between 8-20 characters");
             a.show();
         }
+        else if(!db.samePw(Login.logInUserEntity.getId(), confirmNewPassword.getText())){
+            a.setContentText("Password can not be the same as before." +
+                    "Choose another password.");
+            a.show();
+        }
         else if(newPassword.getText().equals(confirmNewPassword.getText()))
         {
             db.updatePassword(Login.logInUserEntity.getId(),newPassword.getText());
