@@ -428,8 +428,8 @@ public class DatabaseService {
                 "WHERE id=?");
         stUser.setString(1, _id);
         ResultSet rsUser = stUser.executeQuery();
+        //id does not exist
         if (!rsUser.next()) {
-            System.out.println("id does not exist");
             return null;
         }
         UserEntity userEntity = new UserEntity(
@@ -456,8 +456,31 @@ public class DatabaseService {
         return userEntity;
     }
 
+    public boolean samePw(int user_id, String pw_field) throws SQLException {
+        String inputPassword = pw_field;
+        String passwordHash = null;
+        String salt = null;
+        PreparedStatement stUser = dbconn.prepareStatement("SELECT password, salt " +
+                "FROM onpoint.users " +
+                "WHERE id=?");
+        stUser.setInt(1, user_id);
+        ResultSet rsUser = stUser.executeQuery();
+        //id does not exist
+        if (!rsUser.next()) {
+            return false;
+        }
+        passwordHash = rsUser.getString("password");
+        salt = rsUser.getString("salt");
+        // hash user-input password with fetched salt
+        inputPassword = BCrypt.hashpw(inputPassword, salt);
+        if (!Objects.equals(passwordHash, inputPassword)) {
+            return true;
+        }
+        return false;
+    }
+
     public int getMaxID() throws SQLException {
-        //Get max ID and add 1
+        //Get max ID
         Statement st = dbconn.createStatement();
         ResultSet rs = st.executeQuery("SELECT MAX(id) FROM onpoint.users");
         int max_id_i;
