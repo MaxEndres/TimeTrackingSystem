@@ -46,11 +46,11 @@ public class EditConfirmation extends Application {
         minuteStartSpinner.setVisible(false);
 
          */
-        SpinnerValueFactory<Integer> valueFactoryHourStart= new SpinnerValueFactory.IntegerSpinnerValueFactory(00,60,00);
-        SpinnerValueFactory<Integer> valueFactoryMinuteStart= new SpinnerValueFactory.IntegerSpinnerValueFactory(00,60,00);
+        SpinnerValueFactory<Integer> valueFactoryHourStart= new SpinnerValueFactory.IntegerSpinnerValueFactory(00,23,00);
+        SpinnerValueFactory<Integer> valueFactoryMinuteStart= new SpinnerValueFactory.IntegerSpinnerValueFactory(00,59,00);
 
-        SpinnerValueFactory<Integer> valueFactoryHourStop= new SpinnerValueFactory.IntegerSpinnerValueFactory(00,60,00);
-        SpinnerValueFactory<Integer> valueFactoryMinuteStop= new SpinnerValueFactory.IntegerSpinnerValueFactory(00,60,00);
+        SpinnerValueFactory<Integer> valueFactoryHourStop= new SpinnerValueFactory.IntegerSpinnerValueFactory(00,23,00);
+        SpinnerValueFactory<Integer> valueFactoryMinuteStop= new SpinnerValueFactory.IntegerSpinnerValueFactory(00,59,00);
 
         Time timeStart = EditRequest.timestamp.getStart();
         String[] stringTimeStart = timeStart.toString().split(":");

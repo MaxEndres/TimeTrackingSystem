@@ -40,11 +40,11 @@ public class AddRequest extends Application {
         dayDatePicker.setValue(LocalDate.now());
 
 
-        SpinnerValueFactory<Integer> valueFactoryHourStart= new SpinnerValueFactory.IntegerSpinnerValueFactory(00,60,00);
-        SpinnerValueFactory<Integer> valueFactoryMinuteStart= new SpinnerValueFactory.IntegerSpinnerValueFactory(00,60,00);
+        SpinnerValueFactory<Integer> valueFactoryHourStart= new SpinnerValueFactory.IntegerSpinnerValueFactory(00,23,00);
+        SpinnerValueFactory<Integer> valueFactoryMinuteStart= new SpinnerValueFactory.IntegerSpinnerValueFactory(00,59,00);
 
-        SpinnerValueFactory<Integer> valueFactoryHourStop= new SpinnerValueFactory.IntegerSpinnerValueFactory(00,60,00);
-        SpinnerValueFactory<Integer> valueFactoryMinuteStop= new SpinnerValueFactory.IntegerSpinnerValueFactory(00,60,00);
+        SpinnerValueFactory<Integer> valueFactoryHourStop= new SpinnerValueFactory.IntegerSpinnerValueFactory(00,23,00);
+        SpinnerValueFactory<Integer> valueFactoryMinuteStop= new SpinnerValueFactory.IntegerSpinnerValueFactory(00,59,00);
 
         valueFactoryHourStart.setValue(Integer.valueOf(00));
         valueFactoryMinuteStart.setValue(Integer.valueOf(00));
@@ -70,6 +70,10 @@ public class AddRequest extends Application {
 
         if(stop.before(start)){
             a.setContentText("Stopp time is before start time!");
+            a.show();
+        }else if(dayDatePicker.getValue().isAfter(LocalDate.now()))
+        {
+            a.setContentText("Date is in the future!");
             a.show();
         }
         else {

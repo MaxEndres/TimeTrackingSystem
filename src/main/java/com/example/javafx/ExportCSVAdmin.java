@@ -10,6 +10,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
+import utility.Export;
 import utility.Windows;
 
 import java.io.IOException;
@@ -52,14 +53,13 @@ public class ExportCSVAdmin extends Application {
 
     public void exportButtonOnAction(ActionEvent actionEvent) throws SQLException, IOException {
         String month = (String) monthComboBox.getSelectionModel().getSelectedItem();
-        System.out.println("Selected month: " + month);
-        System.out.println("Selected year: " + yearComboBox.getSelectionModel().getSelectedItem());
         exportAllTimeStamps(SearchUser.editUser.getId(), month, yearComboBox.getSelectionModel().getSelectedItem());
 
 
         //  System.out.println("Selected year: " + year);
         HostServices doc = getHostServices();
         LocalDate today = LocalDate.now();
+        doc.showDocument("C:\\Users\\Public\\Downloads\\user" +SearchUser.editUser.getId()+"_timestamps_"+ month+"_"+ yearComboBox.getSelectionModel().getSelectedItem() + ".csv");
         // file name
         //  doc.showDocument("C:\\Users\\Public\\Downloads\\timestamp"+ today + ".csv");
 

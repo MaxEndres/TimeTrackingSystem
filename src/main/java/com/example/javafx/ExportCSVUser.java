@@ -51,16 +51,14 @@ public class ExportCSVUser extends Application {
 
     public void exportButtonOnAction(ActionEvent actionEvent) throws SQLException, IOException {
         String month = (String) monthComboBox.getSelectionModel().getSelectedItem();
-        System.out.println("Selected month: " + month);
-        System.out.println("Selected year: " + yearComboBox.getSelectionModel().getSelectedItem());
         exportAllTimeStamps(Login.logInUserEntity.getId(), month, yearComboBox.getSelectionModel().getSelectedItem());
 
 
       //  System.out.println("Selected year: " + year);
         HostServices doc = getHostServices();
         LocalDate today = LocalDate.now();
-        // file name
-      //  doc.showDocument("C:\\Users\\Public\\Downloads\\timestamp"+ today + ".csv");
+        doc.showDocument("C:\\Users\\Public\\Downloads\\user" +Login.logInUserEntity.getId()+"_timestamps_"+ month+"_"+ yearComboBox.getSelectionModel().getSelectedItem() + ".csv");
+
 
     }
     public static ObservableList<String> getMonths()

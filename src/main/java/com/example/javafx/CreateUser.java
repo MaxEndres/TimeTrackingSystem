@@ -71,12 +71,12 @@ public class CreateUser extends Application {
             errorLabelDate.setVisible(false);
             errorLabelEmail.setVisible(false);
 
-        }else if(startDay.getValue().isAfter(LocalDate.now()))
+        }/*else if(startDay.getValue().isAfter(LocalDate.now()))
         {
             errorLabel.setVisible(false);
             errorLabelDate.setVisible(true);
             errorLabelEmail.setVisible(false);
-        }else if(!db.checkEmail(email.getText()))
+        }*/else if(!db.checkEmail(email.getText()))
         {
             errorLabel.setVisible(false);
             errorLabelDate.setVisible(false);
@@ -110,9 +110,11 @@ public class CreateUser extends Application {
             HostServices doc = getHostServices();
             Export.exportPWasPDF(createdUserEntity, passwordOhneSalt);
             doc.showDocument("C:\\Users\\Public\\Downloads\\" +
-                    createdUserEntity.getEmail() + "credentials" + ".pdf");
+                    db.getMaxID() + "credentials" + ".pdf");
             passwordOhneSalt="x";
-            //CHANGE WINDOW
+            //CHANGE WINDOWPdfWriter writer = PdfWriter.getInstance(doc, new FileOutputStream(
+            //                "C:\\Users\\Public\\Downloads\\" +
+            //                        databaseService.getMaxID() + "credentials" + ".pdf"));
             Windows.changeWindow(addUserButton, "Admin.fxml");
 
         }
