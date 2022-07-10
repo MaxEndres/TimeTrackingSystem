@@ -418,18 +418,18 @@ public class DatabaseService {
         return name;
     }
 
-    public UserEntity validateData(String _email, String _password) throws SQLException {
+    public UserEntity validateData(String _id, String _password) throws SQLException {
         String inputPassword = _password;
         String passwordHash = null;
         String salt = null;
-        //Check if Record with given email exists
+        //Check if Record with given User-ID exists
         PreparedStatement stUser = dbconn.prepareStatement("SELECT * " +
                 "FROM onpoint.users " +
-                "WHERE email=?");
-        stUser.setString(1, _email);
+                "WHERE id=?");
+        stUser.setString(1, _id);
         ResultSet rsUser = stUser.executeQuery();
         if (!rsUser.next()) {
-            System.out.println("email does not exist");
+            System.out.println("id does not exist");
             return null;
         }
         UserEntity userEntity = new UserEntity(
@@ -454,6 +454,18 @@ public class DatabaseService {
             return null;
         }
         return userEntity;
+    }
+
+    public int getMaxID() throws SQLException {
+        //Get max ID and add 1
+        Statement st = dbconn.createStatement();
+        ResultSet rs = st.executeQuery("SELECT MAX(id) FROM onpoint.users");
+        int max_id_i;
+        if(rs.next()){
+            max_id_i = rs.getInt(1);
+            return max_id_i;
+        }
+        return 0;
     }
 
     public boolean checkEmail(String _email) throws SQLException {
