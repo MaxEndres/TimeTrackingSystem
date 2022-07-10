@@ -53,7 +53,7 @@ public class Export {
         CSVFormat format = CSVFormat.DEFAULT.withRecordSeparator("\n").withHeader(queryOutput);
         LocalDate today = LocalDate.now();
         // file name
-        final String FILE_NAME = "\"C:\\\\Users\\\\Public\\\\Downloads\\\\\" +user"+userID+"_timestamps_"+ _month+"_"+ year + ".csv";
+        final String FILE_NAME = "C:\\Users\\Public\\Downloads\\ +user " +userID+" _timestamps_"+ _month+"_"+ year + ".csv";
         // creating the file object
         File file = new File(FILE_NAME);
         // creating file writer object
