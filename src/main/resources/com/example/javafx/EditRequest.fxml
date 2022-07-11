@@ -16,7 +16,7 @@
             <TableColumn fx:id="timestampIdTableColumn" prefWidth="117.33334350585938" text="TimeStampID" />
             <TableColumn fx:id="dateTableColumn" prefWidth="110.0" text="Date" />
             <TableColumn fx:id="startTableColumn" prefWidth="128.66668701171875" text="Start" />
-            <TableColumn fx:id="stopTableColumn" prefWidth="171.33331298828125" text="Time" />
+            <TableColumn fx:id="stopTableColumn" prefWidth="171.33331298828125" text="Stop" />
          </columns>
       </TableView>
       <Button fx:id="changeButton" layoutX="78.0" layoutY="319.0" mnemonicParsing="false" onAction="#changeButtonOnAction" prefHeight="25.0" prefWidth="112.0" text="Change/Delete" />
